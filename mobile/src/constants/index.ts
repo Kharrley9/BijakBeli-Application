@@ -1,22 +1,20 @@
 import { Platform } from 'react-native';
 
 // ======================================================
-// IMPORTANT: Update this IP to your machine's local IP
-// when testing on a physical device via Expo Go.
-// Find it with: ipconfig (Windows) or ifconfig (Mac/Linux)
+// Dev server address.
+//  - Android emulator  -> 10.0.2.2 (host loopback alias) — the default below
+//  - Physical device   -> set LOCAL_IP to your PC's Wi-Fi IP (ipconfig), same network
+//  - iOS simulator     -> localhost works
 // ======================================================
-const LOCAL_IP = '192.168.0.15';
+const LOCAL_IP = '10.0.2.2';
 
 const getApiUrl = () => {
   if (__DEV__) {
-    // Development mode: use local server
     if (Platform.OS === 'android') {
-      // Android emulator uses 10.0.2.2 to reach host localhost,
-      // but physical Android devices need the real IP
       return `http://${LOCAL_IP}:5000/api`;
     }
-    // iOS simulator can use localhost, physical iOS needs IP
-    return `http://${LOCAL_IP}:5000/api`;
+    // iOS simulator can use localhost, physical iOS needs the LAN IP
+    return `http://localhost:5000/api`;
   }
   // Production: use your deployed server URL
   return 'https://api.bijakbeli.com/api';
