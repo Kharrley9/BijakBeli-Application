@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "BijakBeli",
+    "slug": "bijakbeli",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bijakbeli.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "BijakBeli uses your location to show how far each store is and find the nearest one."
+      }
+    },
+    "android": {
+      "package": "com.bijakbeli.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#16a34a",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "config": {
+        "googleMaps": {
+          "apiKey": "REPLACE_WITH_ANDROID_GOOGLE_MAPS_API_KEY"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "BijakBeli uses your location to show how far each store is and find the nearest one."
+        }
+      ]
+    ]
+  }
+}

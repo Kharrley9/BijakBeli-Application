@@ -21,6 +21,10 @@ const priceSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    inStock: {
+      type: Boolean,
+      default: true,
+    },
     lastUpdated: {
       type: Date,
       default: Date.now,

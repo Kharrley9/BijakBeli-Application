@@ -7,6 +7,14 @@ exports.createStore = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+exports.getNearbyStores = async (req, res, next) => {
+  try {
+    const { lat, lng, maxKm, limit } = req.query;
+    const stores = await storeService.getNearbyStores({ lat, lng, maxKm, limit });
+    res.status(200).json({ success: true, data: stores });
+  } catch (error) { next(error); }
+};
+
 exports.getStore = async (req, res, next) => {
   try {
     const store = await storeService.getStore(req.params.id);
@@ -16,7 +24,12 @@ exports.getStore = async (req, res, next) => {
 
 exports.getAllStores = async (req, res, next) => {
   try {
-    const stores = await storeService.getAllStores();
+    const query = { ...req.query };
+    if (query.admin !== 'true') {
+      query.isActive = true;
+    }
+    delete query.admin;
+    const stores = await storeService.getAllStores(query);
     res.status(200).json({ success: true, data: stores });
   } catch (error) { next(error); }
 };

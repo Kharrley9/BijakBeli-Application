@@ -11,12 +11,14 @@ class PromotionRepository {
       .populate('storeId', 'storeName mallName logo');
   }
 
-  async findActive() {
+  async findActive(query = {}) {
     const now = new Date();
-    return await Promotion.find({
+    const finalQuery = {
+      ...query,
       startDate: { $lte: now },
       endDate: { $gte: now },
-    })
+    };
+    return await Promotion.find(finalQuery)
       .populate('productId', 'productName image unit')
       .populate('storeId', 'storeName mallName logo')
       .sort('-discountPercentage');

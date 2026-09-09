@@ -11,7 +11,7 @@ class PriceRepository {
 
   async findByProduct(productId) {
     return await Price.find({ productId })
-      .populate('storeId', 'storeName mallName logo')
+      .populate('storeId', 'storeName mallName logo location city state')
       .sort('price');
   }
 
@@ -20,7 +20,14 @@ class PriceRepository {
     const skip = (page - 1) * limit;
 
     const prices = await Price.find(query)
-      .populate('productId', 'productName image')
+      .populate({
+        path: 'productId',
+        select: 'productName image unit status categoryId brandId',
+        populate: [
+          { path: 'categoryId', select: 'categoryName' },
+          { path: 'brandId', select: 'brandName' }
+        ]
+      })
       .populate('storeId', 'storeName mallName')
       .sort('-lastUpdated')
       .skip(skip)

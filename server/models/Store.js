@@ -11,6 +11,29 @@ const storeSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    branch: {
+      type: String,
+      trim: true,
+    },
+    type: {
+      type: String,
+      enum: ['hypermarket', 'supermarket', 'minimart', 'convenience store'],
+      default: 'supermarket',
+    },
+    operating_hours: {
+      type: String,
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: [true, 'Please add a state'],
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: [true, 'Please add a city'],
+      trim: true,
+    },
     address: {
       type: String,
       required: [true, 'Please add an address'],
@@ -29,6 +52,10 @@ const storeSchema = new mongoose.Schema(
     logo: {
       type: String,
       default: '',
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {

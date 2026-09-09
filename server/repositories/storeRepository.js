@@ -24,6 +24,29 @@ class StoreRepository {
   async count() {
     return await Store.countDocuments();
   }
+
+  /**
+   * Active stores near a point, nearest first.
+   * @param {number} lng
+   * @param {number} lat
+   * @param {number} maxMeters
+   * @param {number} limit
+   * @returns {Promise<Array>} store docs with an added `distanceMeters` field
+   */
+  async findNear(lng, lat, maxMeters, limit = 50) {
+    return await Store.aggregate([
+      {
+        $geoNear: {
+          near: { type: 'Point', coordinates: [lng, lat] },
+          distanceField: 'distanceMeters',
+          maxDistance: maxMeters,
+          query: { isActive: true },
+          spherical: true,
+        },
+      },
+      { $limit: limit },
+    ]);
+  }
 }
 
 module.exports = new StoreRepository();

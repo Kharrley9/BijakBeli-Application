@@ -13,4 +13,9 @@ module.exports = {
   CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5173',
   MAX_FILE_UPLOAD: parseInt(process.env.MAX_FILE_UPLOAD) || 5000000,
   FILE_UPLOAD_PATH: process.env.FILE_UPLOAD_PATH || './uploads',
+
+  // Travel-distance comparison
+  AVG_DRIVE_SPEED_KMH: parseFloat(process.env.AVG_DRIVE_SPEED_KMH) || 35,
+  ROUTING_PROVIDER: process.env.ROUTING_PROVIDER || 'estimate', // 'estimate' | 'ors'
+  ROUTING_API_KEY: process.env.ROUTING_API_KEY || '',
 };

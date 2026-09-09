@@ -52,7 +52,12 @@ exports.deleteList = async (req, res, next) => {
 
 exports.compareStores = async (req, res, next) => {
   try {
-    const result = await shoppingListService.compareStores(req.params.id);
+    const { lat, lng } = req.query;
+    const origin =
+      lat !== undefined && lng !== undefined
+        ? { lat: Number(lat), lng: Number(lng) }
+        : null;
+    const result = await shoppingListService.compareStores(req.params.id, origin);
     res.status(200).json({ success: true, data: result });
   } catch (error) { next(error); }
 };

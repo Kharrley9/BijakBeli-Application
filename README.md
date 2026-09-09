@@ -1,15 +1,20 @@
-# BijakBeli - Smart Grocery Price Comparison System
+# BijakBeli - Smart Grocery Price & Travel Comparison
 
-> 🛒 Compare grocery prices across supermarkets in Batu Pahat, Johor, Malaysia.
+> 🛒 Compare grocery prices **and travel distance** across supermarkets and grocery
+> stores across Malaysia. Built for traders and small retailers who buy stock in bulk
+> and want to cut both the shelf price and the cost of getting there.
 
 ## Features
 
-- **Price Comparison** — Compare prices across AEON Big, BP Mall & Square One Mall
-- **Smart Shopping Lists** — Auto-calculate totals and find cheapest store
+- **Price Comparison** — Compare item prices across stores nationwide
+- **Travel Comparison** — See the distance and estimated drive time to every store,
+  and the nearest store alongside the cheapest one, from your GPS location or a saved
+  business location
+- **Nearby Stores** — Map + distance-sorted list of stores around you
+- **Smart Shopping Lists** — Auto-calculate basket totals and find the cheapest store
 - **Budget Planner** — Set and track monthly grocery budgets
 - **Promotions Tracker** — Never miss a deal
 - **Savings Reports** — Visualize your savings over time
-- **AI Recommendations** — Smart product and store suggestions
 
 ## Tech Stack
 

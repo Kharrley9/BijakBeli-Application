@@ -58,6 +58,9 @@ class AuthService {
         phone: user.phone,
         address: user.address,
         profilePicture: user.profilePicture,
+        preferredState: user.preferredState,
+        preferredStores: user.preferredStores,
+        businessLocation: user.businessLocation,
       },
       token,
     };
@@ -77,6 +80,26 @@ class AuthService {
     // Prevent password update through this method
     delete updateData.password;
     delete updateData.role;
+
+    // Business location: only accept a well-formed GeoJSON point, otherwise drop it
+    if (Object.prototype.hasOwnProperty.call(updateData, 'businessLocation')) {
+      const bl = updateData.businessLocation;
+      const coords = bl && bl.coordinates;
+      const valid =
+        Array.isArray(coords) &&
+        coords.length === 2 &&
+        coords.every((n) => typeof n === 'number' && !Number.isNaN(n)) &&
+        !(coords[0] === 0 && coords[1] === 0);
+      if (valid) {
+        updateData.businessLocation = {
+          type: 'Point',
+          coordinates: [coords[0], coords[1]],
+          label: typeof bl.label === 'string' ? bl.label : undefined,
+        };
+      } else {
+        delete updateData.businessLocation;
+      }
+    }
 
     const user = await userRepository.update(userId, updateData);
     if (!user) {
