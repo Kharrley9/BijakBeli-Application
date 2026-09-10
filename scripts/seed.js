@@ -1,11 +1,12 @@
-// Ensure we can find modules from the server directory
+// BijakBeli v2 seed — Malaysia-wide chain grocery data + demo trader stores.
+// Chain data is SAMPLE data (plausible branches/coords/prices); edit via admin.
+
 const path = require('path');
 module.paths.unshift(path.join(__dirname, '..', 'server', 'node_modules'));
 
 const mongoose = require('mongoose');
 require('dotenv').config({ path: path.join(__dirname, '..', 'server', '.env') });
 
-// Models
 const User = require('../server/models/User');
 const Store = require('../server/models/Store');
 const Category = require('../server/models/Category');
@@ -13,655 +14,458 @@ const Brand = require('../server/models/Brand');
 const Product = require('../server/models/Product');
 const Price = require('../server/models/Price');
 const Promotion = require('../server/models/Promotion');
+const Settings = require('../server/models/Settings');
 const ShoppingList = require('../server/models/ShoppingList');
 const ShoppingListItem = require('../server/models/ShoppingListItem');
 const Budget = require('../server/models/Budget');
 const Order = require('../server/models/Order');
-const Settings = require('../server/models/Settings');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/bijakbeli';
 
-const seedData = async () => {
-  try {
-    await mongoose.connect(MONGO_URI);
-    console.log('✅ Connected to MongoDB');
+const rnd = (min, max) => Math.random() * (max - min) + min;
+const jitter = (v, pct) => parseFloat((v * (1 + rnd(-pct, pct))).toFixed(2));
+const near = (lng, lat) => [
+  parseFloat((lng + rnd(-0.04, 0.04)).toFixed(5)),
+  parseFloat((lat + rnd(-0.04, 0.04)).toFixed(5)),
+];
 
-    // Clear existing data
-    await Promise.all([
-      User.deleteMany(),
-      Store.deleteMany(),
-      Category.deleteMany(),
-      Brand.deleteMany(),
-      Product.deleteMany(),
-      Price.deleteMany(),
-      Promotion.deleteMany(),
-      ShoppingList.deleteMany(),
-      ShoppingListItem.deleteMany(),
-      Budget.deleteMany(),
-      Order.deleteMany(),
-      Settings.deleteMany(),
-    ]);
-    console.log('🗑️  Cleared existing data');
-
-    // ============================================================
-    // USERS
-    // ============================================================
-    const admin = await User.create({
-      fullName: 'Admin BijakBeli',
-      email: 'admin@bijakbeli.com',
-      password: 'admin123',
-      role: 'admin',
-      phone: '+60127654321',
-    });
-
-    const customer = await User.create({
-      fullName: 'Khalil Ahmad',
-      email: 'khalil@example.com',
-      password: 'password123',
-      role: 'customer',
-      phone: '+60121234567',
-      address: 'Jalan Rahmat, Batu Pahat, Johor',
-      preferredState: 'Johor',
-      businessLocation: {
-        type: 'Point',
-        coordinates: [102.9336, 1.8509], // Batu Pahat town centre
-        label: 'Kedai Runcit, Jalan Rahmat, 83000 Batu Pahat, Johor',
-      },
-    });
-
-    const customer2 = await User.create({
-      fullName: 'Ahmad Razif',
-      email: 'ahmad@example.com',
-      password: 'customer123',
-      role: 'customer',
-      phone: '+60129876543',
-      address: 'Taman Bukit Pasir, Batu Pahat, Johor',
-    });
-    console.log('👤 3 users created (1 admin, 2 customers)');
-
-    // ============================================================
-    // STORES — Real supermarkets in Batu Pahat, Johor
-    // ============================================================
-    const stores = await Store.create([
-      // Johor
-      {
-        storeName: "Lotus's",
-        mallName: "Lotus's Batu Pahat",
-        address: 'Lot 1, Jalan Kluang, 83000 Batu Pahat, Johor',
-        state: 'Johor',
-        city: 'Batu Pahat',
-        location: { type: 'Point', coordinates: [102.9358, 1.8548] },
-      },
-      {
-        storeName: 'Mydin',
-        mallName: 'Mydin Mall Johor Bahru',
-        address: 'Mutiara Rini, 81300 Johor Bahru, Johor',
-        state: 'Johor',
-        city: 'Johor Bahru',
-        location: { type: 'Point', coordinates: [103.6378, 1.5153] },
-      },
-      {
-        storeName: 'Econsave',
-        mallName: 'Econsave Batu Pahat',
-        address: 'Jalan Bakau Condong, 83000 Batu Pahat, Johor',
-        state: 'Johor',
-        city: 'Batu Pahat',
-        location: { type: 'Point', coordinates: [102.9295, 1.8475] },
-      },
-      // Selangor
-      {
-        storeName: 'Giant',
-        mallName: 'Giant Hypermarket Shah Alam',
-        address: 'Seksyen 13, 40100 Shah Alam, Selangor',
-        state: 'Selangor',
-        city: 'Shah Alam',
-        location: { type: 'Point', coordinates: [101.5470, 3.0810] },
-      },
-      {
-        storeName: 'AEON BiG',
-        mallName: 'AEON BiG Subang Jaya',
-        address: 'SS 16, 47500 Subang Jaya, Selangor',
-        state: 'Selangor',
-        city: 'Subang Jaya',
-        location: { type: 'Point', coordinates: [101.5825, 3.0848] },
-      },
-      {
-        storeName: '99 Speedmart',
-        mallName: '99 Speedmart Petaling Jaya',
-        address: 'SS2, 47300 Petaling Jaya, Selangor',
-        state: 'Selangor',
-        city: 'Petaling Jaya',
-        location: { type: 'Point', coordinates: [101.6225, 3.1148] },
-      },
-      // W.P. Kuala Lumpur
-      {
-        storeName: "Lotus's",
-        mallName: "Lotus's Kepong",
-        address: 'Bandar Menjalara, 52200 Kuala Lumpur',
-        state: 'W.P. Kuala Lumpur',
-        city: 'Kuala Lumpur',
-        location: { type: 'Point', coordinates: [101.6325, 3.1948] },
-      },
-      {
-        storeName: 'KK Super Mart',
-        mallName: 'KK Mart KLCC',
-        address: 'Jalan Ampang, 50450 Kuala Lumpur',
-        state: 'W.P. Kuala Lumpur',
-        city: 'Kuala Lumpur',
-        location: { type: 'Point', coordinates: [101.7125, 3.1548] },
-      },
-      // Pulau Pinang
-      {
-        storeName: 'Mydin',
-        mallName: 'Mydin Bukit Mertajam',
-        address: 'Jalan Baru, 14000 Bukit Mertajam, Pulau Pinang',
-        state: 'Pulau Pinang',
-        city: 'Bukit Mertajam',
-        location: { type: 'Point', coordinates: [100.4125, 5.3748] },
-      },
-      {
-        storeName: "Lotus's",
-        mallName: "Lotus's Penang",
-        address: 'Lebuh Tengku Kudin 1, 11700 Gelugor, Pulau Pinang',
-        state: 'Pulau Pinang',
-        city: 'Gelugor',
-        location: { type: 'Point', coordinates: [100.3125, 5.3848] },
-      },
-      // --- Batu Pahat cluster (for travel-distance demo) ---
-      {
-        storeName: 'Giant',
-        mallName: 'Giant Batu Pahat',
-        address: 'Jalan Kluang, Taman Bukit Perdana, 83000 Batu Pahat, Johor',
-        state: 'Johor',
-        city: 'Batu Pahat',
-        type: 'hypermarket',
-        location: { type: 'Point', coordinates: [102.9412, 1.8625] },
-      },
-      {
-        storeName: 'NSK Trade City',
-        mallName: 'NSK Batu Pahat',
-        address: 'Jalan Flora Utama, Taman Flora Utama, 83000 Batu Pahat, Johor',
-        state: 'Johor',
-        city: 'Batu Pahat',
-        type: 'hypermarket',
-        location: { type: 'Point', coordinates: [102.9503, 1.8703] },
-      },
-      {
-        storeName: '99 Speedmart',
-        mallName: '99 Speedmart Taman Sri Kenangan',
-        address: 'Taman Sri Kenangan, 83000 Batu Pahat, Johor',
-        state: 'Johor',
-        city: 'Batu Pahat',
-        type: 'minimart',
-        location: { type: 'Point', coordinates: [102.9270, 1.8590] },
-      },
-    ]);
-    console.log(`🏪 ${stores.length} stores created across multiple states`);
-
-    // ============================================================
-    // CATEGORIES
-    // ============================================================
-    const categories = await Category.create([
-      { categoryName: 'Rice & Grains' },
-      { categoryName: 'Cooking Oil' },
-      { categoryName: 'Sugar & Flour' },
-      { categoryName: 'Beverages' },
-      { categoryName: 'Dairy & Eggs' },
-      { categoryName: 'Snacks & Biscuits' },
-      { categoryName: 'Canned Food' },
-      { categoryName: 'Noodles & Pasta' },
-      { categoryName: 'Sauces & Condiments' },
-      { categoryName: 'Personal Care' },
-      { categoryName: 'Household' },
-      { categoryName: 'Frozen Food' },
-      { categoryName: 'Fruits & Vegetables' },
-      { categoryName: 'Meat & Seafood' },
-      { categoryName: 'Baby Products' },
-      { categoryName: 'Bread & Bakery' },
-    ]);
-    console.log('📁 16 categories created');
-
-    // ============================================================
-    // BRANDS
-    // ============================================================
-    const brands = await Brand.create([
-      { brandName: 'Jasmine' },         // 0
-      { brandName: 'Knife' },           // 1
-      { brandName: 'CSR' },             // 2
-      { brandName: 'Milo' },            // 3
-      { brandName: 'Dutch Lady' },      // 4
-      { brandName: 'Maggi' },           // 5
-      { brandName: 'Adabi' },           // 6
-      { brandName: "Munchy's" },        // 7
-      { brandName: 'Ayam Brand' },      // 8
-      { brandName: 'Cap Kipas Udang' }, // 9
-      { brandName: 'Saji' },            // 10
-      { brandName: 'Gardenia' },        // 11
-      { brandName: 'Nestle' },          // 12
-      { brandName: 'F&N' },             // 13
-      { brandName: 'Dettol' },          // 14
-      { brandName: 'Dynamo' },          // 15
-      { brandName: 'Kimball' },         // 16
-      { brandName: "Yeo's" },           // 17
-      { brandName: 'Vesawit' },         // 18
-      { brandName: 'Goodday' },         // 19
-      { brandName: 'Cintan' },          // 20
-      { brandName: 'Colgate' },         // 21
-      { brandName: "Head & Shoulders" },// 22
-      { brandName: '100Plus' },         // 23
-      { brandName: 'Clorox' },          // 24
-      { brandName: "Julie's" },         // 25
-      { brandName: 'Cap Rambutan' },    // 26
-      { brandName: 'Gula Prai' },       // 27
-      { brandName: 'Sunquick' },        // 28
-      { brandName: 'Breeze' },          // 29
-    ]);
-    console.log('🏷️  30 brands created');
-
-    // Helpers
-    const cat = (name) => categories.find((c) => c.categoryName === name)._id;
-    const brand = (name) => brands.find((b) => b.brandName === name)._id;
-
-    // ============================================================
-    // PRODUCTS — 50 realistic Malaysian grocery items
-    // ============================================================
-    const products = await Product.create([
-      // --- Rice & Grains (0-4) ---
-      { barcode: '9555001', productName: 'Jasmine Super Special Local White Rice 5kg', description: 'Premium local white rice', categoryId: cat('Rice & Grains'), brandId: brand('Jasmine'), unit: 'bag', status: 'active' },
-      { barcode: '9555002', productName: 'Jasmine Super 5 Imported Rice 10kg', description: 'Imported fragrant rice 10kg bag', categoryId: cat('Rice & Grains'), brandId: brand('Jasmine'), unit: 'bag', status: 'active' },
-      { barcode: '9555003', productName: 'Cap Rambutan Beras Wangi 5kg', description: 'Premium fragrant rice from Thailand', categoryId: cat('Rice & Grains'), brandId: brand('Cap Rambutan'), unit: 'bag', status: 'active' },
-      { barcode: '9555004', productName: 'Jasmine Beras Super Special 10kg', description: 'Economy local white rice 10kg', categoryId: cat('Rice & Grains'), brandId: brand('Jasmine'), unit: 'bag', status: 'active' },
-      { barcode: '9555005', productName: 'Jasmine Basmathi Rice 5kg', description: 'Premium basmathi long grain rice', categoryId: cat('Rice & Grains'), brandId: brand('Jasmine'), unit: 'bag', status: 'active' },
-
-      // --- Cooking Oil (5-8) ---
-      { barcode: '9555006', productName: 'Knife Cooking Oil 5kg', description: 'Premium cooking oil for everyday use', categoryId: cat('Cooking Oil'), brandId: brand('Knife'), unit: 'bottle', status: 'active' },
-      { barcode: '9555007', productName: 'Saji Cooking Oil 5kg', description: 'Quality cooking oil', categoryId: cat('Cooking Oil'), brandId: brand('Saji'), unit: 'bottle', status: 'active' },
-      { barcode: '9555008', productName: 'Vesawit Cooking Oil 5kg', description: 'Palm cooking oil', categoryId: cat('Cooking Oil'), brandId: brand('Vesawit'), unit: 'bottle', status: 'active' },
-      { barcode: '9555009', productName: 'Knife Cooking Oil 2kg', description: 'Cooking oil smaller pack', categoryId: cat('Cooking Oil'), brandId: brand('Knife'), unit: 'bottle', status: 'active' },
-
-      // --- Sugar & Flour (9-12) ---
-      { barcode: '9555010', productName: 'CSR Fine Grain Sugar 1kg', description: 'Fine grain white sugar', categoryId: cat('Sugar & Flour'), brandId: brand('CSR'), unit: 'pack', status: 'active' },
-      { barcode: '9555011', productName: 'Gula Prai White Sugar 1kg', description: 'Refined white sugar', categoryId: cat('Sugar & Flour'), brandId: brand('Gula Prai'), unit: 'pack', status: 'active' },
-      { barcode: '9555012', productName: 'Cap Kipas Udang Superfine Flour 1kg', description: 'All purpose flour', categoryId: cat('Sugar & Flour'), brandId: brand('Cap Kipas Udang'), unit: 'pack', status: 'active' },
-      { barcode: '9555013', productName: 'CSR Gula Kastor 500g', description: 'Caster sugar for baking', categoryId: cat('Sugar & Flour'), brandId: brand('CSR'), unit: 'pack', status: 'active' },
-
-      // --- Beverages (13-19) ---
-      { barcode: '9555014', productName: 'Milo Activ-Go Powder 2kg', description: 'Chocolate malt drink', categoryId: cat('Beverages'), brandId: brand('Milo'), unit: 'pack', status: 'active' },
-      { barcode: '9555015', productName: 'Milo Activ-Go Powder 1kg', description: 'Chocolate malt drink 1kg', categoryId: cat('Beverages'), brandId: brand('Milo'), unit: 'pack', status: 'active' },
-      { barcode: '9555016', productName: 'Nestle Nescafe Classic 200g', description: 'Classic instant coffee', categoryId: cat('Beverages'), brandId: brand('Nestle'), unit: 'bottle', status: 'active' },
-      { barcode: '9555017', productName: "Yeo's Soy Milk 1L", description: 'Soy milk drink', categoryId: cat('Beverages'), brandId: brand("Yeo's"), unit: 'bottle', status: 'active' },
-      { barcode: '9555018', productName: '100Plus Isotonic Drink 1.5L', description: 'Isotonic carbonated drink', categoryId: cat('Beverages'), brandId: brand('100Plus'), unit: 'bottle', status: 'active' },
-      { barcode: '9555019', productName: 'Sunquick Orange Cordial 840ml', description: 'Concentrated orange cordial', categoryId: cat('Beverages'), brandId: brand('Sunquick'), unit: 'bottle', status: 'active' },
-      { barcode: '9555020', productName: 'F&N Sweetened Condensed Milk 500g', description: 'Sweetened condensed milk', categoryId: cat('Dairy & Eggs'), brandId: brand('F&N'), unit: 'can', status: 'active' },
-
-      // --- Dairy & Eggs (20-23) ---
-      { barcode: '9555021', productName: 'Dutch Lady Pure Farm Full Cream Milk 1L', description: 'Full cream UHT milk', categoryId: cat('Dairy & Eggs'), brandId: brand('Dutch Lady'), unit: 'bottle', status: 'active' },
-      { barcode: '9555022', productName: 'Dutch Lady Pure Farm Low Fat Milk 1L', description: 'Low fat UHT milk', categoryId: cat('Dairy & Eggs'), brandId: brand('Dutch Lady'), unit: 'bottle', status: 'active' },
-      { barcode: '9555023', productName: 'Goodday Full Cream Milk 1L', description: 'Full cream milk', categoryId: cat('Dairy & Eggs'), brandId: brand('Goodday'), unit: 'bottle', status: 'active' },
-      { barcode: '9555024', productName: 'Dutch Lady Chocolate Milk 200ml (6-pack)', description: 'Chocolate flavoured milk', categoryId: cat('Dairy & Eggs'), brandId: brand('Dutch Lady'), unit: 'pack', status: 'active' },
-
-      // --- Noodles & Pasta (24-28) ---
-      { barcode: '9555025', productName: 'Maggi 2 Minute Noodles Curry (5x79g)', description: 'Instant curry noodles pack of 5', categoryId: cat('Noodles & Pasta'), brandId: brand('Maggi'), unit: 'pack', status: 'active' },
-      { barcode: '9555026', productName: 'Maggi 2 Minute Noodles Asam Laksa (5x78g)', description: 'Instant asam laksa noodles pack of 5', categoryId: cat('Noodles & Pasta'), brandId: brand('Maggi'), unit: 'pack', status: 'active' },
-      { barcode: '9555027', productName: 'Maggi 2 Minute Noodles Tom Yam (5x80g)', description: 'Instant tom yam noodles', categoryId: cat('Noodles & Pasta'), brandId: brand('Maggi'), unit: 'pack', status: 'active' },
-      { barcode: '9555028', productName: 'Cintan Mi Sup (5x75g)', description: 'Instant soup noodles pack of 5', categoryId: cat('Noodles & Pasta'), brandId: brand('Cintan'), unit: 'pack', status: 'active' },
-      { barcode: '9555029', productName: 'Maggi Maggi Mee Goreng (5x72g)', description: 'Instant fried noodles', categoryId: cat('Noodles & Pasta'), brandId: brand('Maggi'), unit: 'pack', status: 'active' },
-
-      // --- Sauces & Condiments (29-33) ---
-      { barcode: '9555030', productName: 'Adabi Curry Powder 250g', description: 'Traditional curry powder', categoryId: cat('Sauces & Condiments'), brandId: brand('Adabi'), unit: 'pack', status: 'active' },
-      { barcode: '9555031', productName: 'Kimball Tomato Ketchup 500g', description: 'Tomato ketchup', categoryId: cat('Sauces & Condiments'), brandId: brand('Kimball'), unit: 'bottle', status: 'active' },
-      { barcode: '9555032', productName: 'Maggi Oyster Sauce 500g', description: 'Premium oyster sauce', categoryId: cat('Sauces & Condiments'), brandId: brand('Maggi'), unit: 'bottle', status: 'active' },
-      { barcode: '9555033', productName: 'Adabi Serbuk Kunyit 250g', description: 'Turmeric powder', categoryId: cat('Sauces & Condiments'), brandId: brand('Adabi'), unit: 'pack', status: 'active' },
-      { barcode: '9555034', productName: 'Kimball Chilli Sauce 500g', description: 'Chilli sauce', categoryId: cat('Sauces & Condiments'), brandId: brand('Kimball'), unit: 'bottle', status: 'active' },
-
-      // --- Snacks & Biscuits (34-37) ---
-      { barcode: '9555035', productName: "Munchy's Cream Crackers 300g", description: 'Classic cream crackers', categoryId: cat('Snacks & Biscuits'), brandId: brand("Munchy's"), unit: 'pack', status: 'active' },
-      { barcode: '9555036', productName: 'Nestle Kit Kat 4F 35g (4 pack)', description: 'Chocolate wafer biscuit', categoryId: cat('Snacks & Biscuits'), brandId: brand('Nestle'), unit: 'pack', status: 'active' },
-      { barcode: '9555037', productName: "Julie's Butter Crackers 250g", description: 'Butter flavoured crackers', categoryId: cat('Snacks & Biscuits'), brandId: brand("Julie's"), unit: 'pack', status: 'active' },
-      { barcode: '9555038', productName: "Munchy's Lexus Cream Sandwich 190g", description: 'Cream sandwich biscuit', categoryId: cat('Snacks & Biscuits'), brandId: brand("Munchy's"), unit: 'pack', status: 'active' },
-
-      // --- Canned Food (38-41) ---
-      { barcode: '9555039', productName: 'Ayam Brand Sardines in Tomato Sauce 425g', description: 'Sardines in tomato sauce', categoryId: cat('Canned Food'), brandId: brand('Ayam Brand'), unit: 'can', status: 'active' },
-      { barcode: '9555040', productName: 'Ayam Brand Tuna Chunks in Water 185g', description: 'Tuna chunks in water', categoryId: cat('Canned Food'), brandId: brand('Ayam Brand'), unit: 'can', status: 'active' },
-      { barcode: '9555041', productName: 'Adabi Sambal Ikan Bilis 160g', description: 'Anchovy sambal paste', categoryId: cat('Canned Food'), brandId: brand('Adabi'), unit: 'can', status: 'active' },
-      { barcode: '9555042', productName: 'Ayam Brand Baked Beans 425g', description: 'Baked beans in tomato sauce', categoryId: cat('Canned Food'), brandId: brand('Ayam Brand'), unit: 'can', status: 'active' },
-
-      // --- Personal Care (42-44) ---
-      { barcode: '9555043', productName: 'Dettol Antibacterial Shower Gel 950ml', description: 'Antibacterial body wash', categoryId: cat('Personal Care'), brandId: brand('Dettol'), unit: 'bottle', status: 'active' },
-      { barcode: '9555044', productName: 'Head & Shoulders Shampoo 330ml', description: 'Anti-dandruff shampoo', categoryId: cat('Personal Care'), brandId: brand('Head & Shoulders'), unit: 'bottle', status: 'active' },
-      { barcode: '9555045', productName: 'Colgate Maximum Cavity Protection 250g', description: 'Toothpaste with cavity protection', categoryId: cat('Personal Care'), brandId: brand('Colgate'), unit: 'unit', status: 'active' },
-
-      // --- Household (45-47) ---
-      { barcode: '9555046', productName: 'Dynamo Liquid Detergent 2.7kg', description: 'Concentrated liquid detergent', categoryId: cat('Household'), brandId: brand('Dynamo'), unit: 'bottle', status: 'active' },
-      { barcode: '9555047', productName: 'Breeze Powder Detergent 2.5kg', description: 'Powder detergent with colour care', categoryId: cat('Household'), brandId: brand('Breeze'), unit: 'pack', status: 'active' },
-      { barcode: '9555048', productName: 'Clorox Bleach Original 1L', description: 'Multi-surface bleach cleaner', categoryId: cat('Household'), brandId: brand('Clorox'), unit: 'bottle', status: 'active' },
-
-      // --- Bread & Bakery (48-49) ---
-      { barcode: '9555049', productName: 'Gardenia Original Classic Bread 400g', description: 'Classic white bread', categoryId: cat('Bread & Bakery'), brandId: brand('Gardenia'), unit: 'pack', status: 'active' },
-      { barcode: '9555050', productName: 'Gardenia Wholemeal Bread 400g', description: 'Wholemeal bread', categoryId: cat('Bread & Bakery'), brandId: brand('Gardenia'), unit: 'pack', status: 'active' },
-    ]);
-    console.log('🛒 50 products created');
-
-    // ============================================================
-    // PRICES — Each product at each of the 5 stores
-    // Prices in RM, with realistic small variations between stores
-    // ============================================================
-    const priceData = [
-      // Rice & Grains
-      { prod: 0, prices: [24.90, 24.50, 23.90, 25.20, 24.80] },  // Jasmine 5kg
-      { prod: 1, prices: [47.90, 46.50, 45.90, 48.50, 47.50] },  // Jasmine 10kg
-      { prod: 2, prices: [26.90, 27.50, 26.50, 27.80, 27.20] },  // Cap Rambutan 5kg
-      { prod: 3, prices: [46.90, 45.90, 44.90, 47.50, 46.50] },  // Jasmine 10kg economy
-      { prod: 4, prices: [32.90, 33.50, 32.50, 34.00, 33.20] },  // Basmathi 5kg
-
-      // Cooking Oil
-      { prod: 5, prices: [29.50, 30.20, 28.90, 30.50, 29.90] },  // Knife 5kg
-      { prod: 6, prices: [27.90, 28.50, 27.50, 28.80, 28.20] },  // Saji 5kg
-      { prod: 7, prices: [26.50, 27.20, 25.90, 27.50, 26.90] },  // Vesawit 5kg
-      { prod: 8, prices: [13.90, 14.20, 13.50, 14.50, 13.80] },  // Knife 2kg
-
-      // Sugar & Flour
-      { prod: 9, prices: [2.85, 2.95, 2.80, 2.99, 2.90] },   // CSR Sugar
-      { prod: 10, prices: [2.80, 2.90, 2.75, 2.95, 2.85] },   // Gula Prai
-      { prod: 11, prices: [2.20, 2.30, 2.15, 2.35, 2.25] },   // Flour
-      { prod: 12, prices: [3.50, 3.70, 3.40, 3.80, 3.60] },   // CSR Kastor
-
-      // Beverages
-      { prod: 13, prices: [28.90, 29.90, 27.90, 30.20, 29.50] }, // Milo 2kg
-      { prod: 14, prices: [15.90, 16.50, 15.50, 16.80, 16.20] }, // Milo 1kg
-      { prod: 15, prices: [18.90, 19.50, 18.50, 19.80, 19.20] }, // Nescafe
-      { prod: 16, prices: [4.50, 4.80, 4.30, 4.90, 4.60] },     // Yeo's
-      { prod: 17, prices: [3.50, 3.70, 3.30, 3.80, 3.60] },     // 100Plus
-      { prod: 18, prices: [9.90, 10.50, 9.50, 10.80, 10.20] },  // Sunquick
-      { prod: 19, prices: [4.80, 5.00, 4.60, 5.20, 4.90] },     // F&N Condensed
-
-      // Dairy & Eggs
-      { prod: 20, prices: [6.20, 6.50, 5.99, 6.60, 6.40] },     // Dutch Lady Full Cream
-      { prod: 21, prices: [6.50, 6.80, 6.30, 6.90, 6.60] },     // Dutch Lady Low Fat
-      { prod: 22, prices: [5.90, 6.20, 5.70, 6.30, 6.00] },     // Goodday
-      { prod: 23, prices: [7.50, 7.80, 7.20, 8.00, 7.60] },     // Dutch Lady Choc 6pk
-
-      // Noodles & Pasta
-      { prod: 24, prices: [5.20, 5.50, 4.99, 5.60, 5.30] },     // Maggi Curry
-      { prod: 25, prices: [5.40, 5.60, 5.20, 5.70, 5.50] },     // Maggi Asam Laksa
-      { prod: 26, prices: [5.30, 5.50, 5.10, 5.60, 5.40] },     // Maggi Tom Yam
-      { prod: 27, prices: [4.50, 4.70, 4.30, 4.80, 4.60] },     // Cintan
-      { prod: 28, prices: [5.50, 5.80, 5.30, 5.90, 5.60] },     // Maggi Goreng
-
-      // Sauces & Condiments
-      { prod: 29, prices: [4.50, 4.80, 4.30, 4.90, 4.60] },     // Adabi Curry
-      { prod: 30, prices: [4.20, 4.50, 3.99, 4.60, 4.30] },     // Kimball Ketchup
-      { prod: 31, prices: [6.80, 7.10, 6.50, 7.20, 7.00] },     // Maggi Oyster
-      { prod: 32, prices: [3.90, 4.10, 3.70, 4.20, 4.00] },     // Adabi Kunyit
-      { prod: 33, prices: [4.00, 4.30, 3.80, 4.40, 4.10] },     // Kimball Chilli
-
-      // Snacks & Biscuits
-      { prod: 34, prices: [4.80, 5.10, 4.60, 5.20, 4.90] },     // Munchy's Crackers
-      { prod: 35, prices: [5.90, 6.20, 5.70, 6.30, 6.00] },     // Kit Kat
-      { prod: 36, prices: [5.50, 5.80, 5.30, 5.90, 5.60] },     // Julie's
-      { prod: 37, prices: [3.50, 3.70, 3.30, 3.80, 3.60] },     // Munchy's Lexus
-
-      // Canned Food
-      { prod: 38, prices: [7.90, 8.20, 7.50, 8.30, 8.10] },     // Sardines
-      { prod: 39, prices: [7.50, 7.80, 7.20, 7.90, 7.60] },     // Tuna
-      { prod: 40, prices: [4.50, 4.80, 4.20, 4.90, 4.60] },     // Adabi Sambal
-      { prod: 41, prices: [4.20, 4.50, 3.99, 4.60, 4.30] },     // Baked Beans
-
-      // Personal Care
-      { prod: 42, prices: [19.90, 20.50, 18.90, 20.80, 20.20] }, // Dettol
-      { prod: 43, prices: [15.90, 16.50, 15.50, 16.80, 16.20] }, // H&S
-      { prod: 44, prices: [8.50, 8.90, 8.20, 9.00, 8.70] },     // Colgate
-
-      // Household
-      { prod: 45, prices: [25.90, 26.50, 24.90, 26.80, 26.20] }, // Dynamo
-      { prod: 46, prices: [18.90, 19.50, 18.50, 19.80, 19.20] }, // Breeze
-      { prod: 47, prices: [6.90, 7.20, 6.50, 7.30, 7.00] },     // Clorox
-
-      // Bread & Bakery
-      { prod: 48, prices: [3.20, 3.30, 3.10, 3.40, 3.20] },     // Gardenia White
-      { prod: 49, prices: [3.80, 3.90, 3.70, 4.00, 3.80] },     // Gardenia Wholemeal
-    ];
-
-    let priceCount = 0;
-    for (const pd of priceData) {
-      for (let i = 0; i < stores.length; i++) {
-        // Use provided prices for first 5 stores, generate realistic prices for the rest based on the first price
-        const basePrice = pd.prices[0];
-        const storePrice = i < 5 ? pd.prices[i] : parseFloat((basePrice + (Math.random() * 2 - 1)).toFixed(2));
-        
-        await Price.create({
-          productId: products[pd.prod]._id,
-          storeId: stores[i]._id,
-          price: storePrice,
-          previousPrice: parseFloat((storePrice + (Math.random() * 2 - 0.5)).toFixed(2)),
-        });
-        priceCount++;
-      }
-    }
-    console.log(`💰 ${priceCount} prices created (50 products × ${stores.length} stores)`);
-
-    // ============================================================
-    // PROMOTIONS — 15 active promotions
-    // ============================================================
-    const now = new Date();
-    const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const twoWeeksFromNow = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-    const threeWeeksFromNow = new Date(now.getTime() + 21 * 24 * 60 * 60 * 1000);
-
-    await Promotion.create([
-      {
-        productId: products[13]._id, // Milo 2kg
-        storeId: stores[0]._id,      // Lotus's
-        promotionTitle: 'Milo Mega Deal',
-        promotionType: 'discount',
-        promotionPrice: 24.90,
-        discountPercentage: 14,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[5]._id, // Knife Oil 5kg
-        storeId: stores[1]._id,     // Mydin
-        promotionTitle: 'Murah Selalu - Cooking Oil',
-        promotionType: 'discount',
-        promotionPrice: 27.90,
-        discountPercentage: 8,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[0]._id, // Jasmine Rice 5kg
-        storeId: stores[2]._id,     // Econsave
-        promotionTitle: 'Rice Bonanza',
-        promotionType: 'discount',
-        promotionPrice: 21.90,
-        discountPercentage: 8,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[24]._id, // Maggi Curry
-        storeId: stores[0]._id,      // Lotus's
-        promotionTitle: 'Buy 2 Free 1 Maggi',
-        promotionType: 'buy1free1',
-        promotionPrice: 4.50,
-        discountPercentage: 13,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[42]._id, // Dettol
-        storeId: stores[1]._id,      // Mydin
-        promotionTitle: 'Dettol Flash Sale',
-        promotionType: 'discount',
-        promotionPrice: 16.90,
-        discountPercentage: 18,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[15]._id, // Nescafe
-        storeId: stores[2]._id,      // Econsave
-        promotionTitle: 'Coffee Lover Deal',
-        promotionType: 'discount',
-        promotionPrice: 16.90,
-        discountPercentage: 12,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[38]._id, // Sardines
-        storeId: stores[3]._id,      // TF Value-Mart
-        promotionTitle: 'Canned Food Fiesta',
-        promotionType: 'bundle',
-        promotionPrice: 6.90,
-        discountPercentage: 13,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[45]._id, // Dynamo
-        storeId: stores[4]._id,      // AEON BiG
-        promotionTitle: 'Household Clearance',
-        promotionType: 'clearance',
-        promotionPrice: 22.90,
-        discountPercentage: 13,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[20]._id, // Dutch Lady Full Cream
-        storeId: stores[0]._id,      // Lotus's
-        promotionTitle: 'Fresh Milk Promo',
-        promotionType: 'discount',
-        promotionPrice: 5.49,
-        discountPercentage: 11,
-        startDate: now,
-        endDate: threeWeeksFromNow,
-      },
-      {
-        productId: products[48]._id, // Gardenia Bread
-        storeId: stores[1]._id,      // Mydin
-        promotionTitle: 'Daily Fresh Bread Deal',
-        promotionType: 'discount',
-        promotionPrice: 2.99,
-        discountPercentage: 9,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[9]._id, // CSR Sugar
-        storeId: stores[2]._id,     // Econsave
-        promotionTitle: 'Harga Rakyat Sugar',
-        promotionType: 'discount',
-        promotionPrice: 2.59,
-        discountPercentage: 7,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[1]._id, // Jasmine 10kg
-        storeId: stores[3]._id,     // TF Value-Mart
-        promotionTitle: 'Bulk Rice Special',
-        promotionType: 'discount',
-        promotionPrice: 43.90,
-        discountPercentage: 9,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[43]._id, // Head & Shoulders
-        storeId: stores[4]._id,      // AEON BiG
-        promotionTitle: 'Hair Care Week',
-        promotionType: 'buy1free1',
-        promotionPrice: 13.90,
-        discountPercentage: 14,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-      {
-        productId: products[34]._id, // Munchy's Crackers
-        storeId: stores[0]._id,      // Lotus's
-        promotionTitle: 'Snack Time Bundle',
-        promotionType: 'bundle',
-        promotionPrice: 3.99,
-        discountPercentage: 17,
-        startDate: now,
-        endDate: twoWeeksFromNow,
-      },
-      {
-        productId: products[17]._id, // 100Plus
-        storeId: stores[1]._id,      // Mydin
-        promotionTitle: 'Sports Drink Promo',
-        promotionType: 'discount',
-        promotionPrice: 2.99,
-        discountPercentage: 19,
-        startDate: now,
-        endDate: weekFromNow,
-      },
-    ]);
-    console.log('🎉 15 promotions created');
-
-    // ============================================================
-    // DEMO DATA — Shopping List & Budget for the demo customer
-    // ============================================================
-    const now2 = new Date();
-    const currentMonth = now2.getMonth() + 1;
-    const currentYear = now2.getFullYear();
-
-    // Create a budget for the demo user
-    await Budget.create({
-      userId: customer._id,
-      monthlyBudget: 300,
-      spentAmount: 180,
-      remainingAmount: 120,
-      month: currentMonth,
-      year: currentYear,
-    });
-    console.log('💵 Demo budget created for customer');
-
-    // Create a demo shopping list
-    const demoList = await ShoppingList.create({
-      userId: customer._id,
-      title: 'Weekly Groceries',
-      totalPrice: 51.80,
-      estimatedSaving: 3.20,
-    });
-
-    // Add items to the shopping list
-    await ShoppingListItem.create([
-      { shoppingListId: demoList._id, productId: products[1]._id, quantity: 1 },  // Rice 10kg
-      { shoppingListId: demoList._id, productId: products[5]._id, quantity: 1 },  // Cooking Oil
-      { shoppingListId: demoList._id, productId: products[20]._id, quantity: 2 }, // Milk
-      { shoppingListId: demoList._id, productId: products[24]._id, quantity: 1 }, // Maggi Curry
-    ]);
-    console.log('🛍️  Demo shopping list created with 4 items');
-
-    // Create settings
-    await Settings.create({
-      applicationName: 'BijakBeli',
-      theme: 'light',
-      maintenanceMode: false,
-    });
-    console.log('⚙️  Settings created');
-
-    console.log('\n🌟 Seed completed successfully!');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('📧 Admin:    admin@bijakbeli.com / admin123');
-    console.log('📧 Customer: khalil@example.com / password123');
-    console.log('📧 Customer: ahmad@example.com / customer123');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log(`🏪 ${stores.length} stores`);
-    console.log(`🛒 ${products.length} products`);
-    console.log(`💰 ${priceCount} prices`);
-    console.log(`🎉 15 promotions`);
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Seed failed:', error);
-    process.exit(1);
-  }
+// ---------------------------------------------------------------------------
+// Malaysian cities used to place chain branches  { city, state, [lng, lat] }
+// ---------------------------------------------------------------------------
+const CITIES = {
+  'Batu Pahat': ['Johor', 102.9336, 1.8509],
+  'Johor Bahru': ['Johor', 103.7414, 1.4927],
+  Muar: ['Johor', 102.5686, 2.0442],
+  Kluang: ['Johor', 103.3336, 2.0301],
+  'Alor Setar': ['Kedah', 100.3673, 6.1264],
+  'Sungai Petani': ['Kedah', 100.4793, 5.6474],
+  'Kota Bharu': ['Kelantan', 102.2386, 6.1254],
+  'Melaka City': ['Melaka', 102.2501, 2.1896],
+  Seremban: ['Negeri Sembilan', 101.9424, 2.7297],
+  Kuantan: ['Pahang', 103.3260, 3.8077],
+  'Ipoh': ['Perak', 101.0901, 4.5975],
+  Taiping: ['Perak', 100.7377, 4.8500],
+  Kangar: ['Perlis', 100.1988, 6.4414],
+  'George Town': ['Pulau Pinang', 100.3327, 5.4141],
+  'Bukit Mertajam': ['Pulau Pinang', 100.4667, 5.3625],
+  'Kota Kinabalu': ['Sabah', 116.0735, 5.9804],
+  Sandakan: ['Sabah', 118.1179, 5.8402],
+  Kuching: ['Sarawak', 110.3592, 1.5533],
+  Miri: ['Sarawak', 114.0000, 4.3999],
+  'Shah Alam': ['Selangor', 101.5185, 3.0733],
+  'Petaling Jaya': ['Selangor', 101.6068, 3.1073],
+  Klang: ['Selangor', 101.4451, 3.0449],
+  'Kuala Lumpur': ['W.P. Kuala Lumpur', 101.6869, 3.1390],
+  Kepong: ['W.P. Kuala Lumpur', 101.6325, 3.2100],
+  Cheras: ['W.P. Kuala Lumpur', 101.7383, 3.0833],
+  'Kuala Terengganu': ['Terengganu', 103.1408, 5.3302],
 };
 
-seedData();
+// chain -> list of cities it has branches in (1-2 branches each)
+const CHAINS = [
+  { name: "Lotus's", type: 'hypermarket', cities: ['Batu Pahat', 'Johor Bahru', 'Kuala Lumpur', 'Kepong', 'George Town', 'Ipoh', 'Seremban', 'Kuantan', 'Shah Alam', 'Kota Bharu'] },
+  { name: 'AEON', type: 'hypermarket', cities: ['Johor Bahru', 'Kuala Lumpur', 'Cheras', 'Shah Alam', 'George Town', 'Ipoh', 'Seremban', 'Kuching', 'Kota Kinabalu'] },
+  { name: 'AEON BiG', type: 'hypermarket', cities: ['Petaling Jaya', 'Kuala Lumpur', 'Klang', 'Johor Bahru', 'Melaka City'] },
+  { name: 'Mydin', type: 'hypermarket', cities: ['Johor Bahru', 'Bukit Mertajam', 'Alor Setar', 'Kota Bharu', 'Kuala Terengganu', 'Seremban', 'Kuala Lumpur', 'Kuantan'] },
+  { name: 'Giant', type: 'hypermarket', cities: ['Batu Pahat', 'Shah Alam', 'Petaling Jaya', 'Klang', 'Kuala Lumpur', 'George Town', 'Kuantan', 'Melaka City', 'Kota Kinabalu'] },
+  { name: 'Econsave', type: 'hypermarket', cities: ['Batu Pahat', 'Muar', 'Kluang', 'Seremban', 'Melaka City', 'Klang', 'Sungai Petani', 'Taiping'] },
+  { name: 'NSK Trade City', type: 'hypermarket', cities: ['Batu Pahat', 'Kuala Lumpur', 'Cheras', 'Kepong', 'Klang'] },
+  { name: 'TF Value-Mart', type: 'supermarket', cities: ['Ipoh', 'Taiping', 'Kuantan', 'Seremban', 'Kepong', 'Alor Setar'] },
+  { name: 'Billion', type: 'supermarket', cities: ['Muar', 'Kluang', 'Melaka City', 'Seremban', 'Kuantan'] },
+  { name: 'Sunshine', type: 'supermarket', cities: ['George Town', 'Bukit Mertajam'] },
+  { name: 'Servay', type: 'supermarket', cities: ['Kota Kinabalu', 'Sandakan'] },
+  { name: 'Emart', type: 'supermarket', cities: ['Kuching', 'Miri'] },
+  { name: 'Pacific', type: 'supermarket', cities: ['Batu Pahat', 'Kota Bharu', 'Kangar', 'Alor Setar'] },
+  { name: '99 Speedmart', type: 'minimart', cities: ['Batu Pahat', 'Johor Bahru', 'Petaling Jaya', 'Kuala Lumpur', 'George Town', 'Ipoh', 'Seremban', 'Kuantan', 'Kuching', 'Kota Kinabalu'] },
+  { name: 'KK Super Mart', type: 'convenience store', cities: ['Kuala Lumpur', 'Cheras', 'Petaling Jaya', 'Johor Bahru', 'George Town'] },
+];
+
+// ---------------------------------------------------------------------------
+async function seed() {
+  await mongoose.connect(MONGO_URI);
+  console.log('✅ Connected to MongoDB');
+
+  await Promise.all([
+    User.deleteMany(), Store.deleteMany(), Category.deleteMany(), Brand.deleteMany(),
+    Product.deleteMany(), Price.deleteMany(), Promotion.deleteMany(), Settings.deleteMany(),
+    ShoppingList.deleteMany(), ShoppingListItem.deleteMany(), Budget.deleteMany(), Order.deleteMany(),
+  ]);
+  console.log('🗑️  Cleared existing data');
+
+  // ---- USERS ----
+  const admin = await User.create({ fullName: 'Admin BijakBeli', email: 'admin@bijakbeli.com', password: 'admin123', role: 'admin', phone: '+60127654321' });
+  const customer = await User.create({
+    fullName: 'Khalil Ahmad', email: 'khalil@example.com', password: 'password123', role: 'customer',
+    phone: '+60121234567', address: 'Jalan Rahmat, Batu Pahat, Johor', preferredState: 'Johor',
+    businessLocation: { type: 'Point', coordinates: [102.9336, 1.8509], label: 'Jalan Rahmat, 83000 Batu Pahat, Johor' },
+  });
+  await User.create({ fullName: 'Ahmad Razif', email: 'ahmad@example.com', password: 'customer123', role: 'customer', phone: '+60129876543', address: 'Taman Bukit Pasir, Batu Pahat, Johor' });
+  const merchant = await User.create({
+    fullName: 'Pak Mat Trader', email: 'merchant@bijakbeli.com', password: 'merchant123', role: 'merchant',
+    phone: '+60137778888', address: 'Batu Pahat, Johor',
+    businessLocation: { type: 'Point', coordinates: [102.9350, 1.8560], label: 'Jalan Rahmat, Batu Pahat' },
+  });
+  console.log('👤 4 users (admin, 2 customers, 1 merchant)');
+
+  // ---- CHAIN STORES ----
+  const chainDocs = [];
+  for (const chain of CHAINS) {
+    for (const city of chain.cities) {
+      const [state, lng, lat] = CITIES[city];
+      chainDocs.push({
+        storeName: chain.name,
+        mallName: `${chain.name} ${city}`,
+        branch: city,
+        type: chain.type,
+        kind: 'chain',
+        ownerId: null,
+        storeCategory: 'grocery',
+        state, city,
+        address: `${chain.name}, ${city}, ${state}`,
+        location: { type: 'Point', coordinates: near(lng, lat) },
+        operating_hours: '9:00 AM - 10:00 PM',
+        rating: parseFloat(rnd(3.6, 4.7).toFixed(1)),
+        reviewCount: Math.floor(rnd(20, 400)),
+        deliveryAvailable: false,
+        pickupAvailable: false,
+        isActive: true,
+        status: 'active',
+      });
+    }
+  }
+  const chains = await Store.insertMany(chainDocs);
+  console.log(`🏪 ${chains.length} chain branches across ${new Set(chainDocs.map((s) => s.state)).size} states`);
+
+  // ---- CATEGORIES (product categories, grouped by store category) ----
+  const CATS = [
+    // grocery
+    ['Rice & Grains', 'grocery', 'nutrition-outline'],
+    ['Cooking Oil', 'grocery', 'water-outline'],
+    ['Sugar & Flour', 'grocery', 'cube-outline'],
+    ['Beverages', 'grocery', 'cafe-outline'],
+    ['Dairy & Eggs', 'grocery', 'egg-outline'],
+    ['Snacks & Biscuits', 'grocery', 'fast-food-outline'],
+    ['Canned Food', 'grocery', 'file-tray-outline'],
+    ['Noodles & Pasta', 'grocery', 'restaurant-outline'],
+    ['Sauces & Condiments', 'grocery', 'color-fill-outline'],
+    ['Personal Care', 'grocery', 'body-outline'],
+    ['Household', 'grocery', 'home-outline'],
+    ['Bread & Bakery', 'grocery', 'pizza-outline'],
+    ['Fruits & Vegetables', 'grocery', 'leaf-outline'],
+    ['Meat & Seafood', 'grocery', 'fish-outline'],
+    // automotive
+    ['Engine Oil & Fluids', 'automotive', 'car-outline'],
+    ['Tyres & Wheels', 'automotive', 'ellipse-outline'],
+    ['Batteries', 'automotive', 'battery-charging-outline'],
+    ['Car Accessories', 'automotive', 'settings-outline'],
+    // hardware
+    ['Power Tools', 'hardware', 'construct-outline'],
+    ['Hand Tools', 'hardware', 'hammer-outline'],
+    ['Paint & Adhesives', 'hardware', 'brush-outline'],
+    ['Plumbing', 'hardware', 'water-outline'],
+    // electrical
+    ['Lighting', 'electrical', 'bulb-outline'],
+    ['Wiring & Cables', 'electrical', 'git-branch-outline'],
+    ['Switches & Sockets', 'electrical', 'toggle-outline'],
+    // home
+    ['Kitchenware', 'home', 'cafe-outline'],
+    ['Cleaning Supplies', 'home', 'sparkles-outline'],
+    // health
+    ['Vitamins & Supplements', 'health', 'medkit-outline'],
+    ['First Aid', 'health', 'bandage-outline'],
+  ];
+  const categories = await Category.insertMany(
+    CATS.map(([categoryName, group, icon], i) => ({ categoryName, group, icon, order: i }))
+  );
+  const cat = (n) => categories.find((c) => c.categoryName === n)._id;
+  const catGroup = (n) => categories.find((c) => c.categoryName === n).group;
+  console.log(`📁 ${categories.length} product categories`);
+
+  // ---- BRANDS ----
+  const brandNames = [
+    'Jasmine', 'Knife', 'CSR', 'Milo', 'Dutch Lady', 'Maggi', 'Adabi', "Munchy's", 'Ayam Brand',
+    'Cap Kipas Udang', 'Saji', 'Gardenia', 'Nestle', 'F&N', 'Dettol', 'Dynamo', 'Kimball', "Yeo's",
+    'Vesawit', 'Goodday', 'Cintan', 'Colgate', 'Head & Shoulders', '100Plus', 'Clorox', "Julie's",
+    'Cap Rambutan', 'Gula Prai', 'Sunquick', 'Breeze',
+    'Shell', 'Castrol', 'Petronas', 'Amaron', 'Century', 'Bosch', 'Makita', 'Stanley', 'Nippon Paint', 'Philips', 'Panasonic',
+  ];
+  const brands = await Brand.insertMany(brandNames.map((brandName) => ({ brandName })));
+  const brand = (n) => brands.find((b) => b.brandName === n)._id;
+  console.log(`🏷️  ${brands.length} brands`);
+
+  // ---- GROCERY CATALOGUE ----
+  const grocery = [
+    ['Jasmine Super Special Local White Rice 5kg', 'Rice & Grains', 'Jasmine', 'bag', 24.9],
+    ['Jasmine Super 5 Imported Rice 10kg', 'Rice & Grains', 'Jasmine', 'bag', 47.9],
+    ['Cap Rambutan Beras Wangi 5kg', 'Rice & Grains', 'Cap Rambutan', 'bag', 26.9],
+    ['Jasmine Beras Super Special 10kg', 'Rice & Grains', 'Jasmine', 'bag', 46.9],
+    ['Jasmine Basmathi Rice 5kg', 'Rice & Grains', 'Jasmine', 'bag', 32.9],
+    ['Knife Cooking Oil 5kg', 'Cooking Oil', 'Knife', 'bottle', 29.5],
+    ['Saji Cooking Oil 5kg', 'Cooking Oil', 'Saji', 'bottle', 27.9],
+    ['Vesawit Cooking Oil 5kg', 'Cooking Oil', 'Vesawit', 'bottle', 26.5],
+    ['Knife Cooking Oil 2kg', 'Cooking Oil', 'Knife', 'bottle', 13.9],
+    ['CSR Fine Grain Sugar 1kg', 'Sugar & Flour', 'CSR', 'pack', 2.85],
+    ['Gula Prai White Sugar 1kg', 'Sugar & Flour', 'Gula Prai', 'pack', 2.8],
+    ['Cap Kipas Udang Superfine Flour 1kg', 'Sugar & Flour', 'Cap Kipas Udang', 'pack', 2.2],
+    ['CSR Gula Kastor 500g', 'Sugar & Flour', 'CSR', 'pack', 3.5],
+    ['Milo Activ-Go Powder 2kg', 'Beverages', 'Milo', 'pack', 28.9],
+    ['Milo Activ-Go Powder 1kg', 'Beverages', 'Milo', 'pack', 15.9],
+    ['Nestle Nescafe Classic 200g', 'Beverages', 'Nestle', 'bottle', 18.9],
+    ["Yeo's Soy Milk 1L", 'Beverages', "Yeo's", 'bottle', 4.5],
+    ['100Plus Isotonic Drink 1.5L', 'Beverages', '100Plus', 'bottle', 3.5],
+    ['Sunquick Orange Cordial 840ml', 'Beverages', 'Sunquick', 'bottle', 9.9],
+    ['F&N Sweetened Condensed Milk 500g', 'Dairy & Eggs', 'F&N', 'can', 4.8],
+    ['Dutch Lady Pure Farm Full Cream Milk 1L', 'Dairy & Eggs', 'Dutch Lady', 'bottle', 6.2],
+    ['Dutch Lady Pure Farm Low Fat Milk 1L', 'Dairy & Eggs', 'Dutch Lady', 'bottle', 6.5],
+    ['Goodday Full Cream Milk 1L', 'Dairy & Eggs', 'Goodday', 'bottle', 5.9],
+    ['Dutch Lady Chocolate Milk 200ml (6-pack)', 'Dairy & Eggs', 'Dutch Lady', 'pack', 7.5],
+    ['Grade A Chicken Eggs (30s)', 'Dairy & Eggs', null, 'tray', 13.5],
+    ['Maggi 2 Minute Noodles Curry (5x79g)', 'Noodles & Pasta', 'Maggi', 'pack', 5.2],
+    ['Maggi 2 Minute Noodles Asam Laksa (5x78g)', 'Noodles & Pasta', 'Maggi', 'pack', 5.4],
+    ['Maggi 2 Minute Noodles Tom Yam (5x80g)', 'Noodles & Pasta', 'Maggi', 'pack', 5.3],
+    ['Cintan Mi Sup (5x75g)', 'Noodles & Pasta', 'Cintan', 'pack', 4.5],
+    ['Maggi Mee Goreng (5x72g)', 'Noodles & Pasta', 'Maggi', 'pack', 5.5],
+    ['Adabi Curry Powder 250g', 'Sauces & Condiments', 'Adabi', 'pack', 4.5],
+    ['Kimball Tomato Ketchup 500g', 'Sauces & Condiments', 'Kimball', 'bottle', 4.2],
+    ['Maggi Oyster Sauce 500g', 'Sauces & Condiments', 'Maggi', 'bottle', 6.8],
+    ['Adabi Serbuk Kunyit 250g', 'Sauces & Condiments', 'Adabi', 'pack', 3.9],
+    ['Kimball Chilli Sauce 500g', 'Sauces & Condiments', 'Kimball', 'bottle', 4.0],
+    ["Munchy's Cream Crackers 300g", 'Snacks & Biscuits', "Munchy's", 'pack', 4.8],
+    ['Nestle Kit Kat 4F 35g (4 pack)', 'Snacks & Biscuits', 'Nestle', 'pack', 5.9],
+    ["Julie's Butter Crackers 250g", 'Snacks & Biscuits', "Julie's", 'pack', 5.5],
+    ["Munchy's Lexus Cream Sandwich 190g", 'Snacks & Biscuits', "Munchy's", 'pack', 3.5],
+    ['Ayam Brand Sardines in Tomato Sauce 425g', 'Canned Food', 'Ayam Brand', 'can', 7.9],
+    ['Ayam Brand Tuna Chunks in Water 185g', 'Canned Food', 'Ayam Brand', 'can', 7.5],
+    ['Adabi Sambal Ikan Bilis 160g', 'Canned Food', 'Adabi', 'can', 4.5],
+    ['Ayam Brand Baked Beans 425g', 'Canned Food', 'Ayam Brand', 'can', 4.2],
+    ['Dettol Antibacterial Shower Gel 950ml', 'Personal Care', 'Dettol', 'bottle', 19.9],
+    ['Head & Shoulders Shampoo 330ml', 'Personal Care', 'Head & Shoulders', 'bottle', 15.9],
+    ['Colgate Maximum Cavity Protection 250g', 'Personal Care', 'Colgate', 'unit', 8.5],
+    ['Dynamo Liquid Detergent 2.7kg', 'Household', 'Dynamo', 'bottle', 25.9],
+    ['Breeze Powder Detergent 2.5kg', 'Household', 'Breeze', 'pack', 18.9],
+    ['Clorox Bleach Original 1L', 'Household', 'Clorox', 'bottle', 6.9],
+    ['Gardenia Original Classic Bread 400g', 'Bread & Bakery', 'Gardenia', 'pack', 3.2],
+    ['Gardenia Wholemeal Bread 400g', 'Bread & Bakery', 'Gardenia', 'pack', 3.8],
+    ['Local Round Cabbage', 'Fruits & Vegetables', null, 'kg', 4.5],
+    ['Australian Carrot', 'Fruits & Vegetables', null, 'kg', 5.9],
+    ['Pisang Berangan', 'Fruits & Vegetables', null, 'kg', 6.5],
+    ['Fresh Chicken Whole', 'Meat & Seafood', null, 'kg', 9.9],
+    ['Beef Topside Local', 'Meat & Seafood', null, 'kg', 38.0],
+  ];
+
+  const groceryProducts = await Product.insertMany(
+    grocery.map(([productName, category, brandName, unit], i) => ({
+      barcode: `95500${String(i + 100).padStart(4, '0')}`,
+      productName,
+      description: productName,
+      categoryId: cat(category),
+      storeCategory: 'grocery',
+      brandId: brandName ? brand(brandName) : null,
+      unit,
+      status: 'active',
+    }))
+  );
+  const groceryBase = Object.fromEntries(grocery.map(([n, , , , p]) => [n, p]));
+  console.log(`🛒 ${groceryProducts.length} grocery products`);
+
+  // ---- GROCERY PRICES: every grocery product at every grocery chain ----
+  const groceryChains = chains.filter((s) => s.storeCategory === 'grocery');
+  const priceBulk = [];
+  for (const prod of groceryProducts) {
+    const base = groceryBase[prod.productName];
+    for (const store of groceryChains) {
+      const price = jitter(base, 0.06);
+      priceBulk.push({
+        productId: prod._id,
+        storeId: store._id,
+        price,
+        previousPrice: Math.random() < 0.4 ? jitter(price, 0.05) : null,
+        stock: null,
+        inStock: true,
+      });
+    }
+  }
+  await Price.insertMany(priceBulk);
+  console.log(`💰 ${priceBulk.length} chain prices (${groceryProducts.length} products × ${groceryChains.length} stores)`);
+
+  // ---- DEMO TRADER STORES (owned by merchant, Batu Pahat) ----
+  const traderStoreDefs = [
+    { storeName: 'AutoCare Batu Pahat', storeCategory: 'automotive', type: 'independent', c: [102.9410, 1.8580], deliveryFee: 8, desc: 'Car servicing parts, engine oil, batteries & tyres.' },
+    { storeName: 'BP Hardware & Tools', storeCategory: 'hardware', type: 'independent', c: [102.9295, 1.8520], deliveryFee: 10, desc: 'Power tools, hand tools, paint and plumbing supplies.' },
+    { storeName: 'BrightHome Electrical', storeCategory: 'electrical', type: 'independent', c: [102.9360, 1.8470], deliveryFee: 12, desc: 'Lighting, wiring, switches and home electrical goods.' },
+    { storeName: 'Kedai Runcit Pak Mat', storeCategory: 'grocery', type: 'independent', c: [102.9330, 1.8555], deliveryFee: 5, desc: 'Neighbourhood grocery store with daily essentials.' },
+  ];
+  const traderStores = await Store.insertMany(
+    traderStoreDefs.map((d) => ({
+      storeName: d.storeName,
+      branch: 'Batu Pahat',
+      type: d.type,
+      kind: 'merchant',
+      ownerId: merchant._id,
+      storeCategory: d.storeCategory,
+      description: d.desc,
+      phone: merchant.phone,
+      state: 'Johor',
+      city: 'Batu Pahat',
+      address: `${d.storeName}, Batu Pahat, Johor`,
+      location: { type: 'Point', coordinates: d.c },
+      operating_hours: '9:00 AM - 7:00 PM',
+      deliveryAvailable: true,
+      deliveryFee: d.deliveryFee,
+      pickupAvailable: true,
+      minOrder: 0,
+      rating: parseFloat(rnd(4.0, 4.9).toFixed(1)),
+      reviewCount: Math.floor(rnd(5, 60)),
+      isActive: true,
+      status: 'active',
+    }))
+  );
+  const traderByName = Object.fromEntries(traderStores.map((s) => [s.storeName, s]));
+  console.log(`🏬 ${traderStores.length} demo trader stores`);
+
+  // ---- TRADER PRODUCTS + PRICES + STOCK ----
+  const traderCatalogue = [
+    // [store, name, category, brand, unit, price]
+    ['AutoCare Batu Pahat', 'Shell Helix HX7 10W-40 Engine Oil 4L', 'Engine Oil & Fluids', 'Shell', 'bottle', 89.9],
+    ['AutoCare Batu Pahat', 'Castrol GTX 15W-40 Engine Oil 4L', 'Engine Oil & Fluids', 'Castrol', 'bottle', 79.9],
+    ['AutoCare Batu Pahat', 'Petronas Syntium 800 10W-40 4L', 'Engine Oil & Fluids', 'Petronas', 'bottle', 95.0],
+    ['AutoCare Batu Pahat', 'Amaron Car Battery NS60 45Ah', 'Batteries', 'Amaron', 'unit', 260.0],
+    ['AutoCare Batu Pahat', 'Century Car Battery NS40 35Ah', 'Batteries', 'Century', 'unit', 190.0],
+    ['AutoCare Batu Pahat', 'Silicone Wiper Blade 20 inch', 'Car Accessories', null, 'pcs', 25.0],
+    ['AutoCare Batu Pahat', 'Car Air Filter (Myvi/Axia)', 'Car Accessories', null, 'pcs', 22.0],
+    ['AutoCare Batu Pahat', 'Coolant Radiator Fluid 1L', 'Engine Oil & Fluids', null, 'bottle', 12.5],
+    ['AutoCare Batu Pahat', 'Brake Fluid DOT 4 500ml', 'Engine Oil & Fluids', null, 'bottle', 15.0],
+    ['AutoCare Batu Pahat', 'Passenger Tyre 185/65 R15', 'Tyres & Wheels', null, 'unit', 230.0],
+
+    ['BP Hardware & Tools', 'Bosch GSB 550 Impact Drill', 'Power Tools', 'Bosch', 'unit', 279.0],
+    ['BP Hardware & Tools', 'Makita HP1630 Hammer Drill', 'Power Tools', 'Makita', 'unit', 349.0],
+    ['BP Hardware & Tools', 'Stanley 16oz Claw Hammer', 'Hand Tools', 'Stanley', 'pcs', 39.9],
+    ['BP Hardware & Tools', 'Stanley 22-piece Screwdriver Set', 'Hand Tools', 'Stanley', 'set', 89.0],
+    ['BP Hardware & Tools', 'Measuring Tape 5m', 'Hand Tools', null, 'pcs', 14.9],
+    ['BP Hardware & Tools', 'Nippon Paint Vinilex 5L White', 'Paint & Adhesives', 'Nippon Paint', 'tin', 79.0],
+    ['BP Hardware & Tools', 'PVC Pipe 1/2 inch (3m)', 'Plumbing', null, 'length', 8.5],
+    ['BP Hardware & Tools', 'PVC Elbow Joint 1/2 inch', 'Plumbing', null, 'pcs', 1.2],
+    ['BP Hardware & Tools', 'Silicone Sealant Clear 300ml', 'Paint & Adhesives', null, 'tube', 12.9],
+    ['BP Hardware & Tools', 'Safety Gloves (pair)', 'Hand Tools', null, 'pair', 6.5],
+
+    ['BrightHome Electrical', 'Philips LED Bulb 9W E27 (Warm White)', 'Lighting', 'Philips', 'pcs', 12.9],
+    ['BrightHome Electrical', 'Panasonic LED Downlight 12W', 'Lighting', 'Panasonic', 'pcs', 24.9],
+    ['BrightHome Electrical', 'PVC Insulated Cable 2.5mm (100m)', 'Wiring & Cables', null, 'roll', 185.0],
+    ['BrightHome Electrical', 'Panasonic 13A Switch Socket Outlet', 'Switches & Sockets', 'Panasonic', 'pcs', 18.5],
+    ['BrightHome Electrical', '2-Gang 1-Way Wall Switch', 'Switches & Sockets', null, 'pcs', 9.9],
+    ['BrightHome Electrical', 'Extension Socket 4-Way 3m', 'Switches & Sockets', null, 'pcs', 32.0],
+    ['BrightHome Electrical', 'Ceiling Fan 56 inch (5 blade)', 'Lighting', null, 'unit', 189.0],
+    ['BrightHome Electrical', 'Flexible Conduit 20mm (10m)', 'Wiring & Cables', null, 'roll', 22.0],
+
+    ['Kedai Runcit Pak Mat', 'Jasmine Super Special Local White Rice 5kg', 'Rice & Grains', 'Jasmine', 'bag', 25.5],
+    ['Kedai Runcit Pak Mat', 'Knife Cooking Oil 5kg', 'Cooking Oil', 'Knife', 'bottle', 30.5],
+    ['Kedai Runcit Pak Mat', 'Milo Activ-Go Powder 1kg', 'Beverages', 'Milo', 'pack', 16.9],
+    ['Kedai Runcit Pak Mat', 'Maggi 2 Minute Noodles Curry (5x79g)', 'Noodles & Pasta', 'Maggi', 'pack', 5.6],
+    ['Kedai Runcit Pak Mat', 'Grade A Chicken Eggs (30s)', 'Dairy & Eggs', null, 'tray', 14.2],
+    ['Kedai Runcit Pak Mat', 'Gardenia Original Classic Bread 400g', 'Bread & Bakery', 'Gardenia', 'pack', 3.4],
+    ['Kedai Runcit Pak Mat', 'CSR Fine Grain Sugar 1kg', 'Sugar & Flour', 'CSR', 'pack', 3.1],
+    ['Kedai Runcit Pak Mat', 'Dutch Lady Full Cream Milk 1L', 'Dairy & Eggs', 'Dutch Lady', 'bottle', 6.6],
+  ];
+
+  const traderProductDocs = traderCatalogue.map(([store, name, category, brandName, unit], i) => ({
+    barcode: `95509${String(i + 100).padStart(4, '0')}`,
+    productName: name,
+    description: name,
+    categoryId: cat(category),
+    storeCategory: catGroup(category),
+    brandId: brandName ? brand(brandName) : null,
+    ownerId: merchant._id,
+    unit,
+    status: 'active',
+  }));
+  const traderProducts = await Product.insertMany(traderProductDocs);
+  const traderPriceBulk = traderProducts.map((p, i) => {
+    const [store, , , , , base] = traderCatalogue[i];
+    return {
+      productId: p._id,
+      storeId: traderByName[store]._id,
+      price: base,
+      previousPrice: Math.random() < 0.3 ? jitter(base, 0.08) : null,
+      stock: Math.floor(rnd(3, 40)),
+      inStock: true,
+    };
+  });
+  await Price.insertMany(traderPriceBulk);
+  console.log(`📦 ${traderProducts.length} trader products + prices`);
+
+  // ---- PROMOTIONS (active) ----
+  const now = new Date();
+  const days = (n) => new Date(now.getTime() + n * 864e5);
+  const promoTargets = [
+    ['Milo Activ-Go Powder 2kg', 'discount', 0.14],
+    ['Knife Cooking Oil 5kg', 'discount', 0.1],
+    ['Jasmine Super Special Local White Rice 5kg', 'discount', 0.09],
+    ['Maggi 2 Minute Noodles Curry (5x79g)', 'buy1free1', 0.13],
+    ['Dettol Antibacterial Shower Gel 950ml', 'discount', 0.18],
+    ['Nestle Nescafe Classic 200g', 'discount', 0.12],
+    ['Ayam Brand Sardines in Tomato Sauce 425g', 'bundle', 0.13],
+    ['Dynamo Liquid Detergent 2.7kg', 'clearance', 0.13],
+    ['Dutch Lady Pure Farm Full Cream Milk 1L', 'discount', 0.11],
+    ['Gardenia Original Classic Bread 400g', 'discount', 0.09],
+    ['CSR Fine Grain Sugar 1kg', 'discount', 0.07],
+    ['100Plus Isotonic Drink 1.5L', 'discount', 0.15],
+  ];
+  const promoDocs = [];
+  for (const [name, type, pct] of promoTargets) {
+    const prod = groceryProducts.find((p) => p.productName === name);
+    if (!prod) continue;
+    // put the promo on 2-3 random grocery chains
+    const shuffled = [...groceryChains].sort(() => Math.random() - 0.5).slice(0, 3);
+    for (const store of shuffled) {
+      const base = groceryBase[name];
+      promoDocs.push({
+        productId: prod._id,
+        storeId: store._id,
+        promotionTitle: `${name.split(' ').slice(0, 2).join(' ')} Deal`,
+        promotionType: type,
+        promotionPrice: parseFloat((base * (1 - pct)).toFixed(2)),
+        discountPercentage: Math.round(pct * 100),
+        startDate: now,
+        endDate: days(10 + Math.floor(rnd(0, 12))),
+      });
+    }
+  }
+  // one trader promo
+  const traderPromoProd = traderProducts.find((p) => p.productName.includes('Shell Helix'));
+  if (traderPromoProd) {
+    promoDocs.push({
+      productId: traderPromoProd._id,
+      storeId: traderByName['AutoCare Batu Pahat']._id,
+      promotionTitle: 'Engine Oil Weekend Deal',
+      promotionType: 'discount',
+      promotionPrice: 82.9,
+      discountPercentage: 8,
+      startDate: now,
+      endDate: days(14),
+    });
+  }
+  await Promotion.insertMany(promoDocs);
+  console.log(`🎉 ${promoDocs.length} promotions`);
+
+  // ---- DEMO buyer extras ----
+  const m = now.getMonth() + 1;
+  const y = now.getFullYear();
+  await Budget.create({ userId: customer._id, monthlyBudget: 300, spentAmount: 90, remainingAmount: 210, month: m, year: y });
+  await Settings.create({ applicationName: 'BijakBeli', theme: 'light', maintenanceMode: false });
+
+  console.log('\n🌟 Seed complete');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('📧 Admin:    admin@bijakbeli.com / admin123');
+  console.log('📧 Customer: khalil@example.com / password123  (Batu Pahat)');
+  console.log('📧 Merchant: merchant@bijakbeli.com / merchant123');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log(`🏪 ${chains.length} chain branches + ${traderStores.length} trader stores`);
+  console.log(`🛒 ${groceryProducts.length + traderProducts.length} products, ${priceBulk.length + traderPriceBulk.length} prices, ${promoDocs.length} promotions`);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  process.exit(0);
+}
+
+seed().catch((e) => {
+  console.error('❌ Seed failed:', e);
+  process.exit(1);
+});

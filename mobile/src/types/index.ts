@@ -4,6 +4,11 @@ export interface GeoPoint {
   label?: string;
 }
 
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
 export interface User {
   _id: string;
   fullName: string;
@@ -11,155 +16,161 @@ export interface User {
   phone?: string;
   address?: string;
   profilePicture?: string;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'merchant' | 'admin';
   preferredState?: string;
-  preferredStores?: string[];
   businessLocation?: GeoPoint;
   createdAt?: string;
 }
+
+export type StoreKind = 'chain' | 'merchant';
 
 export interface Store {
   _id: string;
   storeName: string;
   mallName?: string;
+  branch?: string;
   address: string;
   city?: string;
   state?: string;
-  location?: { type: string; coordinates: number[] };
+  kind?: StoreKind;
+  storeCategory?: string;
+  type?: string;
+  phone?: string;
+  description?: string;
   logo?: string;
-  // Attached when a comparison/nearby request includes an origin
+  bannerImage?: string;
+  operating_hours?: string;
+  location?: { type: string; coordinates: number[] };
+  rating?: number;
+  reviewCount?: number;
+  deliveryAvailable?: boolean;
+  deliveryFee?: number;
+  pickupAvailable?: boolean;
+  orderable?: boolean;
+  // attached when the request includes an origin
   distanceKm?: number | null;
   durationMin?: number | null;
-  distanceSource?: string | null;
+  // attached by GET /stores/:id
+  products?: StoreProductListing[];
+  productCount?: number;
 }
 
-export interface LatLng {
-  lat: number;
-  lng: number;
+export interface StoreProductListing {
+  _id: string;
+  productName: string;
+  image?: string;
+  unit?: string;
+  storeCategory?: string;
+  category?: string;
+  price: number;
+  previousPrice?: number | null;
+  stock?: number | null;
+  inStock?: boolean;
 }
 
 export interface Category {
   _id: string;
   categoryName: string;
+  group?: string;
+  icon?: string;
   image?: string;
 }
 
-export interface Brand {
-  _id: string;
-  brandName: string;
-  logo?: string;
+export interface StoreCategory {
+  slug: string;
+  label: string;
+  icon: string;
 }
 
-export interface Product {
+/** A product row in a catalogue list (from GET /products). */
+export interface CatalogProduct {
   _id: string;
-  barcode?: string;
   productName: string;
   description?: string;
-  categoryId: Category | string;
-  brandId: Brand | string;
   image?: string;
   unit: string;
-  status: 'active' | 'inactive' | 'discontinued';
+  storeCategory?: string;
+  categoryId?: { _id: string; categoryName: string; group?: string } | string;
+  brandId?: { _id: string; brandName: string } | string | null;
+  lowestPrice: number | null;
+  storeCount: number;
+  cheapestStore: StoreSummary | null;
+  nearestStore: StoreSummary | null;
 }
 
-export interface Price {
+export interface StoreSummary {
   _id: string;
-  productId: Product | string;
-  storeId: Store | string;
+  storeName: string;
+  logo?: string;
+  kind?: StoreKind;
+  rating?: number;
+  city?: string;
+  state?: string;
+  deliveryAvailable?: boolean;
+  deliveryFee?: number;
+  distanceKm?: number | null;
+  durationMin?: number | null;
+}
+
+/** A per-store row in the product detail / price comparison. */
+export interface StorePriceRow {
+  store: StoreSummary & {
+    reviewCount?: number;
+    pickupAvailable?: boolean;
+    phone?: string;
+    orderable?: boolean;
+  };
   price: number;
-  previousPrice?: number;
-  lastUpdated: string;
-}
-
-export interface Promotion {
-  _id: string;
-  productId: Product | string;
-  storeId: Store | string;
-  promotionTitle: string;
-  promotionType: 'discount' | 'buy1free1' | 'bundle' | 'clearance' | 'seasonal' | 'member';
-  promotionPrice: number;
-  discountPercentage?: number;
-  startDate: string;
-  endDate: string;
-  promotionBanner?: string;
-}
-
-export interface PriceComparison {
-  store: Store;
-  currentPrice: number;
-  previousPrice?: number;
+  previousPrice?: number | null;
   effectivePrice: number;
-  priceDifference: number;
+  stock?: number | null;
+  inStock?: boolean;
+  hasPromotion: boolean;
   promotion?: {
     title: string;
     type: string;
     promotionPrice: number;
     discountPercentage: number;
     endDate: string;
-  };
-  hasPromotion: boolean;
+  } | null;
   isLowestPrice?: boolean;
-  isBestPromotion?: boolean;
+  isNearest?: boolean;
 }
 
-export interface ComparisonResult {
-  comparisons: PriceComparison[];
-  cheapestStore: Store | null;
+export interface ProductDetail {
+  product: CatalogProduct & {
+    categoryId?: { categoryName: string; group?: string };
+    brandId?: { brandName: string } | null;
+    attributes?: Record<string, any>;
+  };
+  stores: StorePriceRow[];
+  cheapestStore: StoreSummary | null;
+  nearestStore: StoreSummary | null;
+  lowestPrice: number | null;
+  highestPrice: number | null;
   savings: number;
-  lowestPrice: number;
-  highestPrice: number;
+  storeCount: number;
 }
 
-export interface ShoppingList {
+export interface Promotion {
   _id: string;
-  userId: string;
-  title: string;
-  createdDate: string;
-  estimatedSaving: number;
-  totalPrice: number;
-  items?: ShoppingListItem[];
+  productId: any;
+  storeId: any;
+  promotionTitle: string;
+  promotionType: string;
+  promotionPrice: number;
+  discountPercentage?: number;
+  startDate: string;
+  endDate: string;
 }
 
-export interface ShoppingListItem {
+export interface AppNotification {
   _id: string;
-  shoppingListId: string;
-  productId: Product | string;
-  quantity: number;
-}
-
-export interface Budget {
-  _id: string;
-  userId: string;
-  monthlyBudget: number;
-  spentAmount: number;
-  remainingAmount: number;
-  month: number;
-  year: number;
-}
-
-export interface Notification {
-  _id: string;
-  userId: string;
   title: string;
   message: string;
   status: 'unread' | 'read';
-  createdDate: string;
-}
-
-export interface FavoriteProduct {
-  _id: string;
-  userId: string;
-  productId: Product;
-}
-
-export interface DashboardStats {
-  totalUsers: number;
-  totalProducts: number;
-  totalStores: number;
-  activePromotions: number;
-  mostSavedProduct: Product | null;
-  avgSavings: number;
-  monthlyUsers: { _id: { month: number; year: number }; count: number }[];
+  createdDate?: string;
+  createdAt?: string;
 }
 
 export interface ApiResponse<T> {

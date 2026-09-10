@@ -10,35 +10,60 @@ const LOCAL_IP = '10.0.2.2';
 
 const getApiUrl = () => {
   if (__DEV__) {
-    if (Platform.OS === 'android') {
-      return `http://${LOCAL_IP}:5000/api`;
-    }
-    // iOS simulator can use localhost, physical iOS needs the LAN IP
+    if (Platform.OS === 'android') return `http://${LOCAL_IP}:5000/api`;
     return `http://localhost:5000/api`;
   }
-  // Production: use your deployed server URL
   return 'https://api.bijakbeli.com/api';
 };
 
 export const API_URL = getApiUrl();
 
+// Top-level store categories (must match server/config/constants.js)
+export const STORE_CATEGORIES = [
+  { slug: 'grocery', label: 'Grocery', icon: 'basket-outline' },
+  { slug: 'automotive', label: 'Automotive', icon: 'car-outline' },
+  { slug: 'hardware', label: 'Hardware', icon: 'hammer-outline' },
+  { slug: 'electrical', label: 'Electrical', icon: 'bulb-outline' },
+  { slug: 'home', label: 'Home & Living', icon: 'home-outline' },
+  { slug: 'health', label: 'Health', icon: 'medkit-outline' },
+  { slug: 'telco', label: 'Telco & Computer', icon: 'laptop-outline' },
+  { slug: 'other', label: 'Other', icon: 'ellipsis-horizontal-outline' },
+] as const;
+
+export const categoryLabel = (slug?: string) =>
+  STORE_CATEGORIES.find((c) => c.slug === slug)?.label || 'Other';
+
+export const SORT_OPTIONS = [
+  { value: 'price_asc', label: 'Lowest Price' },
+  { value: 'nearest', label: 'Nearest' },
+  { value: '-createdAt', label: 'Newest' },
+] as const;
+
 export const PRODUCT_UNITS = [
   'kg', 'g', 'L', 'ml', 'pcs', 'pack', 'box', 'bottle', 'can', 'bag', 'unit',
+  'set', 'pair', 'roll', 'length', 'tin', 'tube', 'tray',
 ];
 
-export const PROMOTION_TYPES = [
-  { value: 'discount', label: 'Discount' },
-  { value: 'buy1free1', label: 'Buy 1 Free 1' },
-  { value: 'bundle', label: 'Bundle Deal' },
-  { value: 'clearance', label: 'Clearance' },
-  { value: 'seasonal', label: 'Seasonal' },
-  { value: 'member', label: 'Member Only' },
-];
-
-export const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
-
-// Travel-distance comparison
 export const DEFAULT_MAX_NEARBY_KM = 60;
+
+export const POPULAR_SEARCHES = [
+  'Beras', 'Minyak Masak', 'Milo', 'Engine Oil', 'LED Bulb', 'Telur',
+];
+
+export const ONBOARDING_SLIDES = [
+  {
+    title: 'Compare Prices',
+    body: 'See the price of any item across supermarkets and nearby traders in one place.',
+    icon: 'pricetags-outline',
+  },
+  {
+    title: 'Find Nearby Stores',
+    body: 'Sort by distance and drive time — buy where it actually costs you less to shop.',
+    icon: 'navigate-outline',
+  },
+  {
+    title: 'Order From Traders',
+    body: 'Grocery, automotive, hardware and more — order for pickup or delivery from local shops.',
+    icon: 'cart-outline',
+  },
+];

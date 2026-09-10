@@ -22,7 +22,10 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "REPLACE_WITH_ANDROID_GOOGLE_MAPS_API_KEY"
@@ -38,7 +41,8 @@
         {
           "locationWhenInUsePermission": "BijakBeli uses your location to show how far each store is and find the nearest one."
         }
-      ]
+      ],
+      "expo-splash-screen"
     ]
   }
 }

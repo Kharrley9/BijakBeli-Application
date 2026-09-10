@@ -25,6 +25,17 @@ const priceSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    // Real quantity for merchant listings; null = unknown (chains).
+    stock: {
+      type: Number,
+      default: null,
+      min: 0,
+    },
+    // Merchant's internal code (optional).
+    sku: {
+      type: String,
+      trim: true,
+    },
     lastUpdated: {
       type: Date,
       default: Date.now,

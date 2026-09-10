@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  FlatList,
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,29 +13,31 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
-import BottomNav from '../components/BottomNav';
-import DistanceBadge, { formatDuration } from '../components/DistanceBadge';
 import { useLocation } from '../context/LocationContext';
 import { storeService } from '../services/dataService';
-import { DEFAULT_MAX_NEARBY_KM } from '../constants';
+import { DEFAULT_MAX_NEARBY_KM, STORE_CATEGORIES } from '../constants';
 import { Store } from '../types';
+import StoreCard from '../components/StoreCard';
+import EmptyState from '../components/EmptyState';
 
 const FALLBACK: Region = {
   latitude: 1.8548,
   longitude: 102.9358,
-  latitudeDelta: 0.15,
-  longitudeDelta: 0.15,
+  latitudeDelta: 0.2,
+  longitudeDelta: 0.2,
 };
 
 export default function NearbyStoresScreen({ navigation }: any) {
-  const { origin, originMode, businessOrigin, refreshGps, gpsOrigin } = useLocation();
+  const { origin, refreshGps, originMode } = useLocation();
   const mapRef = useRef<MapView>(null);
+  const [view, setView] = useState<'list' | 'map'>('list');
+  const [cat, setCat] = useState<string | undefined>(undefined);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     let o = origin;
-    if (!o && originMode === 'gps') o = await refreshGps();
+    if (!o) o = await refreshGps();
     if (!o) {
       setStores([]);
       setLoading(false);
@@ -46,142 +49,105 @@ export default function NearbyStoresScreen({ navigation }: any) {
         lat: o.lat,
         lng: o.lng,
         maxKm: DEFAULT_MAX_NEARBY_KM,
+        limit: 40,
+        storeCategory: cat,
       });
       const data: Store[] = res?.data || res || [];
-      setStores(Array.isArray(data) ? data : []);
-      if (data.length) {
-        mapRef.current?.animateToRegion(
-          { ...FALLBACK, latitude: o.lat, longitude: o.lng },
-          400
-        );
+      setStores(data);
+      if (data.length && mapRef.current) {
+        mapRef.current.animateToRegion({ ...FALLBACK, latitude: o.lat, longitude: o.lng }, 400);
       }
-    } catch (e) {
+    } catch {
       setStores([]);
     } finally {
       setLoading(false);
     }
-  }, [origin, originMode, refreshGps]);
+  }, [origin?.lat, origin?.lng, cat]);
 
-  useFocusEffect(
-    useCallback(() => {
-      load();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [origin])
-  );
+  useFocusEffect(useCallback(() => { load(); }, [load]));
 
   const region: Region = useMemo(
-    () =>
-      origin
-        ? { ...FALLBACK, latitude: origin.lat, longitude: origin.lng }
-        : FALLBACK,
+    () => (origin ? { ...FALLBACK, latitude: origin.lat, longitude: origin.lng } : FALLBACK),
     [origin]
   );
-
-  const noOrigin = !origin;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>Stores Near You</Text>
-        <TouchableOpacity onPress={load}>
-          <Ionicons name="refresh" size={20} color={colors.primary} />
-        </TouchableOpacity>
+        <View style={styles.toggle}>
+          {(['list', 'map'] as const).map((v) => (
+            <TouchableOpacity
+              key={v}
+              style={[styles.toggleBtn, view === v && styles.toggleActive]}
+              onPress={() => setView(v)}
+            >
+              <Ionicons
+                name={v === 'list' ? 'list' : 'map'}
+                size={16}
+                color={view === v ? colors.white : colors.textSecondary}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
 
-      <View style={styles.mapWrap}>
-        <MapView
-          ref={mapRef}
-          style={StyleSheet.absoluteFill}
-          initialRegion={region}
-          showsUserLocation={originMode === 'gps'}
-        >
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.cats} style={styles.catBar}>
+        <Chip label="All" active={!cat} onPress={() => setCat(undefined)} />
+        {STORE_CATEGORIES.map((c) => (
+          <Chip key={c.slug} label={c.label} active={cat === c.slug} onPress={() => setCat(c.slug)} />
+        ))}
+      </ScrollView>
+
+      {!origin ? (
+        <EmptyState icon="location-outline" title="Location off" body="Enable location to see stores near you.">
+          <TouchableOpacity style={[commonStyles.primaryButton, { marginTop: spacing.md, paddingHorizontal: spacing.xl }]} onPress={load}>
+            <Text style={commonStyles.primaryButtonText}>Enable</Text>
+          </TouchableOpacity>
+        </EmptyState>
+      ) : loading ? (
+        <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: spacing.xxl }} />
+      ) : view === 'map' ? (
+        <MapView ref={mapRef} style={{ flex: 1 }} initialRegion={region} showsUserLocation={originMode === 'gps'}>
           {origin && (
-            <Marker
-              coordinate={{ latitude: origin.lat, longitude: origin.lng }}
-              title={originMode === 'gps' ? 'My location' : 'My business'}
-              pinColor={colors.primaryDark}
-            />
+            <Marker coordinate={{ latitude: origin.lat, longitude: origin.lng }} pinColor={colors.primaryDark} title="You" />
           )}
           {stores.map((s) =>
             s.location?.coordinates?.length === 2 ? (
               <Marker
                 key={s._id}
-                coordinate={{
-                  latitude: s.location.coordinates[1],
-                  longitude: s.location.coordinates[0],
-                }}
+                coordinate={{ latitude: s.location.coordinates[1], longitude: s.location.coordinates[0] }}
                 title={s.storeName}
-                description={`${s.mallName || ''}${
-                  s.distanceKm != null ? ` · ${s.distanceKm} km` : ''
-                }`}
+                description={`${s.distanceKm ?? ''} km`}
+                onCalloutPress={() => navigation.navigate('StoreProfile', { id: s._id })}
               />
             ) : null
           )}
         </MapView>
-      </View>
-
-      <View style={styles.listWrap}>
-        {noOrigin ? (
-          <View style={styles.empty}>
-            <Ionicons name="location-outline" size={40} color={colors.textMuted} />
-            <Text style={styles.emptyText}>
-              Set your business location or turn on GPS to see nearby stores.
-            </Text>
-            <TouchableOpacity
-              style={[commonStyles.primaryButton, styles.emptyBtn]}
-              onPress={() => navigation.navigate('BusinessLocation')}
-            >
-              <Text style={commonStyles.primaryButtonText}>Set Business Location</Text>
-            </TouchableOpacity>
-          </View>
-        ) : loading ? (
-          <ActivityIndicator
-            size="large"
-            color={colors.primary}
-            style={{ marginTop: spacing.xl }}
-          />
-        ) : stores.length === 0 ? (
-          <View style={styles.empty}>
-            <Text style={styles.emptyText}>
-              No stores within {DEFAULT_MAX_NEARBY_KM} km.
-            </Text>
-          </View>
-        ) : (
-          <ScrollView contentContainerStyle={{ paddingBottom: spacing.xl }}>
-            {stores.map((s, i) => (
-              <TouchableOpacity
-                key={s._id}
-                style={styles.row}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('SearchGrocery')}
-              >
-                <View style={styles.rowRank}>
-                  <Text style={styles.rowRankText}>{i + 1}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.rowName}>{s.storeName}</Text>
-                  <Text style={styles.rowSub} numberOfLines={1}>
-                    {s.mallName || s.city}
-                  </Text>
-                </View>
-                <View style={{ alignItems: 'flex-end', gap: 2 }}>
-                  <DistanceBadge
-                    distanceKm={s.distanceKm}
-                    durationMin={s.durationMin}
-                    highlight={i === 0}
-                  />
-                  {s.durationMin != null && (
-                    <Text style={styles.rowTime}>{formatDuration(s.durationMin)}</Text>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        )}
-      </View>
-
-      <BottomNav active="Nearby" />
+      ) : (
+        <FlatList
+          data={stores}
+          keyExtractor={(s) => s._id}
+          contentContainerStyle={styles.list}
+          renderItem={({ item, index }) => (
+            <StoreCard
+              store={item}
+              rank={index + 1}
+              onPress={() => navigation.navigate('StoreProfile', { id: item._id })}
+            />
+          )}
+          ListEmptyComponent={<EmptyState icon="storefront-outline" title="No stores nearby" />}
+        />
+      )}
     </SafeAreaView>
+  );
+}
+
+function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  return (
+    <TouchableOpacity style={[styles.chip, active && styles.chipActive]} onPress={onPress}>
+      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -189,41 +155,27 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.white },
   header: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.md,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
   },
-  title: { fontSize: fontSize.xl, fontWeight: '700', color: colors.text },
-  mapWrap: { height: '38%' },
-  listWrap: { flex: 1, paddingHorizontal: spacing.lg, paddingTop: spacing.md },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    paddingVertical: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  rowRank: {
-    width: 26,
-    height: 26,
+  title: { fontSize: fontSize.xl, fontWeight: '800', color: colors.text },
+  toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.sm, padding: 3, gap: 3 },
+  toggleBtn: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.sm },
+  toggleActive: { backgroundColor: colors.primary },
+  catBar: { maxHeight: 50, borderBottomWidth: 1, borderBottomColor: colors.border, flexGrow: 0 },
+  cats: { gap: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.sm },
+  chip: {
+    borderWidth: 1,
+    borderColor: colors.border,
     borderRadius: radius.full,
-    backgroundColor: colors.primaryLight,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
   },
-  rowRankText: { fontSize: fontSize.xs, fontWeight: '800', color: colors.primary },
-  rowName: { fontSize: fontSize.md, fontWeight: '700', color: colors.text },
-  rowSub: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 2 },
-  rowTime: { fontSize: fontSize.xs, color: colors.textMuted },
-  empty: { alignItems: 'center', paddingVertical: spacing.xxl, gap: spacing.md },
-  emptyText: {
-    fontSize: fontSize.md,
-    color: colors.textMuted,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  emptyBtn: { paddingHorizontal: spacing.xl },
+  chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  chipText: { fontSize: fontSize.xs, color: colors.textSecondary, fontWeight: '600' },
+  chipTextActive: { color: colors.white },
+  list: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
 });

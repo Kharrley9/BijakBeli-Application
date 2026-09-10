@@ -1,4 +1,5 @@
 const categoryService = require('../services/categoryService');
+const { STORE_CATEGORIES } = require('../config/constants');
 
 exports.create = async (req, res, next) => {
   try {
@@ -7,9 +8,19 @@ exports.create = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+// GET /api/categories
+//   ?kind=store               -> the 8 top-level store categories (from constants)
+//   ?kind=product&group=slug  -> product categories within a group
+//   (no params)               -> all product categories
 exports.getAll = async (req, res, next) => {
   try {
-    const categories = await categoryService.getAll();
+    const { kind, group } = req.query;
+    if (kind === 'store') {
+      return res.status(200).json({ success: true, data: STORE_CATEGORIES });
+    }
+    const filter = {};
+    if (group) filter.group = group;
+    const categories = await categoryService.getAll(filter);
     res.status(200).json({ success: true, data: categories });
   } catch (error) { next(error); }
 };

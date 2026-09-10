@@ -49,12 +49,23 @@ class PriceComparisonService {
           logo: store.logo,
           city: store.city,
           state: store.state,
+          kind: store.kind,
+          storeCategory: store.storeCategory,
+          rating: store.rating,
+          reviewCount: store.reviewCount,
+          deliveryAvailable: !!store.deliveryAvailable,
+          deliveryFee: store.deliveryFee || 0,
+          pickupAvailable: store.pickupAvailable !== false,
+          phone: store.phone,
+          orderable: store.kind === 'merchant',
           distanceKm: dist ? dist.distanceKm : null,
           durationMin: dist ? dist.durationMin : null,
           distanceSource: dist ? dist.source : null,
         },
         currentPrice: priceEntry.price,
         previousPrice: priceEntry.previousPrice,
+        stock: priceEntry.stock,
+        inStock: priceEntry.inStock !== false,
         effectivePrice,
         priceDifference,
         promotion: promotion
@@ -128,9 +139,9 @@ class PriceComparisonService {
       price: data.price,
       previousPrice,
     };
-    if (data.inStock !== undefined) {
-      payload.inStock = data.inStock;
-    }
+    if (data.inStock !== undefined) payload.inStock = data.inStock;
+    if (data.stock !== undefined) payload.stock = data.stock;
+    if (data.sku !== undefined) payload.sku = data.sku;
 
     return await priceRepository.upsert(productId, storeId, payload);
   }

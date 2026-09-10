@@ -2,71 +2,103 @@ import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useAuth } from '../context/AuthContext';
+import { useUiFlags } from '../context/UiFlagsContext';
+import { colors } from '../theme/theme';
 
-import SplashScreen from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-import HomeDashboardScreen from '../screens/HomeDashboardScreen';
-import SearchGroceryScreen from '../screens/SearchGroceryScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
+import AuthScreen from '../screens/AuthScreen';
+import LocationPermissionScreen from '../screens/LocationPermissionScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SearchScreen from '../screens/SearchScreen';
+import SearchResultsScreen from '../screens/SearchResultsScreen';
+import CategoryBrowseScreen from '../screens/CategoryBrowseScreen';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
 import PriceComparisonScreen from '../screens/PriceComparisonScreen';
-import WeeklyPromotionsScreen from '../screens/WeeklyPromotionsScreen';
-import ShoppingListScreen from '../screens/ShoppingListScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import AdminStatesScreen from '../screens/AdminStatesScreen';
-import AdminStoresScreen from '../screens/AdminStoresScreen';
-import AddEditStoreScreen from '../screens/AddEditStoreScreen';
-import AdminProductListScreen from '../screens/AdminProductListScreen';
 import NearbyStoresScreen from '../screens/NearbyStoresScreen';
+import StoreProfileScreen from '../screens/StoreProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import BusinessLocationScreen from '../screens/BusinessLocationScreen';
+import ComingSoonScreen from '../screens/ComingSoonScreen';
 
-const AuthStack = createNativeStackNavigator();
-const AppStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function AuthNavigator() {
+function OrdersTab() {
   return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="Splash" component={SplashScreen} />
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
-    </AuthStack.Navigator>
+    <ComingSoonScreen
+      route={{ params: { title: 'Orders', note: 'Cart & orders arrive in Phase 3.', back: false } } as any}
+    />
   );
 }
 
-function MainNavigator() {
+function Tabs() {
   return (
-    <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="HomeDashboard" component={HomeDashboardScreen} />
-      <AppStack.Screen name="SearchGrocery" component={SearchGroceryScreen} />
-      <AppStack.Screen name="PriceComparison" component={PriceComparisonScreen} />
-      <AppStack.Screen name="NearbyStores" component={NearbyStoresScreen} />
-      <AppStack.Screen name="BusinessLocation" component={BusinessLocationScreen} />
-      <AppStack.Screen name="WeeklyPromotions" component={WeeklyPromotionsScreen} />
-      <AppStack.Screen name="ShoppingList" component={ShoppingListScreen} />
-      <AppStack.Screen name="Profile" component={ProfileScreen} />
-      <AppStack.Screen name="AdminStates" component={AdminStatesScreen} />
-      <AppStack.Screen name="AdminStores" component={AdminStoresScreen} />
-      <AppStack.Screen name="AddEditStore" component={AddEditStoreScreen} />
-      <AppStack.Screen name="AdminProductList" component={AdminProductListScreen} />
-    </AppStack.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: { borderTopColor: colors.border, height: 58, paddingBottom: 6, paddingTop: 6 },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+        tabBarIcon: ({ color, size, focused }) => {
+          const map: Record<string, string> = {
+            Home: focused ? 'home' : 'home-outline',
+            Search: focused ? 'search' : 'search-outline',
+            Nearby: focused ? 'map' : 'map-outline',
+            Orders: focused ? 'receipt' : 'receipt-outline',
+            Profile: focused ? 'person' : 'person-outline',
+          };
+          return <Ionicons name={map[route.name] as any} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Nearby" component={NearbyStoresScreen} />
+      <Tab.Screen name="Orders" component={OrdersTab} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
   );
 }
 
 export default function AppNavigator() {
   const { user, loading } = useAuth();
+  const { ready, onboarded, locationAsked } = useUiFlags();
 
-  if (loading) {
+  if (loading || !ready) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#E8F5E9' }}>
-        <ActivityIndicator size="large" color="#2E7D32" />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primaryLight }}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   return (
     <NavigationContainer>
-      {user ? <MainNavigator /> : <AuthNavigator />}
+      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+        {!onboarded ? (
+          <RootStack.Screen name="Onboarding" component={OnboardingScreen} />
+        ) : !user ? (
+          <RootStack.Screen name="Auth" component={AuthScreen} />
+        ) : !locationAsked ? (
+          <RootStack.Screen name="LocationPermission" component={LocationPermissionScreen} />
+        ) : (
+          <>
+            <RootStack.Screen name="Tabs" component={Tabs} />
+            <RootStack.Screen name="SearchResults" component={SearchResultsScreen} />
+            <RootStack.Screen name="CategoryBrowse" component={CategoryBrowseScreen} />
+            <RootStack.Screen name="ProductDetail" component={ProductDetailScreen} />
+            <RootStack.Screen name="PriceComparison" component={PriceComparisonScreen} />
+            <RootStack.Screen name="StoreProfile" component={StoreProfileScreen} />
+            <RootStack.Screen name="BusinessLocation" component={BusinessLocationScreen} />
+            <RootStack.Screen name="ComingSoon" component={ComingSoonScreen} />
+          </>
+        )}
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
