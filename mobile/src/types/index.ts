@@ -152,6 +152,54 @@ export interface ProductDetail {
   storeCount: number;
 }
 
+/** The merchant's own store (from GET /merchant/store). */
+export interface MerchantStore extends Store {
+  ownerId?: string;
+  minOrder?: number;
+  status?: 'active' | 'draft' | 'suspended';
+  views?: number;
+  stats?: {
+    productCount: number;
+    activePromoCount: number;
+    views: number;
+    rating: number;
+    reviewCount: number;
+  };
+}
+
+/** A row in the merchant's product-management list. */
+export interface MerchantProduct {
+  _id: string;
+  productName: string;
+  description?: string;
+  image?: string;
+  unit: string;
+  storeCategory?: string;
+  categoryId?: string;
+  category?: string;
+  attributes?: Record<string, any>;
+  status?: 'active' | 'inactive' | 'discontinued';
+  priceId?: string;
+  price: number;
+  previousPrice?: number | null;
+  stock?: number | null;
+  inStock?: boolean;
+  sku?: string;
+  ownProduct?: boolean;
+}
+
+export interface MerchantPromotion {
+  _id: string;
+  productId: { _id: string; productName: string; image?: string; unit?: string } | string;
+  storeId: string;
+  promotionTitle: string;
+  promotionType: string;
+  promotionPrice: number;
+  discountPercentage?: number;
+  startDate: string;
+  endDate: string;
+}
+
 export interface Promotion {
   _id: string;
   productId: any;

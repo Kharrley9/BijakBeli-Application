@@ -23,6 +23,12 @@ import StoreProfileScreen from '../screens/StoreProfileScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BusinessLocationScreen from '../screens/BusinessLocationScreen';
 import ComingSoonScreen from '../screens/ComingSoonScreen';
+import MerchantOnboardingScreen from '../screens/MerchantOnboardingScreen';
+import MerchantDashboardScreen from '../screens/MerchantDashboardScreen';
+import AddEditProductScreen from '../screens/AddEditProductScreen';
+import ProductManagementScreen from '../screens/ProductManagementScreen';
+import StorePromotionsScreen from '../screens/StorePromotionsScreen';
+import EditStoreScreen from '../screens/EditStoreScreen';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -96,6 +102,12 @@ export default function AppNavigator() {
             <RootStack.Screen name="StoreProfile" component={StoreProfileScreen} />
             <RootStack.Screen name="BusinessLocation" component={BusinessLocationScreen} />
             <RootStack.Screen name="ComingSoon" component={ComingSoonScreen} />
+            <RootStack.Screen name="MerchantOnboarding" component={MerchantOnboardingScreen} />
+            <RootStack.Screen name="MerchantDashboard" component={MerchantDashboardScreen} />
+            <RootStack.Screen name="AddEditProduct" component={AddEditProductScreen} />
+            <RootStack.Screen name="ProductManagement" component={ProductManagementScreen} />
+            <RootStack.Screen name="StorePromotions" component={StorePromotionsScreen} />
+            <RootStack.Screen name="EditStore" component={EditStoreScreen} />
           </>
         )}
       </RootStack.Navigator>

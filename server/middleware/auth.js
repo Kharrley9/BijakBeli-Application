@@ -50,4 +50,23 @@ const authorize = (...roles) => {
   };
 };
 
-module.exports = { protect, authorize };
+// Require the caller to own a merchant store. Attaches `req.store`.
+// Use after `protect`.
+const requireOwnStore = async (req, res, next) => {
+  try {
+    const Store = require('../models/Store');
+    const store = await Store.findOne({ ownerId: req.user._id });
+    if (!store) {
+      return res.status(404).json({
+        success: false,
+        message: 'You have not registered a store yet',
+      });
+    }
+    req.store = store;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { protect, authorize, requireOwnStore };

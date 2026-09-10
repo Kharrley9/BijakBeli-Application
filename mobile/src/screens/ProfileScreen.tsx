@@ -23,7 +23,7 @@ const MENU = [
 export default function ProfileScreen({ navigation }: any) {
   const { user, signOut } = useAuth();
   const initial = (user?.fullName || 'U').charAt(0).toUpperCase();
-  const isMerchant = user?.role === 'merchant' || user?.role === 'admin';
+  const isMerchant = user?.role === 'merchant';
 
   const logout = () =>
     Alert.alert('Log out', 'Are you sure?', [
@@ -74,10 +74,7 @@ export default function ProfileScreen({ navigation }: any) {
         <TouchableOpacity
           style={styles.merchantCta}
           onPress={() =>
-            navigation.navigate('ComingSoon', {
-              title: isMerchant ? 'My Store' : 'Register Your Store',
-              note: 'The trader dashboard arrives in Phase 2.',
-            })
+            navigation.navigate(isMerchant ? 'MerchantDashboard' : 'MerchantOnboarding')
           }
         >
           <Ionicons name="storefront" size={22} color={colors.white} />

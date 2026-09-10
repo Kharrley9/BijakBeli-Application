@@ -82,6 +82,28 @@ export const promotionService = {
   getBestDeals: (params?: Record<string, any>) => api.get('/promotions/best-deals', { params }),
 };
 
+export const merchantService = {
+  /** Register the caller's store (auto-approved, upgrades role to merchant). */
+  registerStore: (data: Record<string, unknown>) => api.post('/merchant/store', data),
+  getMyStore: () => api.get('/merchant/store'),
+  updateMyStore: (data: Record<string, unknown>) => api.put('/merchant/store', data),
+  /** Product categories for the store's group (or an explicit group). */
+  getCategories: (group?: string) =>
+    api.get('/merchant/categories', { params: group ? { group } : {} }),
+
+  listProducts: () => api.get('/merchant/products'),
+  createProduct: (data: Record<string, unknown>) => api.post('/merchant/products', data),
+  updateProduct: (id: string, data: Record<string, unknown>) =>
+    api.put(`/merchant/products/${id}`, data),
+  quickUpdatePrice: (id: string, data: { price?: number; stock?: number | null; inStock?: boolean }) =>
+    api.patch(`/merchant/products/${id}/price`, data),
+  deleteProduct: (id: string) => api.delete(`/merchant/products/${id}`),
+
+  listPromotions: () => api.get('/merchant/promotions'),
+  createPromotion: (data: Record<string, unknown>) => api.post('/merchant/promotions', data),
+  deletePromotion: (id: string) => api.delete(`/merchant/promotions/${id}`),
+};
+
 export const notificationService = {
   getAll: () => api.get('/notifications'),
   getUnreadCount: () => api.get('/notifications/unread-count'),

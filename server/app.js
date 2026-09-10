@@ -24,6 +24,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
+const merchantRoutes = require('./routes/merchantRoutes');
 
 // Connect to database
 connectDB();
@@ -69,6 +70,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/merchant', merchantRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
