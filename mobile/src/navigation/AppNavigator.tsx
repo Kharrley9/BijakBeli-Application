@@ -29,17 +29,14 @@ import AddEditProductScreen from '../screens/AddEditProductScreen';
 import ProductManagementScreen from '../screens/ProductManagementScreen';
 import StorePromotionsScreen from '../screens/StorePromotionsScreen';
 import EditStoreScreen from '../screens/EditStoreScreen';
+import CartScreen from '../screens/CartScreen';
+import CheckoutScreen from '../screens/CheckoutScreen';
+import OrderTrackingScreen from '../screens/OrderTrackingScreen';
+import OrdersScreen from '../screens/OrdersScreen';
+import MerchantOrderScreen from '../screens/MerchantOrderScreen';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-function OrdersTab() {
-  return (
-    <ComingSoonScreen
-      route={{ params: { title: 'Orders', note: 'Cart & orders arrive in Phase 3.', back: false } } as any}
-    />
-  );
-}
 
 function Tabs() {
   return (
@@ -65,7 +62,7 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Nearby" component={NearbyStoresScreen} />
-      <Tab.Screen name="Orders" component={OrdersTab} />
+      <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -108,6 +105,10 @@ export default function AppNavigator() {
             <RootStack.Screen name="ProductManagement" component={ProductManagementScreen} />
             <RootStack.Screen name="StorePromotions" component={StorePromotionsScreen} />
             <RootStack.Screen name="EditStore" component={EditStoreScreen} />
+            <RootStack.Screen name="Cart" component={CartScreen} />
+            <RootStack.Screen name="Checkout" component={CheckoutScreen} />
+            <RootStack.Screen name="OrderTracking" component={OrderTrackingScreen} />
+            <RootStack.Screen name="MerchantOrder" component={MerchantOrderScreen} />
           </>
         )}
       </RootStack.Navigator>

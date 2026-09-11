@@ -82,6 +82,15 @@ export const promotionService = {
   getBestDeals: (params?: Record<string, any>) => api.get('/promotions/best-deals', { params }),
 };
 
+export const orderService = {
+  /** carts: [{ storeId, fulfilment, items:[{productId, qty}], deliveryAddress?, contactPhone?, notes? }] */
+  place: (carts: Record<string, unknown>[]) => api.post('/orders', { carts }),
+  myOrders: (params: { status?: 'active' | 'completed' | 'cancelled' } = {}) =>
+    api.get('/orders', { params }),
+  getOrder: (id: string) => api.get(`/orders/${id}`),
+  cancel: (id: string, note?: string) => api.put(`/orders/${id}/cancel`, { note }),
+};
+
 export const merchantService = {
   /** Register the caller's store (auto-approved, upgrades role to merchant). */
   registerStore: (data: Record<string, unknown>) => api.post('/merchant/store', data),
@@ -102,6 +111,10 @@ export const merchantService = {
   listPromotions: () => api.get('/merchant/promotions'),
   createPromotion: (data: Record<string, unknown>) => api.post('/merchant/promotions', data),
   deletePromotion: (id: string) => api.delete(`/merchant/promotions/${id}`),
+
+  listOrders: (params: { status?: string } = {}) => api.get('/merchant/orders', { params }),
+  updateOrderStatus: (id: string, status: string, note?: string) =>
+    api.put(`/merchant/orders/${id}/status`, { status, note }),
 };
 
 export const notificationService = {

@@ -50,6 +50,26 @@ export const POPULAR_SEARCHES = [
   'Beras', 'Minyak Masak', 'Milo', 'Engine Oil', 'LED Bulb', 'Telur',
 ];
 
+export const ORDER_STATUS_LABELS: Record<string, string> = {
+  pending: 'Pending',
+  confirmed: 'Confirmed',
+  preparing: 'Preparing',
+  packing: 'Packing',
+  ready: 'Ready for pickup',
+  on_the_way: 'On the way',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+};
+
+// Ordered progression a merchant advances an order through, by fulfilment type
+// (must match server/config/constants.js ORDER_FLOW).
+export const ORDER_FLOW: Record<'pickup' | 'delivery', string[]> = {
+  pickup: ['pending', 'confirmed', 'preparing', 'packing', 'ready', 'completed'],
+  delivery: ['pending', 'confirmed', 'preparing', 'packing', 'on_the_way', 'completed'],
+};
+
+export const BUYER_CANCELLABLE_STATUSES = ['pending', 'confirmed'];
+
 export const ONBOARDING_SLIDES = [
   {
     title: 'Compare Prices',

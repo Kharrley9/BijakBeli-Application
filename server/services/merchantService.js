@@ -5,6 +5,7 @@ const Category = require('../models/Category');
 const Promotion = require('../models/Promotion');
 const User = require('../models/User');
 const promotionService = require('./promotionService');
+const orderService = require('./orderService');
 const {
   STORE_CATEGORY_SLUGS,
   STORE_CATEGORIES,
@@ -105,27 +106,6 @@ class MerchantService {
     }
 
     return store;
-  }
-
-  async getMyStore(store) {
-    const obj = store.toObject ? store.toObject() : store;
-    const [productCount, activePromoCount] = await Promise.all([
-      Product.countDocuments({ ownerId: store.ownerId, status: 'active' }),
-      Promotion.countDocuments({
-        storeId: store._id,
-        endDate: { $gte: new Date() },
-      }),
-    ]);
-    return {
-      ...obj,
-      stats: {
-        productCount,
-        activePromoCount,
-        views: obj.views || 0,
-        rating: obj.rating || 0,
-        reviewCount: obj.reviewCount || 0,
-      },
-    };
   }
 
   async updateMyStore(store, body = {}) {
@@ -383,6 +363,43 @@ class MerchantService {
       startDate: start,
       endDate: end,
     });
+  }
+
+  // ---- orders ----
+
+  async listOrders(store, filter = {}) {
+    return orderService.getStoreOrders(store._id, filter);
+  }
+
+  async updateOrderStatus(store, orderId, status, note) {
+    if (!status) throw badRequest('A status is required');
+    return orderService.advanceStatus(store, orderId, status, note);
+  }
+
+  async getMyStore(store) {
+    const obj = store.toObject ? store.toObject() : store;
+    const [productCount, activePromoCount, openOrders] = await Promise.all([
+      Product.countDocuments({ ownerId: store.ownerId, status: 'active' }),
+      Promotion.countDocuments({
+        storeId: store._id,
+        endDate: { $gte: new Date() },
+      }),
+      orderService.getOrderCount({
+        storeId: store._id,
+        status: { $nin: ['completed', 'cancelled'] },
+      }),
+    ]);
+    return {
+      ...obj,
+      stats: {
+        productCount,
+        activePromoCount,
+        openOrders,
+        views: obj.views || 0,
+        rating: obj.rating || 0,
+        reviewCount: obj.reviewCount || 0,
+      },
+    };
   }
 
   async deletePromotion(store, promotionId) {

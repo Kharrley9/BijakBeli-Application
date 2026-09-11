@@ -161,6 +161,7 @@ export interface MerchantStore extends Store {
   stats?: {
     productCount: number;
     activePromoCount: number;
+    openOrders: number;
     views: number;
     rating: number;
     reviewCount: number;
@@ -198,6 +199,84 @@ export interface MerchantPromotion {
   discountPercentage?: number;
   startDate: string;
   endDate: string;
+}
+
+export type Fulfilment = 'pickup' | 'delivery';
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'preparing'
+  | 'packing'
+  | 'ready'
+  | 'on_the_way'
+  | 'completed'
+  | 'cancelled';
+
+export interface CartLine {
+  productId: string;
+  storeId: string;
+  storeName: string;
+  storeKind?: StoreKind;
+  name: string;
+  unit?: string;
+  unitPrice: number;
+  qty: number;
+  image?: string;
+  /** max orderable qty; null/undefined = unknown */
+  stock?: number | null;
+  deliveryAvailable?: boolean;
+  deliveryFee?: number;
+  pickupAvailable?: boolean;
+}
+
+export interface OrderItem {
+  productId: string;
+  name: string;
+  unit?: string;
+  unitPrice: number;
+  qty: number;
+  lineTotal: number;
+}
+
+export interface StatusEvent {
+  status: OrderStatus;
+  at: string;
+  note?: string;
+}
+
+export interface OrderStoreSummary {
+  _id: string;
+  storeName: string;
+  logo?: string;
+  kind?: StoreKind;
+  phone?: string;
+  city?: string;
+  state?: string;
+  deliveryFee?: number;
+  deliveryAvailable?: boolean;
+  pickupAvailable?: boolean;
+  location?: { coordinates: number[] };
+  ownerId?: string;
+}
+
+export interface Order {
+  _id: string;
+  orderNumber: string;
+  userId: string | { _id: string; fullName: string; phone?: string; email?: string };
+  storeId: string | OrderStoreSummary;
+  items: OrderItem[];
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
+  fulfilment: Fulfilment;
+  deliveryAddress?: { label?: string; line?: string; city?: string; state?: string };
+  contactPhone?: string;
+  paymentMethod: 'cod' | 'pay_at_pickup';
+  status: OrderStatus;
+  statusHistory: StatusEvent[];
+  cancelledBy?: 'buyer' | 'merchant' | null;
+  notes?: string;
+  createdAt: string;
 }
 
 export interface Promotion {

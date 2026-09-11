@@ -13,7 +13,7 @@ import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
 
 const MENU = [
-  { key: 'orders', label: 'Order History', icon: 'receipt-outline', screen: 'ComingSoon', params: { title: 'Order History', note: 'Ordering arrives in Phase 3.' } },
+  { key: 'orders', label: 'Order History', icon: 'receipt-outline', screen: 'Tabs', params: { screen: 'Orders' } },
   { key: 'alerts', label: 'Price Alerts', icon: 'notifications-outline', screen: 'ComingSoon', params: { title: 'Price Alerts', note: 'Price-drop alerts arrive in Phase 4.' } },
   { key: 'favs', label: 'Favourite Stores', icon: 'heart-outline', screen: 'ComingSoon', params: { title: 'Favourite Stores', note: 'Favourites arrive in Phase 4.' } },
   { key: 'reviews', label: 'My Reviews', icon: 'star-outline', screen: 'ComingSoon', params: { title: 'My Reviews', note: 'Reviews arrive in Phase 4.' } },

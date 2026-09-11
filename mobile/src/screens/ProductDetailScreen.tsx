@@ -12,6 +12,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
+import { useCart } from '../context/CartContext';
 import { productService } from '../services/dataService';
 import { ProductDetail } from '../types';
 import AppHeader from '../components/AppHeader';
@@ -22,6 +23,7 @@ import OriginToggle from '../components/OriginToggle';
 export default function ProductDetailScreen({ route, navigation }: any) {
   const { id } = route.params || {};
   const { origin, originParams } = useLocation();
+  const { addItem, count } = useCart();
   const [data, setData] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -63,9 +65,42 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   ).slice(0, 8);
   const orderableRow = rows.find((r) => r.store.orderable && (r.inStock ?? true));
 
+  const addToCart = () => {
+    if (!orderableRow) return;
+    addItem({
+      productId: id,
+      storeId: orderableRow.store._id,
+      storeName: orderableRow.store.storeName,
+      storeKind: orderableRow.store.kind,
+      name: product.productName,
+      unit: product.unit,
+      unitPrice: orderableRow.effectivePrice,
+      image: product.image,
+      stock: orderableRow.stock,
+      deliveryAvailable: orderableRow.store.deliveryAvailable,
+      deliveryFee: orderableRow.store.deliveryFee,
+      pickupAvailable: orderableRow.store.pickupAvailable,
+    });
+    navigation.navigate('Cart');
+  };
+
   return (
     <View style={styles.safe}>
-      <AppHeader title={product.productName} />
+      <AppHeader
+        title={product.productName}
+        rightIcon="cart-outline"
+        onRightPress={() => navigation.navigate('Cart')}
+        right={
+          count > 0 ? (
+            <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.cartBtn}>
+              <Ionicons name="cart-outline" size={20} color={colors.text} />
+              <View style={styles.cartBadge}>
+                <Text style={styles.cartBadgeText}>{count}</Text>
+              </View>
+            </TouchableOpacity>
+          ) : undefined
+        }
+      />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.hero}>
           {product.image ? (
@@ -152,14 +187,11 @@ export default function ProductDetailScreen({ route, navigation }: any) {
         <TouchableOpacity
           style={[commonStyles.primaryButton, styles.actionBtn, !orderableRow && { opacity: 0.5 }]}
           disabled={!orderableRow}
-          onPress={() =>
-            orderableRow &&
-            navigation.navigate('StoreProfile', { id: orderableRow.store._id })
-          }
+          onPress={addToCart}
         >
           <Ionicons name="cart-outline" size={18} color={colors.white} />
           <Text style={commonStyles.primaryButtonText}>
-            {orderableRow ? 'Order from Trader' : 'Not orderable'}
+            {orderableRow ? 'Add to Cart' : 'Not orderable'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -243,4 +275,18 @@ const styles = StyleSheet.create({
   },
   outlineBtn: { borderWidth: 1, borderColor: colors.primary, borderRadius: radius.md },
   outlineText: { color: colors.primary, fontWeight: '700', fontSize: fontSize.md },
+  cartBtn: { padding: 2 },
+  cartBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -6,
+    backgroundColor: colors.discount,
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+  },
+  cartBadgeText: { color: colors.white, fontSize: 9, fontWeight: '800' },
 });

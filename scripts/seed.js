@@ -447,6 +447,53 @@ async function seed() {
   await Promotion.insertMany(promoDocs);
   console.log(`🎉 ${promoDocs.length} promotions`);
 
+  // ---- DEMO orders (buyer = customer/khalil, against the trader stores) ----
+  function itemsFor(storeName, n) {
+    const rows = traderPriceBulk.filter((r) => String(r.storeId) === String(traderByName[storeName]._id));
+    return rows.slice(0, n).map((r) => {
+      const prod = traderProducts.find((p) => String(p._id) === String(r.productId));
+      const qty = Math.floor(rnd(1, 3));
+      return { productId: r.productId, name: prod.productName, unit: prod.unit, unitPrice: r.price, qty, lineTotal: parseFloat((r.price * qty).toFixed(2)) };
+    });
+  }
+  function buildOrder(storeName, fulfilment, status, itemCount, notes) {
+    const store = traderByName[storeName];
+    const items = itemsFor(storeName, itemCount);
+    const subtotal = parseFloat(items.reduce((s, i) => s + i.lineTotal, 0).toFixed(2));
+    const deliveryFee = fulfilment === 'delivery' ? store.deliveryFee || 0 : 0;
+    const flow = fulfilment === 'delivery'
+      ? ['pending', 'confirmed', 'preparing', 'packing', 'on_the_way', 'completed']
+      : ['pending', 'confirmed', 'preparing', 'packing', 'ready', 'completed'];
+    const upTo = status === 'cancelled' ? ['pending'] : flow.slice(0, flow.indexOf(status) + 1);
+    const statusHistory = upTo.map((s, i) => ({ status: s, at: days(-7 + i) }));
+    if (status === 'cancelled') statusHistory.push({ status: 'cancelled', at: days(-6) });
+    return {
+      orderNumber: `BB-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+      userId: customer._id,
+      storeId: store._id,
+      items,
+      subtotal,
+      deliveryFee,
+      total: parseFloat((subtotal + deliveryFee).toFixed(2)),
+      fulfilment,
+      deliveryAddress: fulfilment === 'delivery' ? { label: 'Jalan Rahmat, 83000 Batu Pahat, Johor', line: 'Jalan Rahmat, 83000 Batu Pahat, Johor', city: 'Batu Pahat', state: 'Johor' } : undefined,
+      contactPhone: customer.phone || '017-2345678',
+      paymentMethod: fulfilment === 'delivery' ? 'cod' : 'pay_at_pickup',
+      status,
+      statusHistory,
+      cancelledBy: status === 'cancelled' ? 'buyer' : undefined,
+      notes,
+      createdAt: days(-7),
+    };
+  }
+  const orderDocs = [
+    buildOrder('AutoCare Batu Pahat', 'delivery', 'on_the_way', 2, 'Call on arrival'),
+    buildOrder('Kedai Runcit Pak Mat', 'pickup', 'completed', 3),
+    buildOrder('BP Hardware & Tools', 'pickup', 'cancelled', 1),
+  ].filter((o) => o.items.length > 0);
+  await Order.insertMany(orderDocs);
+  console.log(`🧾 ${orderDocs.length} demo orders`);
+
   // ---- DEMO buyer extras ----
   const m = now.getMonth() + 1;
   const y = now.getFullYear();

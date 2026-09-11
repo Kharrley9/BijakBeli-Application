@@ -47,6 +47,11 @@ export default function MerchantDashboardScreen({ navigation }: any) {
   const actions = [
     { icon: 'add-circle-outline', label: 'Add Product', to: () => navigation.navigate('AddEditProduct', {}) },
     { icon: 'cube-outline', label: 'Manage Products', to: () => navigation.navigate('ProductManagement') },
+    {
+      icon: 'receipt-outline',
+      label: stats?.openOrders ? `Orders (${stats.openOrders})` : 'Orders',
+      to: () => navigation.navigate('Tabs', { screen: 'Orders' }),
+    },
     { icon: 'pricetag-outline', label: 'Promotions', to: () => navigation.navigate('StorePromotions') },
     { icon: 'create-outline', label: 'Edit Store', to: () => navigation.navigate('EditStore') },
   ];

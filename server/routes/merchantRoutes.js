@@ -24,4 +24,7 @@ router.get('/promotions', requireOwnStore, ctrl.listPromotions);
 router.post('/promotions', requireOwnStore, ctrl.createPromotion);
 router.delete('/promotions/:id', requireOwnStore, ctrl.deletePromotion);
 
+router.get('/orders', requireOwnStore, ctrl.listOrders);
+router.put('/orders/:id/status', requireOwnStore, ctrl.updateOrderStatus);
+
 module.exports = router;
