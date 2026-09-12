@@ -14,7 +14,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
 import { useCart } from '../context/CartContext';
-import { storeService } from '../services/dataService';
+import { storeService, favoriteStoreService } from '../services/dataService';
 import { Store } from '../types';
 import { categoryLabel } from '../constants';
 import AppHeader from '../components/AppHeader';
@@ -28,6 +28,7 @@ export default function StoreProfileScreen({ route, navigation }: any) {
   const { addItem, groupFor } = useCart();
   const [store, setStore] = useState<Store | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFav, setIsFav] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -39,9 +40,23 @@ export default function StoreProfileScreen({ route, navigation }: any) {
     } finally {
       setLoading(false);
     }
+    favoriteStoreService
+      .check(id)
+      .then((r: any) => setIsFav(!!r.data?.isFavorite))
+      .catch(() => {});
   }, [id, origin?.lat, origin?.lng]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
+
+  const toggleFavorite = async () => {
+    setIsFav((v) => !v); // optimistic
+    try {
+      const res: any = await favoriteStoreService.toggle(id);
+      setIsFav(!!res.data?.isFavorite);
+    } catch {
+      setIsFav((v) => !v); // revert
+    }
+  };
 
   if (loading) {
     return (
@@ -68,7 +83,11 @@ export default function StoreProfileScreen({ route, navigation }: any) {
 
   return (
     <View style={styles.safe}>
-      <AppHeader title={store.storeName} />
+      <AppHeader
+        title={store.storeName}
+        rightIcon={isFav ? 'heart' : 'heart-outline'}
+        onRightPress={toggleFavorite}
+      />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.banner}>
           {store.bannerImage || store.logo ? (
@@ -93,7 +112,11 @@ export default function StoreProfileScreen({ route, navigation }: any) {
             {categoryLabel(store.storeCategory)} · {store.city || store.branch || store.state}
           </Text>
           <View style={styles.metaRow}>
-            <RatingStars rating={store.rating || 0} count={store.reviewCount} size={13} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('StoreReviews', { storeId: id, storeName: store.storeName })}
+            >
+              <RatingStars rating={store.rating || 0} count={store.reviewCount} size={13} />
+            </TouchableOpacity>
             {store.distanceKm != null && (
               <DistanceBadge distanceKm={store.distanceKm} durationMin={store.durationMin} />
             )}

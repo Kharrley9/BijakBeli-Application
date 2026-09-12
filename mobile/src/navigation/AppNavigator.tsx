@@ -34,6 +34,13 @@ import CheckoutScreen from '../screens/CheckoutScreen';
 import OrderTrackingScreen from '../screens/OrderTrackingScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import MerchantOrderScreen from '../screens/MerchantOrderScreen';
+import MyReviewsScreen from '../screens/MyReviewsScreen';
+import WriteReviewScreen from '../screens/WriteReviewScreen';
+import StoreReviewsScreen from '../screens/StoreReviewsScreen';
+import PriceAlertsScreen from '../screens/PriceAlertsScreen';
+import FavouriteStoresScreen from '../screens/FavouriteStoresScreen';
+import StoreAnalyticsScreen from '../screens/StoreAnalyticsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -109,6 +116,13 @@ export default function AppNavigator() {
             <RootStack.Screen name="Checkout" component={CheckoutScreen} />
             <RootStack.Screen name="OrderTracking" component={OrderTrackingScreen} />
             <RootStack.Screen name="MerchantOrder" component={MerchantOrderScreen} />
+            <RootStack.Screen name="MyReviews" component={MyReviewsScreen} />
+            <RootStack.Screen name="WriteReview" component={WriteReviewScreen} />
+            <RootStack.Screen name="StoreReviews" component={StoreReviewsScreen} />
+            <RootStack.Screen name="PriceAlerts" component={PriceAlertsScreen} />
+            <RootStack.Screen name="FavouriteStores" component={FavouriteStoresScreen} />
+            <RootStack.Screen name="StoreAnalytics" component={StoreAnalyticsScreen} />
+            <RootStack.Screen name="Settings" component={SettingsScreen} />
           </>
         )}
       </RootStack.Navigator>

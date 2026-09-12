@@ -85,6 +85,13 @@ exports.deletePromotion = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+exports.getAnalytics = async (req, res, next) => {
+  try {
+    const data = await merchantService.getAnalytics(req.store, req.query.days);
+    res.status(200).json({ success: true, data });
+  } catch (error) { next(error); }
+};
+
 exports.listOrders = async (req, res, next) => {
   try {
     const orders = await merchantService.listOrders(req.store, { status: req.query.status });

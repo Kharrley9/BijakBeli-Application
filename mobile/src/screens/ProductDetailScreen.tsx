@@ -7,13 +7,16 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Modal,
+  TextInput,
+  Alert,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
 import { useCart } from '../context/CartContext';
-import { productService } from '../services/dataService';
+import { productService, priceAlertService } from '../services/dataService';
 import { ProductDetail } from '../types';
 import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
@@ -26,6 +29,9 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   const { addItem, count } = useCart();
   const [data, setData] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [targetPrice, setTargetPrice] = useState('');
+  const [alertBusy, setAlertBusy] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -84,6 +90,28 @@ export default function ProductDetailScreen({ route, navigation }: any) {
     navigation.navigate('Cart');
   };
 
+  const openAlert = () => {
+    setTargetPrice(data.lowestPrice != null ? data.lowestPrice.toFixed(2) : '');
+    setAlertOpen(true);
+  };
+  const saveAlert = async () => {
+    const t = Number(targetPrice);
+    if (!Number.isFinite(t) || t <= 0) {
+      Alert.alert('Invalid price', 'Enter a valid target price.');
+      return;
+    }
+    setAlertBusy(true);
+    try {
+      await priceAlertService.setAlert(id, t);
+      setAlertOpen(false);
+      Alert.alert('Alert set', `We'll notify you when the price drops to RM${t.toFixed(2)} or lower.`);
+    } catch (e: any) {
+      Alert.alert('Could not set alert', e?.message || 'Please try again.');
+    } finally {
+      setAlertBusy(false);
+    }
+  };
+
   return (
     <View style={styles.safe}>
       <AppHeader
@@ -124,6 +152,11 @@ export default function ProductDetailScreen({ route, navigation }: any) {
             <Text style={styles.priceStores}>{data.storeCount} stores</Text>
           </View>
         </View>
+
+        <TouchableOpacity style={styles.alertRow} onPress={openAlert}>
+          <Ionicons name="notifications-outline" size={16} color={colors.primary} />
+          <Text style={styles.alertRowText}>Notify me when the price drops</Text>
+        </TouchableOpacity>
 
         <OriginToggle />
 
@@ -195,6 +228,38 @@ export default function ProductDetailScreen({ route, navigation }: any) {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <Modal visible={alertOpen} transparent animationType="fade" onRequestClose={() => setAlertOpen(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalSheet}>
+            <Text style={styles.modalTitle}>Notify me when price drops</Text>
+            <Text style={styles.modalLabel}>Target price (RM)</Text>
+            <TextInput
+              style={styles.modalInput}
+              value={targetPrice}
+              onChangeText={setTargetPrice}
+              keyboardType="decimal-pad"
+              autoFocus
+            />
+            <View style={styles.modalRow}>
+              <TouchableOpacity style={styles.modalCancel} onPress={() => setAlertOpen(false)}>
+                <Text style={styles.modalCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[commonStyles.primaryButton, { flex: 1 }, alertBusy && { opacity: 0.7 }]}
+                onPress={saveAlert}
+                disabled={alertBusy}
+              >
+                {alertBusy ? (
+                  <ActivityIndicator color={colors.white} />
+                ) : (
+                  <Text style={commonStyles.primaryButtonText}>Set Alert</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -289,4 +354,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
   },
   cartBadgeText: { color: colors.white, fontSize: 9, fontWeight: '800' },
+  alertRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  alertRowText: { color: colors.primary, fontWeight: '600', fontSize: fontSize.sm },
+  modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', padding: spacing.xl },
+  modalSheet: { backgroundColor: colors.white, borderRadius: radius.lg, padding: spacing.lg },
+  modalTitle: { fontSize: fontSize.md, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
+  modalLabel: { fontSize: fontSize.xs, color: colors.textMuted, marginBottom: 4 },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    fontSize: fontSize.md,
+    color: colors.text,
+  },
+  modalRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.lg },
+  modalCancel: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  modalCancelText: { color: colors.textSecondary, fontWeight: '700' },
 });

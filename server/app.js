@@ -25,6 +25,9 @@ const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
 const merchantRoutes = require('./routes/merchantRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const priceAlertRoutes = require('./routes/priceAlertRoutes');
+const favoriteStoreRoutes = require('./routes/favoriteStoreRoutes');
 
 // Connect to database
 connectDB();
@@ -71,6 +74,9 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/merchant', merchantRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/price-alerts', priceAlertRoutes);
+app.use('/api/favorite-stores', favoriteStoreRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

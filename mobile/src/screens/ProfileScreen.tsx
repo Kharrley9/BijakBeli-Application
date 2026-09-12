@@ -14,10 +14,10 @@ import { useAuth } from '../context/AuthContext';
 
 const MENU = [
   { key: 'orders', label: 'Order History', icon: 'receipt-outline', screen: 'Tabs', params: { screen: 'Orders' } },
-  { key: 'alerts', label: 'Price Alerts', icon: 'notifications-outline', screen: 'ComingSoon', params: { title: 'Price Alerts', note: 'Price-drop alerts arrive in Phase 4.' } },
-  { key: 'favs', label: 'Favourite Stores', icon: 'heart-outline', screen: 'ComingSoon', params: { title: 'Favourite Stores', note: 'Favourites arrive in Phase 4.' } },
-  { key: 'reviews', label: 'My Reviews', icon: 'star-outline', screen: 'ComingSoon', params: { title: 'My Reviews', note: 'Reviews arrive in Phase 4.' } },
-  { key: 'settings', label: 'Settings', icon: 'settings-outline', screen: 'ComingSoon', params: { title: 'Settings' } },
+  { key: 'alerts', label: 'Price Alerts', icon: 'notifications-outline', screen: 'PriceAlerts', params: {} },
+  { key: 'favs', label: 'Favourite Stores', icon: 'heart-outline', screen: 'FavouriteStores', params: {} },
+  { key: 'reviews', label: 'My Reviews', icon: 'star-outline', screen: 'MyReviews', params: {} },
+  { key: 'settings', label: 'Settings', icon: 'settings-outline', screen: 'Settings', params: {} },
 ];
 
 export default function ProfileScreen({ navigation }: any) {

@@ -279,6 +279,46 @@ export interface Order {
   createdAt: string;
 }
 
+export interface Review {
+  _id: string;
+  userId: string | { _id: string; fullName: string; profilePicture?: string };
+  storeId: string | { _id: string; storeName: string; logo?: string; storeCategory?: string };
+  orderId: string | { _id: string; orderNumber: string };
+  rating: number;
+  comment?: string;
+  createdAt: string;
+}
+
+export interface ReviewablePurchase extends Order {}
+
+export interface PriceAlert {
+  _id: string;
+  productId: string | { _id: string; productName: string; image?: string; unit?: string; storeCategory?: string };
+  targetPrice: number;
+  active: boolean;
+  triggeredAt?: string | null;
+  triggeredPrice?: number | null;
+}
+
+export interface FavoriteStoreEntry {
+  _id: string;
+  storeId: Store;
+}
+
+export interface StoreAnalytics {
+  rangeDays: number;
+  totalOrders: number;
+  completedOrders: number;
+  cancelledOrders: number;
+  totalRevenue: number;
+  avgOrderValue: number;
+  daily: { date: string; revenue: number; orders: number }[];
+  topProducts: { name: string; qty: number; revenue: number }[];
+  views: number;
+  rating: number;
+  reviewCount: number;
+}
+
 export interface Promotion {
   _id: string;
   productId: any;

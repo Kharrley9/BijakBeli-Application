@@ -3,9 +3,11 @@ const Product = require('../models/Product');
 const Price = require('../models/Price');
 const Category = require('../models/Category');
 const Promotion = require('../models/Promotion');
+const Order = require('../models/Order');
 const User = require('../models/User');
 const promotionService = require('./promotionService');
 const orderService = require('./orderService');
+const priceAlertService = require('./priceAlertService');
 const {
   STORE_CATEGORY_SLUGS,
   STORE_CATEGORIES,
@@ -287,6 +289,9 @@ class MerchantService {
       );
     }
 
+    if (priceUpdate.price != null) {
+      priceAlertService.checkAndNotify(productId, store.storeName, priceUpdate.price).catch(() => {});
+    }
     return { product, price: priceDoc };
   }
 
@@ -310,6 +315,9 @@ class MerchantService {
     if (body.inStock !== undefined) priceDoc.inStock = !!body.inStock;
     priceDoc.lastUpdated = new Date();
     await priceDoc.save();
+    if (body.price !== undefined) {
+      priceAlertService.checkAndNotify(productId, store.storeName, priceDoc.price).catch(() => {});
+    }
     return priceDoc;
   }
 
@@ -374,6 +382,65 @@ class MerchantService {
   async updateOrderStatus(store, orderId, status, note) {
     if (!status) throw badRequest('A status is required');
     return orderService.advanceStatus(store, orderId, status, note);
+  }
+
+  // ---- analytics ----
+
+  async getAnalytics(store, days = 30) {
+    const span = Math.min(90, Math.max(7, parseInt(days) || 30));
+    const since = new Date(Date.now() - span * 864e5);
+    const revenueStatuses = ['completed', 'on_the_way', 'ready', 'packing', 'preparing', 'confirmed'];
+
+    const orders = await Order.find({ storeId: store._id, createdAt: { $gte: since } }).lean();
+
+    const totalOrders = orders.length;
+    const completedOrders = orders.filter((o) => o.status === 'completed');
+    const cancelledOrders = orders.filter((o) => o.status === 'cancelled');
+    const totalRevenue = completedOrders.reduce((s, o) => s + o.total, 0);
+    const avgOrderValue = completedOrders.length ? totalRevenue / completedOrders.length : 0;
+
+    // Daily series (last `span` days, oldest first).
+    const dayKey = (d) => new Date(d).toISOString().slice(0, 10);
+    const byDay = new Map();
+    for (let i = span - 1; i >= 0; i--) {
+      byDay.set(dayKey(new Date(Date.now() - i * 864e5)), { date: dayKey(new Date(Date.now() - i * 864e5)), revenue: 0, orders: 0 });
+    }
+    for (const o of orders) {
+      const key = dayKey(o.createdAt);
+      if (byDay.has(key)) {
+        const row = byDay.get(key);
+        row.orders += 1;
+        if (revenueStatuses.includes(o.status)) row.revenue += o.total;
+      }
+    }
+
+    // Top products by revenue.
+    const productTotals = new Map();
+    for (const o of orders) {
+      if (o.status === 'cancelled') continue;
+      for (const item of o.items) {
+        const key = String(item.productId);
+        const cur = productTotals.get(key) || { name: item.name, qty: 0, revenue: 0 };
+        cur.qty += item.qty;
+        cur.revenue += item.lineTotal;
+        productTotals.set(key, cur);
+      }
+    }
+    const topProducts = [...productTotals.values()].sort((a, b) => b.revenue - a.revenue).slice(0, 5);
+
+    return {
+      rangeDays: span,
+      totalOrders,
+      completedOrders: completedOrders.length,
+      cancelledOrders: cancelledOrders.length,
+      totalRevenue: Math.round(totalRevenue * 100) / 100,
+      avgOrderValue: Math.round(avgOrderValue * 100) / 100,
+      daily: [...byDay.values()],
+      topProducts,
+      views: store.views || 0,
+      rating: store.rating || 0,
+      reviewCount: store.reviewCount || 0,
+    };
   }
 
   async getMyStore(store) {

@@ -53,6 +53,7 @@ export default function MerchantDashboardScreen({ navigation }: any) {
       to: () => navigation.navigate('Tabs', { screen: 'Orders' }),
     },
     { icon: 'pricetag-outline', label: 'Promotions', to: () => navigation.navigate('StorePromotions') },
+    { icon: 'bar-chart-outline', label: 'Analytics', to: () => navigation.navigate('StoreAnalytics') },
     { icon: 'create-outline', label: 'Edit Store', to: () => navigation.navigate('EditStore') },
   ];
 

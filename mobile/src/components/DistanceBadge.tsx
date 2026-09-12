@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
+import { getPrefs } from '../utils/prefs';
 
 interface Props {
   distanceKm?: number | null;
@@ -14,6 +15,10 @@ interface Props {
 
 export function formatKm(km?: number | null): string {
   if (km == null) return '';
+  if (getPrefs().distanceUnit === 'mi') {
+    const mi = km * 0.621371;
+    return mi < 10 ? `${mi.toFixed(1)} mi` : `${Math.round(mi)} mi`;
+  }
   return km < 10 ? `${km.toFixed(1)} km` : `${Math.round(km)} km`;
 }
 

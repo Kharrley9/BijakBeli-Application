@@ -115,6 +115,30 @@ export const merchantService = {
   listOrders: (params: { status?: string } = {}) => api.get('/merchant/orders', { params }),
   updateOrderStatus: (id: string, status: string, note?: string) =>
     api.put(`/merchant/orders/${id}/status`, { status, note }),
+
+  getAnalytics: (days = 30) => api.get('/merchant/analytics', { params: { days } }),
+};
+
+export const reviewService = {
+  listForStore: (storeId: string, params: { page?: number; limit?: number } = {}) =>
+    api.get(`/reviews/store/${storeId}`, { params }),
+  listMine: () => api.get('/reviews/mine'),
+  getReviewableOrders: () => api.get('/reviews/reviewable'),
+  create: (data: { orderId: string; rating: number; comment?: string }) => api.post('/reviews', data),
+  remove: (id: string) => api.delete(`/reviews/${id}`),
+};
+
+export const priceAlertService = {
+  listMine: () => api.get('/price-alerts'),
+  setAlert: (productId: string, targetPrice: number) =>
+    api.post('/price-alerts', { productId, targetPrice }),
+  remove: (productId: string) => api.delete(`/price-alerts/${productId}`),
+};
+
+export const favoriteStoreService = {
+  listMine: () => api.get('/favorite-stores'),
+  toggle: (storeId: string) => api.post(`/favorite-stores/${storeId}`),
+  check: (storeId: string) => api.get(`/favorite-stores/${storeId}/check`),
 };
 
 export const notificationService = {

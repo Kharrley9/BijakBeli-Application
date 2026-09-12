@@ -2,6 +2,7 @@ const priceRepository = require('../repositories/priceRepository');
 const promotionRepository = require('../repositories/promotionRepository');
 const storeRepository = require('../repositories/storeRepository');
 const geoService = require('./geoService');
+const priceAlertService = require('./priceAlertService');
 
 class PriceComparisonService {
   async comparePrices(productId, preferredStores = [], origin = null) {
@@ -143,7 +144,12 @@ class PriceComparisonService {
     if (data.stock !== undefined) payload.stock = data.stock;
     if (data.sku !== undefined) payload.sku = data.sku;
 
-    return await priceRepository.upsert(productId, storeId, payload);
+    const updated = await priceRepository.upsert(productId, storeId, payload);
+    if (data.price != null) {
+      const store = await storeRepository.findById(storeId);
+      priceAlertService.checkAndNotify(productId, store?.storeName || 'a store', data.price).catch(() => {});
+    }
+    return updated;
   }
 
   async getAllPrices(query, options) {
