@@ -3,7 +3,7 @@ const Order = require('../models/Order');
 const PRODUCT_POP = { path: 'items.productId', select: 'productName image unit storeCategory' };
 const STORE_POP = {
   path: 'storeId',
-  select: 'storeName logo kind storeCategory phone city state deliveryFee deliveryAvailable pickupAvailable location',
+  select: 'storeName logo kind storeCategory phone city state deliveryFee deliveryAvailable pickupAvailable location ownerId',
 };
 const USER_POP = { path: 'userId', select: 'fullName phone email' };
 
