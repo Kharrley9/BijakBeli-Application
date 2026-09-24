@@ -16,13 +16,11 @@ export interface User {
   phone?: string;
   address?: string;
   profilePicture?: string;
-  role: 'customer' | 'merchant' | 'admin';
+  role: 'customer' | 'admin';
   preferredState?: string;
   businessLocation?: GeoPoint;
   createdAt?: string;
 }
-
-export type StoreKind = 'chain' | 'merchant';
 
 export interface Store {
   _id: string;
@@ -32,8 +30,6 @@ export interface Store {
   address: string;
   city?: string;
   state?: string;
-  kind?: StoreKind;
-  storeCategory?: string;
   type?: string;
   phone?: string;
   description?: string;
@@ -41,12 +37,6 @@ export interface Store {
   bannerImage?: string;
   operating_hours?: string;
   location?: { type: string; coordinates: number[] };
-  rating?: number;
-  reviewCount?: number;
-  deliveryAvailable?: boolean;
-  deliveryFee?: number;
-  pickupAvailable?: boolean;
-  orderable?: boolean;
   // attached when the request includes an origin
   distanceKm?: number | null;
   durationMin?: number | null;
@@ -60,26 +50,17 @@ export interface StoreProductListing {
   productName: string;
   image?: string;
   unit?: string;
-  storeCategory?: string;
   category?: string;
   price: number;
   previousPrice?: number | null;
-  stock?: number | null;
   inStock?: boolean;
 }
 
 export interface Category {
   _id: string;
   categoryName: string;
-  group?: string;
   icon?: string;
   image?: string;
-}
-
-export interface StoreCategory {
-  slug: string;
-  label: string;
-  icon: string;
 }
 
 /** A product row in a catalogue list (from GET /products). */
@@ -89,8 +70,7 @@ export interface CatalogProduct {
   description?: string;
   image?: string;
   unit: string;
-  storeCategory?: string;
-  categoryId?: { _id: string; categoryName: string; group?: string } | string;
+  categoryId?: { _id: string; categoryName: string } | string;
   brandId?: { _id: string; brandName: string } | string | null;
   lowestPrice: number | null;
   storeCount: number;
@@ -102,12 +82,8 @@ export interface StoreSummary {
   _id: string;
   storeName: string;
   logo?: string;
-  kind?: StoreKind;
-  rating?: number;
   city?: string;
   state?: string;
-  deliveryAvailable?: boolean;
-  deliveryFee?: number;
   distanceKm?: number | null;
   durationMin?: number | null;
 }
@@ -115,15 +91,11 @@ export interface StoreSummary {
 /** A per-store row in the product detail / price comparison. */
 export interface StorePriceRow {
   store: StoreSummary & {
-    reviewCount?: number;
-    pickupAvailable?: boolean;
     phone?: string;
-    orderable?: boolean;
   };
   price: number;
   previousPrice?: number | null;
   effectivePrice: number;
-  stock?: number | null;
   inStock?: boolean;
   hasPromotion: boolean;
   promotion?: {
@@ -139,9 +111,8 @@ export interface StorePriceRow {
 
 export interface ProductDetail {
   product: CatalogProduct & {
-    categoryId?: { categoryName: string; group?: string };
+    categoryId?: { categoryName: string };
     brandId?: { brandName: string } | null;
-    attributes?: Record<string, any>;
   };
   stores: StorePriceRow[];
   cheapestStore: StoreSummary | null;
@@ -150,173 +121,6 @@ export interface ProductDetail {
   highestPrice: number | null;
   savings: number;
   storeCount: number;
-}
-
-/** The merchant's own store (from GET /merchant/store). */
-export interface MerchantStore extends Store {
-  ownerId?: string;
-  minOrder?: number;
-  status?: 'active' | 'draft' | 'suspended';
-  views?: number;
-  stats?: {
-    productCount: number;
-    activePromoCount: number;
-    openOrders: number;
-    views: number;
-    rating: number;
-    reviewCount: number;
-  };
-}
-
-/** A row in the merchant's product-management list. */
-export interface MerchantProduct {
-  _id: string;
-  productName: string;
-  description?: string;
-  image?: string;
-  unit: string;
-  storeCategory?: string;
-  categoryId?: string;
-  category?: string;
-  attributes?: Record<string, any>;
-  status?: 'active' | 'inactive' | 'discontinued';
-  priceId?: string;
-  price: number;
-  previousPrice?: number | null;
-  stock?: number | null;
-  inStock?: boolean;
-  sku?: string;
-  ownProduct?: boolean;
-}
-
-export interface MerchantPromotion {
-  _id: string;
-  productId: { _id: string; productName: string; image?: string; unit?: string } | string;
-  storeId: string;
-  promotionTitle: string;
-  promotionType: string;
-  promotionPrice: number;
-  discountPercentage?: number;
-  startDate: string;
-  endDate: string;
-}
-
-export type Fulfilment = 'pickup' | 'delivery';
-export type OrderStatus =
-  | 'pending'
-  | 'confirmed'
-  | 'preparing'
-  | 'packing'
-  | 'ready'
-  | 'on_the_way'
-  | 'completed'
-  | 'cancelled';
-
-export interface CartLine {
-  productId: string;
-  storeId: string;
-  storeName: string;
-  storeKind?: StoreKind;
-  name: string;
-  unit?: string;
-  unitPrice: number;
-  qty: number;
-  image?: string;
-  /** max orderable qty; null/undefined = unknown */
-  stock?: number | null;
-  deliveryAvailable?: boolean;
-  deliveryFee?: number;
-  pickupAvailable?: boolean;
-}
-
-export interface OrderItem {
-  productId: string;
-  name: string;
-  unit?: string;
-  unitPrice: number;
-  qty: number;
-  lineTotal: number;
-}
-
-export interface StatusEvent {
-  status: OrderStatus;
-  at: string;
-  note?: string;
-}
-
-export interface OrderStoreSummary {
-  _id: string;
-  storeName: string;
-  logo?: string;
-  kind?: StoreKind;
-  phone?: string;
-  city?: string;
-  state?: string;
-  deliveryFee?: number;
-  deliveryAvailable?: boolean;
-  pickupAvailable?: boolean;
-  location?: { coordinates: number[] };
-  ownerId?: string;
-}
-
-export interface Order {
-  _id: string;
-  orderNumber: string;
-  userId: string | { _id: string; fullName: string; phone?: string; email?: string };
-  storeId: string | OrderStoreSummary;
-  items: OrderItem[];
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
-  fulfilment: Fulfilment;
-  deliveryAddress?: { label?: string; line?: string; city?: string; state?: string };
-  contactPhone?: string;
-  paymentMethod: 'cod' | 'pay_at_pickup';
-  status: OrderStatus;
-  statusHistory: StatusEvent[];
-  cancelledBy?: 'buyer' | 'merchant' | null;
-  notes?: string;
-  createdAt: string;
-}
-
-export interface Review {
-  _id: string;
-  userId: string | { _id: string; fullName: string; profilePicture?: string };
-  storeId: string | { _id: string; storeName: string; logo?: string; storeCategory?: string };
-  orderId: string | { _id: string; orderNumber: string };
-  rating: number;
-  comment?: string;
-  createdAt: string;
-}
-
-export interface ReviewablePurchase extends Order {}
-
-export interface PriceAlert {
-  _id: string;
-  productId: string | { _id: string; productName: string; image?: string; unit?: string; storeCategory?: string };
-  targetPrice: number;
-  active: boolean;
-  triggeredAt?: string | null;
-  triggeredPrice?: number | null;
-}
-
-export interface FavoriteStoreEntry {
-  _id: string;
-  storeId: Store;
-}
-
-export interface StoreAnalytics {
-  rangeDays: number;
-  totalOrders: number;
-  completedOrders: number;
-  cancelledOrders: number;
-  totalRevenue: number;
-  avgOrderValue: number;
-  daily: { date: string; revenue: number; orders: number }[];
-  topProducts: { name: string; qty: number; revenue: number }[];
-  views: number;
-  rating: number;
-  reviewCount: number;
 }
 
 export interface Promotion {
@@ -329,15 +133,6 @@ export interface Promotion {
   discountPercentage?: number;
   startDate: string;
   endDate: string;
-}
-
-export interface AppNotification {
-  _id: string;
-  title: string;
-  message: string;
-  status: 'unread' | 'read';
-  createdDate?: string;
-  createdAt?: string;
 }
 
 export interface ApiResponse<T> {

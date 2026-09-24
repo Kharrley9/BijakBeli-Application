@@ -133,7 +133,7 @@ export default function AuthScreen() {
           </View>
 
           <Text style={styles.demo}>
-            Demo — buyer: khalil@example.com / password123{'\n'}trader: merchant@bijakbeli.com / merchant123
+            Demo — khalil@example.com / password123
           </Text>
         </ScrollView>
       </KeyboardAvoidingView>

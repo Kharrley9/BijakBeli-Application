@@ -1,28 +1,44 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
-import { STORE_CATEGORIES } from '../constants';
+import { categoryService } from '../services/dataService';
+import { Category } from '../types';
 
 export default function CategoryGrid({
   onPick,
 }: {
-  onPick: (slug: string, label: string) => void;
+  onPick: (categoryId: string, label: string) => void;
 }) {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    categoryService
+      .getAll()
+      .then((res: any) => setCategories(res?.data || res || []))
+      .catch(() => setCategories([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator color={colors.primary} style={{ marginVertical: spacing.lg }} />;
+  }
+
   return (
     <View style={styles.grid}>
-      {STORE_CATEGORIES.map((c) => (
+      {categories.map((c) => (
         <TouchableOpacity
-          key={c.slug}
+          key={c._id}
           style={styles.item}
           activeOpacity={0.7}
-          onPress={() => onPick(c.slug, c.label)}
+          onPress={() => onPick(c._id, c.categoryName)}
         >
           <View style={styles.iconWrap}>
-            <Ionicons name={c.icon as any} size={24} color={colors.primary} />
+            <Ionicons name={(c.icon as any) || 'pricetag-outline'} size={24} color={colors.primary} />
           </View>
           <Text style={styles.label} numberOfLines={2}>
-            {c.label}
+            {c.categoryName}
           </Text>
         </TouchableOpacity>
       ))}

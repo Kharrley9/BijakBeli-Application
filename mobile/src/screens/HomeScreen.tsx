@@ -13,7 +13,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
 import { useLocation } from '../context/LocationContext';
-import { useCart } from '../context/CartContext';
 import { promotionService, storeService } from '../services/dataService';
 import { DEFAULT_MAX_NEARBY_KM } from '../constants';
 import SearchBar from '../components/SearchBar';
@@ -24,7 +23,6 @@ import DistanceBadge from '../components/DistanceBadge';
 export default function HomeScreen({ navigation }: any) {
   const { user } = useAuth();
   const { origin, originMode, refreshGps } = useLocation();
-  const { count } = useCart();
   const first = user?.fullName?.split(' ')[0] || 'there';
 
   const [deals, setDeals] = useState<any[]>([]);
@@ -68,8 +66,8 @@ export default function HomeScreen({ navigation }: any) {
     setRefreshing(false);
   };
 
-  const openCategory = (slug: string, label: string) =>
-    navigation.navigate('CategoryBrowse', { group: slug, label });
+  const openCategory = (categoryId: string, label: string) =>
+    navigation.navigate('CategoryBrowse', { categoryId, label });
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -83,14 +81,6 @@ export default function HomeScreen({ navigation }: any) {
             <Text style={styles.hello}>Hello, {first}</Text>
             <Text style={styles.subHello}>What are you buying today?</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.cartIconBtn}>
-            <Ionicons name="cart-outline" size={22} color={colors.text} />
-            {count > 0 && (
-              <View style={styles.cartBadge}>
-                <Text style={styles.cartBadgeText}>{count}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.avatar}>
             <Ionicons name="person-outline" size={20} color={colors.white} />
           </TouchableOpacity>
@@ -194,29 +184,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cartIconBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: spacing.sm,
-  },
-  cartBadge: {
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    backgroundColor: colors.discount,
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 3,
-  },
-  cartBadgeText: { color: colors.white, fontSize: 9, fontWeight: '800' },
   searchWrap: { paddingHorizontal: spacing.lg, marginTop: spacing.lg },
   section: { paddingHorizontal: spacing.lg, marginTop: spacing.xl },
   sectionHeadRow: {

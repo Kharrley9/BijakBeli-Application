@@ -6,14 +6,10 @@ const KEY = 'prefs_v1';
 
 interface Prefs {
   distanceUnit: DistanceUnit;
-  notifyOrderUpdates: boolean;
-  notifyPriceAlerts: boolean;
 }
 
 const DEFAULTS: Prefs = {
   distanceUnit: 'km',
-  notifyOrderUpdates: true,
-  notifyPriceAlerts: true,
 };
 
 // In-memory cache so synchronous readers (e.g. DistanceBadge's formatter) don't

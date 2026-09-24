@@ -15,24 +15,24 @@ exports.createStore = async (req, res, next) => {
 
 exports.getNearbyStores = async (req, res, next) => {
   try {
-    const { lat, lng, maxKm, limit, storeCategory, kind } = req.query;
-    const stores = await storeService.getNearbyStores({ lat, lng, maxKm, limit, storeCategory, kind });
+    const { lat, lng, maxKm, limit } = req.query;
+    const stores = await storeService.getNearbyStores({ lat, lng, maxKm, limit });
     res.status(200).json({ success: true, data: stores });
   } catch (error) { next(error); }
 };
 
 exports.getStore = async (req, res, next) => {
   try {
-    const store = await storeService.getStore(req.params.id, originFrom(req.query), true);
+    const store = await storeService.getStore(req.params.id, originFrom(req.query));
     res.status(200).json({ success: true, data: store });
   } catch (error) { next(error); }
 };
 
 exports.getAllStores = async (req, res, next) => {
   try {
-    const { admin, storeCategory, kind, state, city, q } = req.query;
+    const { admin, state, city, q } = req.query;
     const stores = await storeService.getAllStores(
-      { admin: admin === 'true', storeCategory, kind, state, city, q },
+      { admin: admin === 'true', state, city, q },
       originFrom(req.query)
     );
     res.status(200).json({ success: true, data: stores });

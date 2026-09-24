@@ -22,24 +22,6 @@ import NearbyStoresScreen from '../screens/NearbyStoresScreen';
 import StoreProfileScreen from '../screens/StoreProfileScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BusinessLocationScreen from '../screens/BusinessLocationScreen';
-import ComingSoonScreen from '../screens/ComingSoonScreen';
-import MerchantOnboardingScreen from '../screens/MerchantOnboardingScreen';
-import MerchantDashboardScreen from '../screens/MerchantDashboardScreen';
-import AddEditProductScreen from '../screens/AddEditProductScreen';
-import ProductManagementScreen from '../screens/ProductManagementScreen';
-import StorePromotionsScreen from '../screens/StorePromotionsScreen';
-import EditStoreScreen from '../screens/EditStoreScreen';
-import CartScreen from '../screens/CartScreen';
-import CheckoutScreen from '../screens/CheckoutScreen';
-import OrderTrackingScreen from '../screens/OrderTrackingScreen';
-import OrdersScreen from '../screens/OrdersScreen';
-import MerchantOrderScreen from '../screens/MerchantOrderScreen';
-import MyReviewsScreen from '../screens/MyReviewsScreen';
-import WriteReviewScreen from '../screens/WriteReviewScreen';
-import StoreReviewsScreen from '../screens/StoreReviewsScreen';
-import PriceAlertsScreen from '../screens/PriceAlertsScreen';
-import FavouriteStoresScreen from '../screens/FavouriteStoresScreen';
-import StoreAnalyticsScreen from '../screens/StoreAnalyticsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const RootStack = createNativeStackNavigator();
@@ -59,7 +41,6 @@ function Tabs() {
             Home: focused ? 'home' : 'home-outline',
             Search: focused ? 'search' : 'search-outline',
             Nearby: focused ? 'map' : 'map-outline',
-            Orders: focused ? 'receipt' : 'receipt-outline',
             Profile: focused ? 'person' : 'person-outline',
           };
           return <Ionicons name={map[route.name] as any} size={size} color={color} />;
@@ -69,7 +50,6 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Nearby" component={NearbyStoresScreen} />
-      <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -105,23 +85,6 @@ export default function AppNavigator() {
             <RootStack.Screen name="PriceComparison" component={PriceComparisonScreen} />
             <RootStack.Screen name="StoreProfile" component={StoreProfileScreen} />
             <RootStack.Screen name="BusinessLocation" component={BusinessLocationScreen} />
-            <RootStack.Screen name="ComingSoon" component={ComingSoonScreen} />
-            <RootStack.Screen name="MerchantOnboarding" component={MerchantOnboardingScreen} />
-            <RootStack.Screen name="MerchantDashboard" component={MerchantDashboardScreen} />
-            <RootStack.Screen name="AddEditProduct" component={AddEditProductScreen} />
-            <RootStack.Screen name="ProductManagement" component={ProductManagementScreen} />
-            <RootStack.Screen name="StorePromotions" component={StorePromotionsScreen} />
-            <RootStack.Screen name="EditStore" component={EditStoreScreen} />
-            <RootStack.Screen name="Cart" component={CartScreen} />
-            <RootStack.Screen name="Checkout" component={CheckoutScreen} />
-            <RootStack.Screen name="OrderTracking" component={OrderTrackingScreen} />
-            <RootStack.Screen name="MerchantOrder" component={MerchantOrderScreen} />
-            <RootStack.Screen name="MyReviews" component={MyReviewsScreen} />
-            <RootStack.Screen name="WriteReview" component={WriteReviewScreen} />
-            <RootStack.Screen name="StoreReviews" component={StoreReviewsScreen} />
-            <RootStack.Screen name="PriceAlerts" component={PriceAlertsScreen} />
-            <RootStack.Screen name="FavouriteStores" component={FavouriteStoresScreen} />
-            <RootStack.Screen name="StoreAnalytics" component={StoreAnalyticsScreen} />
             <RootStack.Screen name="Settings" component={SettingsScreen} />
           </>
         )}

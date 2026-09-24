@@ -7,7 +7,6 @@ import {
   Modal,
   TouchableOpacity,
   StyleSheet,
-  Switch,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -23,15 +22,14 @@ type Filters = {
   priceMax: number | null;
   maxKm: number | null;
   inStockOnly: boolean;
-  deliveryOnly: boolean;
 };
-const EMPTY: Filters = { priceMax: null, maxKm: null, inStockOnly: false, deliveryOnly: false };
+const EMPTY: Filters = { priceMax: null, maxKm: null, inStockOnly: false };
 
 export default function CatalogList({
   baseParams,
   showFilters = true,
 }: {
-  baseParams: { group?: string; q?: string; categoryId?: string; storeId?: string };
+  baseParams: { q?: string; categoryId?: string };
   showFilters?: boolean;
 }) {
   const navigation = useNavigation<any>();
@@ -69,9 +67,6 @@ export default function CatalogList({
         const d = p.nearestStore?.distanceKm;
         if (d == null || d > filters.maxKm) return false;
       }
-      if (filters.deliveryOnly && !p.cheapestStore?.deliveryAvailable && !p.nearestStore?.deliveryAvailable) {
-        return false;
-      }
       return true;
     });
   }, [items, filters]);
@@ -79,8 +74,7 @@ export default function CatalogList({
   const activeCount =
     (filters.priceMax != null ? 1 : 0) +
     (filters.maxKm != null ? 1 : 0) +
-    (filters.inStockOnly ? 1 : 0) +
-    (filters.deliveryOnly ? 1 : 0);
+    (filters.inStockOnly ? 1 : 0);
 
   return (
     <View style={{ flex: 1 }}>
@@ -154,16 +148,6 @@ export default function CatalogList({
                   </Text>
                 </TouchableOpacity>
               ))}
-            </View>
-
-            <View style={styles.toggleRow}>
-              <Text style={styles.fLabel}>Delivery available</Text>
-              <Switch
-                value={draft.deliveryOnly}
-                onValueChange={(v) => setDraft((d) => ({ ...d, deliveryOnly: v }))}
-                trackColor={{ true: colors.primaryLight }}
-                thumbColor={draft.deliveryOnly ? colors.primary : '#f4f3f4'}
-              />
             </View>
 
             <View style={styles.sheetActions}>

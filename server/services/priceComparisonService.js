@@ -1,14 +1,12 @@
 const priceRepository = require('../repositories/priceRepository');
 const promotionRepository = require('../repositories/promotionRepository');
-const storeRepository = require('../repositories/storeRepository');
 const geoService = require('./geoService');
-const priceAlertService = require('./priceAlertService');
 
 class PriceComparisonService {
   async comparePrices(productId, preferredStores = [], origin = null) {
     // Get all prices for this product across stores
     let prices = await priceRepository.findByProduct(productId);
-    
+
     if (preferredStores && preferredStores.length > 0) {
       prices = prices.filter(p => preferredStores.includes(p.storeId._id.toString()));
     }
@@ -20,7 +18,7 @@ class PriceComparisonService {
       return { comparisons: [], cheapestStore: null, nearestStore: null, savings: 0 };
     }
 
-    // Travel distance from the trader's origin to each store (optional)
+    // Travel distance from the buyer's origin to each store (optional)
     let distanceMap = new Map();
     if (origin && geoService.isValidCoord(origin)) {
       const storeDocs = prices
@@ -50,22 +48,13 @@ class PriceComparisonService {
           logo: store.logo,
           city: store.city,
           state: store.state,
-          kind: store.kind,
-          storeCategory: store.storeCategory,
-          rating: store.rating,
-          reviewCount: store.reviewCount,
-          deliveryAvailable: !!store.deliveryAvailable,
-          deliveryFee: store.deliveryFee || 0,
-          pickupAvailable: store.pickupAvailable !== false,
           phone: store.phone,
-          orderable: store.kind === 'merchant',
           distanceKm: dist ? dist.distanceKm : null,
           durationMin: dist ? dist.durationMin : null,
           distanceSource: dist ? dist.source : null,
         },
         currentPrice: priceEntry.price,
         previousPrice: priceEntry.previousPrice,
-        stock: priceEntry.stock,
         inStock: priceEntry.inStock !== false,
         effectivePrice,
         priceDifference,
@@ -141,15 +130,8 @@ class PriceComparisonService {
       previousPrice,
     };
     if (data.inStock !== undefined) payload.inStock = data.inStock;
-    if (data.stock !== undefined) payload.stock = data.stock;
-    if (data.sku !== undefined) payload.sku = data.sku;
 
-    const updated = await priceRepository.upsert(productId, storeId, payload);
-    if (data.price != null) {
-      const store = await storeRepository.findById(storeId);
-      priceAlertService.checkAndNotify(productId, store?.storeName || 'a store', data.price).catch(() => {});
-    }
-    return updated;
+    return await priceRepository.upsert(productId, storeId, payload);
   }
 
   async getAllPrices(query, options) {

@@ -28,16 +28,9 @@ exports.getProduct = async (req, res, next) => {
 // GET /api/products — catalogue list with cheapest price / cheapest & nearest store
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const { page, limit, sort, q, storeCategory, group, categoryId, brandId, storeId, store_id, state } = req.query;
+    const { page, limit, sort, q, categoryId, brandId } = req.query;
     const result = await catalogService.listProducts(
-      {
-        storeCategory: storeCategory || group,
-        categoryId,
-        brandId,
-        q,
-        storeId: storeId || store_id,
-        state,
-      },
+      { categoryId, brandId, q },
       { page, limit, sort },
       originFrom(req.query)
     );
@@ -47,9 +40,9 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.searchProducts = async (req, res, next) => {
   try {
-    const { q, categoryId, storeCategory, group, page, limit, sort } = req.query;
+    const { q, categoryId, page, limit, sort } = req.query;
     const result = await catalogService.listProducts(
-      { q, categoryId, storeCategory: storeCategory || group },
+      { q, categoryId },
       { page, limit, sort },
       originFrom(req.query)
     );

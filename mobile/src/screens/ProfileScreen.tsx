@@ -12,18 +12,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
 
-const MENU = [
-  { key: 'orders', label: 'Order History', icon: 'receipt-outline', screen: 'Tabs', params: { screen: 'Orders' } },
-  { key: 'alerts', label: 'Price Alerts', icon: 'notifications-outline', screen: 'PriceAlerts', params: {} },
-  { key: 'favs', label: 'Favourite Stores', icon: 'heart-outline', screen: 'FavouriteStores', params: {} },
-  { key: 'reviews', label: 'My Reviews', icon: 'star-outline', screen: 'MyReviews', params: {} },
-  { key: 'settings', label: 'Settings', icon: 'settings-outline', screen: 'Settings', params: {} },
-];
-
 export default function ProfileScreen({ navigation }: any) {
   const { user, signOut } = useAuth();
   const initial = (user?.fullName || 'U').charAt(0).toUpperCase();
-  const isMerchant = user?.role === 'merchant';
 
   const logout = () =>
     Alert.alert('Log out', 'Are you sure?', [
@@ -58,38 +49,15 @@ export default function ProfileScreen({ navigation }: any) {
         </TouchableOpacity>
 
         <View style={styles.card}>
-          {MENU.map((m, i) => (
-            <TouchableOpacity
-              key={m.key}
-              style={[styles.menuRow, i === MENU.length - 1 && { borderBottomWidth: 0 }]}
-              onPress={() => navigation.navigate(m.screen, m.params)}
-            >
-              <Ionicons name={m.icon as any} size={20} color={colors.textSecondary} />
-              <Text style={styles.menuText}>{m.label}</Text>
-              <Ionicons name="chevron-forward" size={18} color={colors.border} />
-            </TouchableOpacity>
-          ))}
+          <TouchableOpacity
+            style={[styles.menuRow, { borderBottomWidth: 0 }]}
+            onPress={() => navigation.navigate('Settings')}
+          >
+            <Ionicons name="settings-outline" size={20} color={colors.textSecondary} />
+            <Text style={styles.menuText}>Settings</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.border} />
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={styles.merchantCta}
-          onPress={() =>
-            navigation.navigate(isMerchant ? 'MerchantDashboard' : 'MerchantOnboarding')
-          }
-        >
-          <Ionicons name="storefront" size={22} color={colors.white} />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.merchantTitle}>
-              {isMerchant ? 'My Store' : 'Register Your Store'}
-            </Text>
-            <Text style={styles.merchantSub}>
-              {isMerchant
-                ? 'Manage products, prices and orders'
-                : 'List your shop and start selling on BijakBeli'}
-            </Text>
-          </View>
-          <Ionicons name="chevron-forward" size={20} color={colors.white} />
-        </TouchableOpacity>
 
         <TouchableOpacity style={styles.logout} onPress={logout}>
           <Ionicons name="log-out-outline" size={20} color={colors.discount} />
@@ -147,17 +115,6 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
   },
   menuText: { flex: 1, fontSize: fontSize.md, color: colors.text, fontWeight: '600' },
-  merchantCta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    backgroundColor: colors.primaryDark,
-    borderRadius: radius.md,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
-  },
-  merchantTitle: { color: colors.white, fontWeight: '800', fontSize: fontSize.md },
-  merchantSub: { color: 'rgba(255,255,255,0.8)', fontSize: fontSize.xs, marginTop: 2 },
   logout: {
     flexDirection: 'row',
     alignItems: 'center',

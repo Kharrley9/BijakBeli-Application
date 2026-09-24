@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'rea
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 import AppHeader from '../components/AppHeader';
-import { FormSwitch, ChipSelect } from '../components/FormField';
+import { ChipSelect } from '../components/FormField';
 import { useAuth } from '../context/AuthContext';
 import { getPrefs, setPref } from '../utils/prefs';
 
@@ -11,20 +11,10 @@ export default function SettingsScreen() {
   const { signOut } = useAuth();
   const initial = getPrefs();
   const [distanceUnit, setDistanceUnit] = useState(initial.distanceUnit);
-  const [notifyOrders, setNotifyOrders] = useState(initial.notifyOrderUpdates);
-  const [notifyPrices, setNotifyPrices] = useState(initial.notifyPriceAlerts);
 
   const changeUnit = (v: 'km' | 'mi') => {
     setDistanceUnit(v);
     setPref('distanceUnit', v);
-  };
-  const toggleOrders = (v: boolean) => {
-    setNotifyOrders(v);
-    setPref('notifyOrderUpdates', v);
-  };
-  const togglePrices = (v: boolean) => {
-    setNotifyPrices(v);
-    setPref('notifyPriceAlerts', v);
   };
 
   const logout = () =>
@@ -47,22 +37,6 @@ export default function SettingsScreen() {
             ]}
             value={distanceUnit}
             onChange={changeUnit}
-          />
-        </View>
-
-        <Text style={styles.groupTitle}>Notifications</Text>
-        <View style={styles.card}>
-          <FormSwitch
-            label="Order updates"
-            hint="Status changes on orders you placed or received"
-            value={notifyOrders}
-            onValueChange={toggleOrders}
-          />
-          <FormSwitch
-            label="Price alerts"
-            hint="When a watched product drops to your target price"
-            value={notifyPrices}
-            onValueChange={togglePrices}
           />
         </View>
 

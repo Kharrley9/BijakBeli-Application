@@ -98,10 +98,10 @@ export default function BusinessLocationScreen({ navigation }: any) {
       // Make the newly-saved location the active origin immediately — otherwise
       // if the app was showing GPS, this save has no visible effect anywhere.
       setOriginMode('business');
-      Alert.alert('Saved', 'Your business location has been updated.');
+      Alert.alert('Saved', 'Your saved location has been updated.');
       navigation.goBack();
     } catch (e: any) {
-      Alert.alert('Error', e?.message || 'Could not save your business location.');
+      Alert.alert('Error', e?.message || 'Could not save your location.');
       setSaving(false);
     }
   };
@@ -112,7 +112,7 @@ export default function BusinessLocationScreen({ navigation }: any) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconBtn}>
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.title}>Business Location</Text>
+        <Text style={styles.title}>Saved Location</Text>
         <View style={styles.iconBtn} />
       </View>
 
@@ -163,7 +163,7 @@ export default function BusinessLocationScreen({ navigation }: any) {
           {saving ? (
             <ActivityIndicator color={colors.white} />
           ) : (
-            <Text style={commonStyles.primaryButtonText}>Save Business Location</Text>
+            <Text style={commonStyles.primaryButtonText}>Save Location</Text>
           )}
         </TouchableOpacity>
       </View>

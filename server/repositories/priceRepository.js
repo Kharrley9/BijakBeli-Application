@@ -11,10 +11,7 @@ class PriceRepository {
 
   async findByProduct(productId) {
     return await Price.find({ productId })
-      .populate(
-        'storeId',
-        'storeName mallName logo location city state kind storeCategory rating reviewCount deliveryFee deliveryAvailable pickupAvailable phone isActive'
-      )
+      .populate('storeId', 'storeName mallName logo location city state phone isActive')
       .sort('price');
   }
 

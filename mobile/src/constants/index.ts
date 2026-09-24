@@ -2,11 +2,13 @@ import { Platform } from 'react-native';
 
 // ======================================================
 // Dev server address.
-//  - Android emulator  -> 10.0.2.2 (host loopback alias) — the default below
-//  - Physical device   -> set LOCAL_IP to your PC's Wi-Fi IP (ipconfig), same network
+//  - Android emulator  -> 10.0.2.2 (host loopback alias)
+//  - Physical device   -> your PC's Wi-Fi IP (ipconfig), same Wi-Fi network — set below
 //  - iOS simulator     -> localhost works
+// Currently set to the PC's LAN IP so a physical phone (on the same Wi-Fi) can reach
+// the backend. Switch back to '10.0.2.2' if you go back to testing on the emulator.
 // ======================================================
-const LOCAL_IP = '10.0.2.2';
+const LOCAL_IP = '10.4.57.225';
 
 const getApiUrl = () => {
   if (__DEV__) {
@@ -18,62 +20,22 @@ const getApiUrl = () => {
 
 export const API_URL = getApiUrl();
 
-// Top-level store categories (must match server/config/constants.js)
-export const STORE_CATEGORIES = [
-  { slug: 'grocery', label: 'Grocery', icon: 'basket-outline' },
-  { slug: 'automotive', label: 'Automotive', icon: 'car-outline' },
-  { slug: 'hardware', label: 'Hardware', icon: 'hammer-outline' },
-  { slug: 'electrical', label: 'Electrical', icon: 'bulb-outline' },
-  { slug: 'home', label: 'Home & Living', icon: 'home-outline' },
-  { slug: 'health', label: 'Health', icon: 'medkit-outline' },
-  { slug: 'telco', label: 'Telco & Computer', icon: 'laptop-outline' },
-  { slug: 'other', label: 'Other', icon: 'ellipsis-horizontal-outline' },
-] as const;
-
-export const categoryLabel = (slug?: string) =>
-  STORE_CATEGORIES.find((c) => c.slug === slug)?.label || 'Other';
-
 export const SORT_OPTIONS = [
   { value: 'price_asc', label: 'Lowest Price' },
   { value: 'nearest', label: 'Nearest' },
   { value: '-createdAt', label: 'Newest' },
 ] as const;
 
-export const PRODUCT_UNITS = [
-  'kg', 'g', 'L', 'ml', 'pcs', 'pack', 'box', 'bottle', 'can', 'bag', 'unit',
-  'set', 'pair', 'roll', 'length', 'tin', 'tube', 'tray',
-];
-
 export const DEFAULT_MAX_NEARBY_KM = 60;
 
 export const POPULAR_SEARCHES = [
-  'Beras', 'Minyak Masak', 'Milo', 'Engine Oil', 'LED Bulb', 'Telur',
+  'Beras', 'Minyak Masak', 'Milo', 'Gula', 'Telur', 'Roti',
 ];
-
-export const ORDER_STATUS_LABELS: Record<string, string> = {
-  pending: 'Pending',
-  confirmed: 'Confirmed',
-  preparing: 'Preparing',
-  packing: 'Packing',
-  ready: 'Ready for pickup',
-  on_the_way: 'On the way',
-  completed: 'Completed',
-  cancelled: 'Cancelled',
-};
-
-// Ordered progression a merchant advances an order through, by fulfilment type
-// (must match server/config/constants.js ORDER_FLOW).
-export const ORDER_FLOW: Record<'pickup' | 'delivery', string[]> = {
-  pickup: ['pending', 'confirmed', 'preparing', 'packing', 'ready', 'completed'],
-  delivery: ['pending', 'confirmed', 'preparing', 'packing', 'on_the_way', 'completed'],
-};
-
-export const BUYER_CANCELLABLE_STATUSES = ['pending', 'confirmed'];
 
 export const ONBOARDING_SLIDES = [
   {
     title: 'Compare Prices',
-    body: 'See the price of any item across supermarkets and nearby traders in one place.',
+    body: 'See the price of any grocery item across major supermarkets in one place.',
     icon: 'pricetags-outline',
   },
   {
@@ -82,8 +44,8 @@ export const ONBOARDING_SLIDES = [
     icon: 'navigate-outline',
   },
   {
-    title: 'Order From Traders',
-    body: 'Grocery, automotive, hardware and more — order for pickup or delivery from local shops.',
-    icon: 'cart-outline',
+    title: 'Shop Smart',
+    body: 'Catch weekly deals and promotions from AEON BiG, Lotus\'s, MYDIN and more.',
+    icon: 'pricetag-outline',
   },
 ];

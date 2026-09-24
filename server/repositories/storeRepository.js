@@ -13,10 +13,6 @@ class StoreRepository {
     return await Store.find(query).sort('storeName');
   }
 
-  async findByOwner(ownerId) {
-    return await Store.findOne({ ownerId });
-  }
-
   async update(id, data) {
     return await Store.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   }
@@ -29,27 +25,22 @@ class StoreRepository {
     return await Store.countDocuments(query);
   }
 
-  async incrementViews(id) {
-    return await Store.findByIdAndUpdate(id, { $inc: { views: 1 } });
-  }
-
   /**
    * Active stores near a point, nearest first.
    * @param {number} lng
    * @param {number} lat
    * @param {number} maxMeters
    * @param {number} limit
-   * @param {object} extraQuery  additional $geoNear query filter (e.g. { storeCategory })
    * @returns {Promise<Array>} store docs with an added `distanceMeters` field
    */
-  async findNear(lng, lat, maxMeters, limit = 50, extraQuery = {}) {
+  async findNear(lng, lat, maxMeters, limit = 50) {
     return await Store.aggregate([
       {
         $geoNear: {
           near: { type: 'Point', coordinates: [lng, lat] },
           distanceField: 'distanceMeters',
           maxDistance: maxMeters,
-          query: { isActive: true, ...extraQuery },
+          query: { isActive: true },
           spherical: true,
         },
       },

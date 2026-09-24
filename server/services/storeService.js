@@ -1,6 +1,5 @@
 const storeRepository = require('../repositories/storeRepository');
 const Price = require('../models/Price');
-const Product = require('../models/Product');
 const geoService = require('./geoService');
 
 class StoreService {
@@ -9,14 +8,12 @@ class StoreService {
   }
 
   /**
-   * @param {object} filters { storeCategory, kind, state, city, q, admin }
+   * @param {object} filters { state, city, q, admin }
    * @param {{lat:number,lng:number}|null} origin
    */
   async getAllStores(filters = {}, origin = null) {
     const query = {};
     if (!filters.admin) query.isActive = true;
-    if (filters.storeCategory) query.storeCategory = filters.storeCategory;
-    if (filters.kind) query.kind = filters.kind;
     if (filters.state) query.state = filters.state;
     if (filters.city) query.city = filters.city;
     if (filters.q) query.storeName = { $regex: filters.q, $options: 'i' };
@@ -43,18 +40,16 @@ class StoreService {
   }
 
   /**
-   * Store + its product listings (for merchant stores) + rating.
+   * Store + its product listings.
    * @param {{lat:number,lng:number}|null} origin
-   * @param {boolean} track  increment the view counter
    */
-  async getStore(id, origin = null, track = false) {
+  async getStore(id, origin = null) {
     const store = await storeRepository.findById(id);
     if (!store) {
       const error = new Error('Store not found');
       error.statusCode = 404;
       throw error;
     }
-    if (track) storeRepository.incrementViews(id).catch(() => {});
 
     const obj = store.toObject();
 
@@ -70,7 +65,7 @@ class StoreService {
     const priceRows = await Price.find({ storeId: id })
       .populate({
         path: 'productId',
-        select: 'productName image unit storeCategory categoryId status',
+        select: 'productName image unit categoryId status',
         populate: { path: 'categoryId', select: 'categoryName' },
       })
       .lean();
@@ -82,11 +77,9 @@ class StoreService {
         productName: r.productId.productName,
         image: r.productId.image,
         unit: r.productId.unit,
-        storeCategory: r.productId.storeCategory,
         category: r.productId.categoryId?.categoryName,
         price: r.price,
         previousPrice: r.previousPrice,
-        stock: r.stock,
         inStock: r.inStock !== false,
       }))
       .sort((a, b) => a.productName.localeCompare(b.productName));
@@ -122,9 +115,9 @@ class StoreService {
 
   /**
    * Stores near an origin, nearest first, annotated with distanceKm / durationMin.
-   * @param {{ lat, lng, maxKm?, limit?, storeCategory?, kind? }} opts
+   * @param {{ lat, lng, maxKm?, limit? }} opts
    */
-  async getNearbyStores({ lat, lng, maxKm = 60, limit = 50, storeCategory, kind }) {
+  async getNearbyStores({ lat, lng, maxKm = 60, limit = 50 }) {
     const origin = { lat: Number(lat), lng: Number(lng) };
     if (!geoService.isValidCoord(origin)) {
       const error = new Error('Valid lat and lng are required');
@@ -132,16 +125,11 @@ class StoreService {
       throw error;
     }
 
-    const extra = {};
-    if (storeCategory) extra.storeCategory = storeCategory;
-    if (kind) extra.kind = kind;
-
     const stores = await storeRepository.findNear(
       origin.lng,
       origin.lat,
       Math.max(1, Number(maxKm)) * 1000,
-      Math.min(100, Number(limit) || 50),
-      extra
+      Math.min(100, Number(limit) || 50)
     );
 
     const distances = await geoService.getStoreDistances(origin, stores);

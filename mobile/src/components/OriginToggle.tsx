@@ -13,7 +13,7 @@ import { useLocation } from '../context/LocationContext';
 
 /**
  * Segmented control that picks the origin used for travel-distance comparison:
- * the device GPS location or the trader's saved business location.
+ * the device GPS location or the buyer's saved location.
  */
 export default function OriginToggle() {
   const navigation = useNavigation<any>();
@@ -73,7 +73,7 @@ export default function OriginToggle() {
           activeOpacity={0.8}
         >
           <Ionicons
-            name="storefront"
+            name="home"
             size={14}
             color={originMode === 'business' ? colors.white : colors.textSecondary}
           />
@@ -83,7 +83,7 @@ export default function OriginToggle() {
               originMode === 'business' && styles.optionTextActive,
             ]}
           >
-            {businessOrigin ? 'My business' : 'Set business'}
+            {businessOrigin ? 'Saved location' : 'Set location'}
           </Text>
         </TouchableOpacity>
       </View>

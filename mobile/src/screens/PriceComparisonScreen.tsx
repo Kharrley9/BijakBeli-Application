@@ -65,7 +65,6 @@ export default function PriceComparisonScreen({ route }: any) {
                         <Text style={styles.store} numberOfLines={1}>{c.store.storeName}</Text>
                         {c.isLowestPrice && <Tag text="CHEAPEST" />}
                         {c.isNearest && <Tag text="NEAREST" color={colors.primaryDark} />}
-                        {c.store.kind === 'merchant' && <Tag text="TRADER" color={colors.accent} />}
                       </View>
                       <Text style={styles.city} numberOfLines={1}>
                         {c.store.city || c.store.state}
@@ -88,26 +87,8 @@ export default function PriceComparisonScreen({ route }: any) {
                   </View>
 
                   <View style={styles.metaRow}>
-                    <Meta
-                      icon="bicycle-outline"
-                      label={
-                        c.store.kind === 'merchant'
-                          ? c.store.deliveryAvailable
-                            ? `Delivery RM${(c.store.deliveryFee || 0).toFixed(0)}`
-                            : 'Pickup only'
-                          : 'In-store only'
-                      }
-                    />
-                    <Meta
-                      icon="cube-outline"
-                      label={
-                        c.stock != null
-                          ? `${c.stock} in stock`
-                          : c.inStock
-                          ? 'In stock'
-                          : 'Out of stock'
-                      }
-                    />
+                    <Meta icon="storefront-outline" label="In-store only" />
+                    <Meta icon="cube-outline" label={c.inStock ? 'In stock' : 'Out of stock'} />
                   </View>
                 </View>
               ))

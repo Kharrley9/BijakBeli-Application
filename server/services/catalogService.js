@@ -9,7 +9,7 @@ const geoService = require('./geoService');
  */
 class CatalogService {
   /**
-   * @param {object} f  filters: { storeCategory, categoryId, q, storeId, state, brandId }
+   * @param {object} f  filters: { categoryId, q, brandId }
    * @param {object} opts { page, limit, sort }  sort: 'price_asc' | 'nearest' | '-createdAt'
    * @param {{lat:number,lng:number}|null} origin
    */
@@ -18,7 +18,6 @@ class CatalogService {
     const limit = Math.min(50, parseInt(opts.limit) || 15);
 
     const query = { status: 'active' };
-    if (f.storeCategory) query.storeCategory = f.storeCategory;
     if (f.categoryId) query.categoryId = f.categoryId;
     if (f.brandId) query.brandId = f.brandId;
     if (f.q) {
@@ -29,25 +28,9 @@ class CatalogService {
       ];
     }
 
-    // Restrict to products carried by a given store / stores in a state
-    let allowedProductIds = null;
-    if (f.storeId) {
-      const rows = await Price.find({ storeId: f.storeId }).select('productId').lean();
-      allowedProductIds = rows.map((r) => String(r.productId));
-    } else if (f.state) {
-      const Store = require('../models/Store');
-      const stores = await Store.find({ state: f.state, isActive: true }).select('_id').lean();
-      const ids = stores.map((s) => s._id);
-      const rows = await Price.find({ storeId: { $in: ids } }).select('productId').lean();
-      allowedProductIds = [...new Set(rows.map((r) => String(r.productId)))];
-    }
-    if (allowedProductIds) {
-      query._id = { $in: allowedProductIds };
-    }
-
     // Fetch a generous candidate set; we re-sort/paginate after pricing.
     const candidates = await Product.find(query)
-      .populate('categoryId', 'categoryName group icon')
+      .populate('categoryId', 'categoryName icon')
       .populate('brandId', 'brandName')
       .limit(300)
       .lean();
@@ -57,10 +40,7 @@ class CatalogService {
     // Batch-load prices for all candidates
     const productIds = candidates.map((p) => p._id);
     const priceRows = await Price.find({ productId: { $in: productIds } })
-      .populate(
-        'storeId',
-        'storeName logo kind storeCategory rating reviewCount deliveryFee deliveryAvailable location city state isActive'
-      )
+      .populate('storeId', 'storeName logo location city state isActive')
       .lean();
 
     const byProduct = new Map();
@@ -100,12 +80,8 @@ class CatalogService {
             _id: s._id,
             storeName: s.storeName,
             logo: s.logo,
-            kind: s.kind,
-            rating: s.rating,
             city: s.city,
             state: s.state,
-            deliveryAvailable: !!s.deliveryAvailable,
-            deliveryFee: s.deliveryFee || 0,
             distanceKm: d ? d.distanceKm : null,
             durationMin: d ? d.durationMin : null,
           },
@@ -161,7 +137,7 @@ class CatalogService {
    */
   async getProductDetail(productId, origin = null) {
     const product = await Product.findById(productId)
-      .populate('categoryId', 'categoryName group icon')
+      .populate('categoryId', 'categoryName icon')
       .populate('brandId', 'brandName logo');
     if (!product) {
       const e = new Error('Product not found');
@@ -176,7 +152,6 @@ class CatalogService {
       price: c.currentPrice,
       previousPrice: c.previousPrice,
       effectivePrice: c.effectivePrice,
-      stock: c.stock,
       inStock: c.inStock,
       hasPromotion: c.hasPromotion,
       promotion: c.promotion,

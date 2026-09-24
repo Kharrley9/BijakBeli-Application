@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
-  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -15,7 +14,7 @@ import MapView, { Marker, Region } from 'react-native-maps';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
 import { storeService } from '../services/dataService';
-import { DEFAULT_MAX_NEARBY_KM, STORE_CATEGORIES } from '../constants';
+import { DEFAULT_MAX_NEARBY_KM } from '../constants';
 import { Store } from '../types';
 import StoreCard from '../components/StoreCard';
 import EmptyState from '../components/EmptyState';
@@ -31,7 +30,6 @@ export default function NearbyStoresScreen({ navigation }: any) {
   const { origin, refreshGps, originMode, setOriginMode, gpsLoading } = useLocation();
   const mapRef = useRef<MapView>(null);
   const [view, setView] = useState<'list' | 'map'>('list');
-  const [cat, setCat] = useState<string | undefined>(undefined);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +53,6 @@ export default function NearbyStoresScreen({ navigation }: any) {
         lng: o.lng,
         maxKm: DEFAULT_MAX_NEARBY_KM,
         limit: 40,
-        storeCategory: cat,
       });
       const data: Store[] = res?.data || res || [];
       setStores(data);
@@ -67,7 +64,7 @@ export default function NearbyStoresScreen({ navigation }: any) {
     } finally {
       setLoading(false);
     }
-  }, [origin?.lat, origin?.lng, cat]);
+  }, [origin?.lat, origin?.lng]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
@@ -103,13 +100,6 @@ export default function NearbyStoresScreen({ navigation }: any) {
           ))}
         </View>
       </View>
-
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.cats} style={styles.catBar}>
-        <Chip label="All" active={!cat} onPress={() => setCat(undefined)} />
-        {STORE_CATEGORIES.map((c) => (
-          <Chip key={c.slug} label={c.label} active={cat === c.slug} onPress={() => setCat(c.slug)} />
-        ))}
-      </ScrollView>
 
       {!origin ? (
         <EmptyState icon="location-outline" title="Location off" body="Enable location to see stores near you.">
@@ -155,14 +145,6 @@ export default function NearbyStoresScreen({ navigation }: any) {
   );
 }
 
-function Chip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
-  return (
-    <TouchableOpacity style={[styles.chip, active && styles.chipActive]} onPress={onPress}>
-      <Text style={[styles.chipText, active && styles.chipTextActive]}>{label}</Text>
-    </TouchableOpacity>
-  );
-}
-
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.white },
   header: {
@@ -172,6 +154,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   title: { flex: 1, fontSize: fontSize.xl, fontWeight: '800', color: colors.text },
   relocateBtn: {
@@ -187,17 +171,5 @@ const styles = StyleSheet.create({
   toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.sm, padding: 3, gap: 3 },
   toggleBtn: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.sm },
   toggleActive: { backgroundColor: colors.primary },
-  catBar: { maxHeight: 50, borderBottomWidth: 1, borderBottomColor: colors.border, flexGrow: 0 },
-  cats: { gap: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.sm },
-  chip: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.full,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 6,
-  },
-  chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  chipText: { fontSize: fontSize.xs, color: colors.textSecondary, fontWeight: '600' },
-  chipTextActive: { color: colors.white },
   list: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
 });

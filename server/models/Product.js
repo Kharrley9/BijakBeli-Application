@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { STORE_CATEGORY_SLUGS } = require('../config/constants');
 
 const productSchema = new mongoose.Schema(
   {
@@ -24,40 +23,19 @@ const productSchema = new mongoose.Schema(
       ref: 'Category',
       required: [true, 'Please add a category'],
     },
-    // Denormalised from the category's group for fast filtering / search.
-    storeCategory: {
-      type: String,
-      enum: STORE_CATEGORY_SLUGS,
-      default: 'grocery',
-      index: true,
-    },
-    // Optional — automotive / hardware items often have no catalogue brand.
     brandId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Brand',
       default: null,
     },
-    // null = shared catalogue (seeded by admin); set = merchant-created product.
-    ownerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      default: null,
-      index: true,
-    },
     image: {
       type: String,
       default: '',
     },
-    // Free-text unit (kg, L, pcs, set, roll, metre, ...). Suggestions live on the client.
     unit: {
       type: String,
       required: [true, 'Please add a unit'],
       trim: true,
-    },
-    // Category-specific extra fields (part number, size, wattage, ...).
-    attributes: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {},
     },
     status: {
       type: String,

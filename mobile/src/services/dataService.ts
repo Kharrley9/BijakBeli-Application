@@ -11,22 +11,14 @@ function withOrigin(params: Record<string, any>, origin: Origin) {
 }
 
 export const categoryService = {
-  /** The 8 top-level store categories for the home grid. */
-  getStoreCategories: () => api.get('/categories', { params: { kind: 'store' } }),
-  /** Product categories within a store-category group. */
-  getByGroup: (group: string) =>
-    api.get('/categories', { params: { kind: 'product', group } }),
   getAll: () => api.get('/categories'),
 };
 
 export const productService = {
-  /** Marketplace list: products annotated with cheapest price / cheapest & nearest store. */
+  /** Catalogue list: products annotated with cheapest price / cheapest & nearest store. */
   list: (
     params: {
-      group?: string;
-      storeCategory?: string;
       categoryId?: string;
-      storeId?: string;
       q?: string;
       sort?: 'price_asc' | 'nearest' | '-createdAt';
       page?: number;
@@ -46,25 +38,14 @@ export const productService = {
 };
 
 export const storeService = {
-  list: (
-    params: { storeCategory?: string; kind?: string; state?: string; q?: string } = {},
-    origin?: Origin
-  ) => api.get('/stores', { params: withOrigin(params, origin) }),
+  list: (params: { state?: string; q?: string } = {}, origin?: Origin) =>
+    api.get('/stores', { params: withOrigin(params, origin) }),
 
-  getNearby: (params: {
-    lat: number;
-    lng: number;
-    maxKm?: number;
-    limit?: number;
-    storeCategory?: string;
-    kind?: string;
-  }) => api.get('/stores/nearby', { params }),
+  getNearby: (params: { lat: number; lng: number; maxKm?: number; limit?: number }) =>
+    api.get('/stores/nearby', { params }),
 
   getById: (id: string, origin?: Origin) =>
     api.get(`/stores/${id}`, { params: withOrigin({}, origin) }),
-
-  create: (data: Record<string, unknown>) => api.post('/stores', data),
-  update: (id: string, data: Record<string, unknown>) => api.put(`/stores/${id}`, data),
 };
 
 export const priceService = {
@@ -80,83 +61,4 @@ export const priceService = {
 export const promotionService = {
   getActive: (params?: Record<string, any>) => api.get('/promotions/active', { params }),
   getBestDeals: (params?: Record<string, any>) => api.get('/promotions/best-deals', { params }),
-};
-
-export const orderService = {
-  /** carts: [{ storeId, fulfilment, items:[{productId, qty}], deliveryAddress?, contactPhone?, notes? }] */
-  place: (carts: Record<string, unknown>[]) => api.post('/orders', { carts }),
-  myOrders: (params: { status?: 'active' | 'completed' | 'cancelled' } = {}) =>
-    api.get('/orders', { params }),
-  getOrder: (id: string) => api.get(`/orders/${id}`),
-  cancel: (id: string, note?: string) => api.put(`/orders/${id}/cancel`, { note }),
-};
-
-export const merchantService = {
-  /** Register the caller's store (auto-approved, upgrades role to merchant). */
-  registerStore: (data: Record<string, unknown>) => api.post('/merchant/store', data),
-  getMyStore: () => api.get('/merchant/store'),
-  updateMyStore: (data: Record<string, unknown>) => api.put('/merchant/store', data),
-  /** Product categories for the store's group (or an explicit group). */
-  getCategories: (group?: string) =>
-    api.get('/merchant/categories', { params: group ? { group } : {} }),
-
-  listProducts: () => api.get('/merchant/products'),
-  createProduct: (data: Record<string, unknown>) => api.post('/merchant/products', data),
-  updateProduct: (id: string, data: Record<string, unknown>) =>
-    api.put(`/merchant/products/${id}`, data),
-  quickUpdatePrice: (id: string, data: { price?: number; stock?: number | null; inStock?: boolean }) =>
-    api.patch(`/merchant/products/${id}/price`, data),
-  deleteProduct: (id: string) => api.delete(`/merchant/products/${id}`),
-
-  listPromotions: () => api.get('/merchant/promotions'),
-  createPromotion: (data: Record<string, unknown>) => api.post('/merchant/promotions', data),
-  deletePromotion: (id: string) => api.delete(`/merchant/promotions/${id}`),
-
-  listOrders: (params: { status?: string } = {}) => api.get('/merchant/orders', { params }),
-  updateOrderStatus: (id: string, status: string, note?: string) =>
-    api.put(`/merchant/orders/${id}/status`, { status, note }),
-
-  getAnalytics: (days = 30) => api.get('/merchant/analytics', { params: { days } }),
-};
-
-export const reviewService = {
-  listForStore: (storeId: string, params: { page?: number; limit?: number } = {}) =>
-    api.get(`/reviews/store/${storeId}`, { params }),
-  listMine: () => api.get('/reviews/mine'),
-  getReviewableOrders: () => api.get('/reviews/reviewable'),
-  create: (data: { orderId: string; rating: number; comment?: string }) => api.post('/reviews', data),
-  remove: (id: string) => api.delete(`/reviews/${id}`),
-};
-
-export const priceAlertService = {
-  listMine: () => api.get('/price-alerts'),
-  setAlert: (productId: string, targetPrice: number) =>
-    api.post('/price-alerts', { productId, targetPrice }),
-  remove: (productId: string) => api.delete(`/price-alerts/${productId}`),
-};
-
-export const favoriteStoreService = {
-  listMine: () => api.get('/favorite-stores'),
-  toggle: (storeId: string) => api.post(`/favorite-stores/${storeId}`),
-  check: (storeId: string) => api.get(`/favorite-stores/${storeId}/check`),
-};
-
-export const notificationService = {
-  getAll: () => api.get('/notifications'),
-  getUnreadCount: () => api.get('/notifications/unread-count'),
-  markAsRead: (id: string) => api.put(`/notifications/${id}/read`),
-  markAllAsRead: () => api.put('/notifications/read-all'),
-};
-
-export const uploadService = {
-  uploadImage: async (imageUri: string) => {
-    const formData = new FormData();
-    const filename = imageUri.split('/').pop() || 'image.jpg';
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : 'image/jpeg';
-    formData.append('image', { uri: imageUri, name: filename, type } as any);
-    return api.post('/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-  },
 };

@@ -40,7 +40,7 @@ const upload = multer({
   },
 });
 
-router.post('/', protect, authorize('admin', 'merchant'), upload.single('image'), (req, res) => {
+router.post('/', protect, authorize('admin'), upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ success: false, message: 'No image uploaded' });
   }
