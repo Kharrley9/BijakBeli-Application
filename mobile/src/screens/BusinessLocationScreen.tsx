@@ -12,6 +12,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MapView, { Region } from 'react-native-maps';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from '../context/LocationContext';
 import { authService } from '../services/authService';
 import { locationService, pointToLatLng } from '../services/locationService';
 
@@ -25,6 +26,7 @@ const FALLBACK_REGION: Region = {
 
 export default function BusinessLocationScreen({ navigation }: any) {
   const { user, refreshUser } = useAuth();
+  const { setOriginMode } = useLocation();
   const mapRef = useRef<MapView>(null);
   const existing = pointToLatLng(user?.businessLocation);
 
@@ -93,6 +95,9 @@ export default function BusinessLocationScreen({ navigation }: any) {
         },
       });
       await refreshUser();
+      // Make the newly-saved location the active origin immediately — otherwise
+      // if the app was showing GPS, this save has no visible effect anywhere.
+      setOriginMode('business');
       Alert.alert('Saved', 'Your business location has been updated.');
       navigation.goBack();
     } catch (e: any) {

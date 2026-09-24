@@ -28,12 +28,17 @@ const FALLBACK: Region = {
 };
 
 export default function NearbyStoresScreen({ navigation }: any) {
-  const { origin, refreshGps, originMode } = useLocation();
+  const { origin, refreshGps, originMode, setOriginMode, gpsLoading } = useLocation();
   const mapRef = useRef<MapView>(null);
   const [view, setView] = useState<'list' | 'map'>('list');
   const [cat, setCat] = useState<string | undefined>(undefined);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const relocate = () => {
+    setOriginMode('gps');
+    refreshGps();
+  };
 
   const load = useCallback(async () => {
     let o = origin;
@@ -75,6 +80,13 @@ export default function NearbyStoresScreen({ navigation }: any) {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>Stores Near You</Text>
+        <TouchableOpacity style={styles.relocateBtn} onPress={relocate} disabled={gpsLoading}>
+          {gpsLoading ? (
+            <ActivityIndicator size="small" color={colors.primary} />
+          ) : (
+            <Ionicons name="locate" size={18} color={colors.primary} />
+          )}
+        </TouchableOpacity>
         <View style={styles.toggle}>
           {(['list', 'map'] as const).map((v) => (
             <TouchableOpacity
@@ -161,7 +173,17 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
   },
-  title: { fontSize: fontSize.xl, fontWeight: '800', color: colors.text },
+  title: { flex: 1, fontSize: fontSize.xl, fontWeight: '800', color: colors.text },
+  relocateBtn: {
+    width: 34,
+    height: 34,
+    borderRadius: radius.full,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.sm,
+  },
   toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.sm, padding: 3, gap: 3 },
   toggleBtn: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.sm },
   toggleActive: { backgroundColor: colors.primary },

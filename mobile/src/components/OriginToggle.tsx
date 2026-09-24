@@ -29,7 +29,9 @@ export default function OriginToggle() {
 
   const onGpsPress = () => {
     setOriginMode('gps');
-    if (!gpsOrigin) refreshGps();
+    // Always fetch a fresh fix — the user tapping this expects it to reflect
+    // where they are now, not a cached reading from whenever it was first granted.
+    refreshGps();
   };
 
   const onBusinessPress = () => {

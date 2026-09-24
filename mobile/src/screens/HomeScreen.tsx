@@ -23,7 +23,7 @@ import DistanceBadge from '../components/DistanceBadge';
 
 export default function HomeScreen({ navigation }: any) {
   const { user } = useAuth();
-  const { origin } = useLocation();
+  const { origin, originMode, refreshGps } = useLocation();
   const { count } = useCart();
   const first = user?.fullName?.split(' ')[0] || 'there';
 
@@ -61,6 +61,9 @@ export default function HomeScreen({ navigation }: any) {
 
   const onRefresh = async () => {
     setRefreshing(true);
+    // Pulling to refresh implies "check again from here" — get a live fix
+    // rather than reusing whatever GPS reading we happened to grab earlier.
+    if (originMode === 'gps') await refreshGps();
     await load();
     setRefreshing(false);
   };
