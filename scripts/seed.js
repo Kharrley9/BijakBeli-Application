@@ -142,6 +142,27 @@ async function seed() {
   const cat = (n) => categories.find((c) => c.categoryName === n)._id;
   console.log(`📁 ${categories.length} product categories`);
 
+  // One representative photo per category (Unsplash, direct CDN links) — every
+  // product in a category shares its picture since we don't have per-SKU photography.
+  const CATEGORY_IMAGES = {
+    'Rice & Grains': '1586201375761-83865001e31c',
+    'Cooking Oil': '1757801333069-f7b3cabaec4a',
+    'Sugar & Flour': '1634612831148-03a8550e1d52',
+    Beverages: '1562115260-42521bf8b1a4',
+    'Dairy & Eggs': '1552593050-477020c5af3f',
+    'Snacks & Biscuits': '1464195085758-89f3e55e821e',
+    'Canned Food': '1738618140037-09e11c8e644a',
+    'Noodles & Pasta': '1570715586318-640b87430b16',
+    'Sauces & Condiments': '1608736427500-c547edecc2b1',
+    'Personal Care': '1701992678972-d5a053ad0fb0',
+    Household: '1550963295-019d8a8a61c5',
+    'Bread & Bakery': '1709904749558-d943f5005b48',
+    'Fruits & Vegetables': '1757627550652-30788bfce978',
+    'Meat & Seafood': '1682991136736-a2b44623eeba',
+  };
+  const categoryImage = (category) =>
+    `https://images.unsplash.com/photo-${CATEGORY_IMAGES[category]}?w=400&h=400&fit=crop&q=80&auto=format`;
+
   // ---- BRANDS ----
   const brandNames = [
     'Jasmine', 'Knife', 'CSR', 'Milo', 'Dutch Lady', 'Maggi', 'Adabi', "Munchy's", 'Ayam Brand',
@@ -220,6 +241,7 @@ async function seed() {
       description: productName,
       categoryId: cat(category),
       brandId: brandName ? brand(brandName) : null,
+      image: categoryImage(category),
       unit,
       status: 'active',
     }))
