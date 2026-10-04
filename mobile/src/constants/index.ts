@@ -29,7 +29,7 @@ export const SORT_OPTIONS = [
 export const DEFAULT_MAX_NEARBY_KM = 60;
 
 export const POPULAR_SEARCHES = [
-  'Beras', 'Minyak Masak', 'Milo', 'Gula', 'Telur', 'Roti',
+  'Beras', 'Minyak Masak', 'Gula', 'Biskut', 'Mi Segera', 'Coklat',
 ];
 
 export const ONBOARDING_SLIDES = [
