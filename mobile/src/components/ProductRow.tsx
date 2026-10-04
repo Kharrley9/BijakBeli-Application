@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { CatalogProduct } from '../types';
 import DistanceBadge from './DistanceBadge';
+import BrandAvatar from './BrandAvatar';
 
 export default function ProductRow({
   product,
@@ -33,9 +34,12 @@ export default function ProductRow({
         <Text style={styles.name} numberOfLines={2}>
           {product.productName}
         </Text>
-        <Text style={styles.sub} numberOfLines={1}>
-          {[brand, product.unit].filter(Boolean).join(' · ')}
-        </Text>
+        <View style={styles.subRow}>
+          {brand && <BrandAvatar brandName={brand} size={16} style={{ marginRight: spacing.xs }} />}
+          <Text style={styles.sub} numberOfLines={1}>
+            {[brand, product.unit].filter(Boolean).join(' · ')}
+          </Text>
+        </View>
         {cheapest && (
           <Text style={styles.store} numberOfLines={1}>
             <Ionicons name="storefront-outline" size={11} color={colors.textMuted} />{' '}
@@ -85,7 +89,8 @@ const styles = StyleSheet.create({
   img: { width: 56, height: 56 },
   mid: { flex: 1 },
   name: { fontSize: fontSize.md, fontWeight: '600', color: colors.text },
-  sub: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 2 },
+  subRow: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
+  sub: { fontSize: fontSize.xs, color: colors.textMuted },
   store: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 2 },
   right: { alignItems: 'flex-end', gap: 1, minWidth: 74 },
   priceLabel: { fontSize: 10, color: colors.textMuted },

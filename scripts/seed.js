@@ -205,15 +205,23 @@ async function seed() {
     prawnCrackers: 'PEXELS:https://images.pexels.com/photos/5848620/pexels-photo-5848620.jpeg?w=400&h=400&fit=crop&auto=compress&cs=tinysrgb',
     fishCrackers: 'PEXELS:https://images.pexels.com/photos/35644152/pexels-photo-35644152.jpeg?w=400&h=400&fit=crop&auto=compress&cs=tinysrgb',
     roastedPeanuts: 'PEXELS:https://images.pexels.com/photos/4202964/pexels-photo-4202964.jpeg?w=400&h=400&fit=crop&auto=compress&cs=tinysrgb',
-    // No good free-stock match found for these — fall back to the category photo:
-    // gulaMelaka, cannedSambal, cannedMushroom, cannedCoconutMilk, oysterSauce,
-    // yeast, vanillaEssence, oatmealSachet, candyRoll (best candidate was
-    // Unsplash+ premium-licensed, not the free Unsplash License — excluded).
+    gulaMelaka: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/c/c9/Gula_melaka.jpg',
+    cannedMushroom: 'PIXABAY:https://cdn.pixabay.com/photo/2017/05/18/16/54/mushrooms-2324111_1280.jpg',
+    cannedCoconutMilk: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/5/5d/Kokosmj%C3%B6lk_i_konservburk.jpg',
+    oysterSauce: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/7/78/OysterSauce2.jpg',
+    yeast: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/9/98/Instant_Yeast_package_-_Fleischmann%27s.jpg',
+    vanillaEssence: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/9/9e/Adams_Extract.JPG',
+    candyRoll: 'WIKIMEDIA:https://upload.wikimedia.org/wikipedia/commons/a/ad/Polo_mints.jpg',
+    // No good free-stock match found after exhausting Unsplash, Pexels, Pixabay and
+    // Wikimedia Commons — falls back to the category photo: cannedSambal (too niche
+    // a packaged product — only fresh/plated or bottled-not-canned photos exist),
+    // oatmealSachet (every free photo shows prepared oats, never the sachet itself).
   };
   const productImage = (typeKey, category) => {
     const id = PRODUCT_IMAGES[typeKey];
     if (!id) return categoryImage(category);
-    if (id.startsWith('PEXELS:')) return id.slice('PEXELS:'.length);
+    const prefixed = id.match(/^(PEXELS|WIKIMEDIA|PIXABAY):(.+)$/);
+    if (prefixed) return prefixed[2];
     return `https://images.unsplash.com/photo-${id}?w=400&h=400&fit=crop&q=80&auto=format`;
   };
 

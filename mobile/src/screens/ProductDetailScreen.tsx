@@ -17,6 +17,7 @@ import { ProductDetail } from '../types';
 import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
 import OriginToggle from '../components/OriginToggle';
+import BrandAvatar from '../components/BrandAvatar';
 
 export default function ProductDetailScreen({ route, navigation }: any) {
   const { id } = route.params || {};
@@ -73,7 +74,10 @@ export default function ProductDetailScreen({ route, navigation }: any) {
           )}
         </View>
         <Text style={styles.name}>{product.productName}</Text>
-        <Text style={styles.sub}>{[brand, product.unit].filter(Boolean).join(' · ')}</Text>
+        <View style={styles.subRow}>
+          {brand && <BrandAvatar brandName={brand} size={20} style={{ marginRight: spacing.xs }} />}
+          <Text style={styles.sub}>{[brand, product.unit].filter(Boolean).join(' · ')}</Text>
+        </View>
 
         <View style={styles.priceBox}>
           <View>
@@ -165,7 +169,13 @@ const styles = StyleSheet.create({
   },
   heroImg: { width: '100%', height: '100%' },
   name: { fontSize: fontSize.lg, fontWeight: '800', color: colors.text },
-  sub: { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2, marginBottom: spacing.md },
+  subRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+    marginBottom: spacing.md,
+  },
+  sub: { fontSize: fontSize.sm, color: colors.textSecondary },
   priceBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
