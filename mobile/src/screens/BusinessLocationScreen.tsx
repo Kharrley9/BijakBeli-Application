@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MapView, { Region } from 'react-native-maps';
+import OsmMap from '../components/OsmMap';
 import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
 import { useLocation } from '../context/LocationContext';
@@ -17,31 +17,23 @@ import { authService } from '../services/authService';
 import { locationService, pointToLatLng } from '../services/locationService';
 
 // Default view: Batu Pahat, Johor
-const FALLBACK_REGION: Region = {
-  latitude: 1.8548,
-  longitude: 102.9358,
-  latitudeDelta: 0.08,
-  longitudeDelta: 0.08,
-};
+const FALLBACK = { lat: 1.8548, lng: 102.9358 };
 
 export default function BusinessLocationScreen({ navigation }: any) {
   const { user, refreshUser } = useAuth();
   const { setOriginMode } = useLocation();
-  const mapRef = useRef<MapView>(null);
   const existing = pointToLatLng(user?.businessLocation);
 
   const [center, setCenter] = useState({
-    latitude: existing?.lat ?? FALLBACK_REGION.latitude,
-    longitude: existing?.lng ?? FALLBACK_REGION.longitude,
+    lat: existing?.lat ?? FALLBACK.lat,
+    lng: existing?.lng ?? FALLBACK.lng,
   });
+  // Bump to make the map fly to `center` (e.g. after "use my location").
+  const [flyKey, setFlyKey] = useState(0);
   const [address, setAddress] = useState(user?.businessLocation?.label || '');
   const [resolving, setResolving] = useState(false);
   const [locating, setLocating] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  const initialRegion: Region = existing
-    ? { ...FALLBACK_REGION, latitude: existing.lat, longitude: existing.lng }
-    : FALLBACK_REGION;
 
   useEffect(() => {
     if (!existing) {
@@ -58,23 +50,18 @@ export default function BusinessLocationScreen({ navigation }: any) {
     setResolving(false);
   };
 
-  const onRegionChangeComplete = (region: Region) => {
-    setCenter({ latitude: region.latitude, longitude: region.longitude });
-    reverseGeocode(region.latitude, region.longitude);
+  const onMoveEnd = async (c: { lat: number; lng: number }) => {
+    setCenter(c);
+    reverseGeocode(c.lat, c.lng);
   };
 
   const handleUseCurrent = async (silent = false) => {
     setLocating(true);
     try {
       const pos = await locationService.getCurrentPosition();
-      const region: Region = {
-        ...FALLBACK_REGION,
-        latitude: pos.lat,
-        longitude: pos.lng,
-      };
-      mapRef.current?.animateToRegion(region, 400);
-      setCenter({ latitude: pos.lat, longitude: pos.lng });
-      reverseGeocode(pos.lat, pos.lng);
+      // The map's moveend handler then updates the address.
+      setCenter({ lat: pos.lat, lng: pos.lng });
+      setFlyKey((k) => k + 1);
     } catch (e: any) {
       if (!silent) {
         Alert.alert('Location', e?.message || 'Could not get your location.');
@@ -90,7 +77,7 @@ export default function BusinessLocationScreen({ navigation }: any) {
       await authService.updateProfile({
         businessLocation: {
           type: 'Point',
-          coordinates: [center.longitude, center.latitude],
+          coordinates: [center.lng, center.lat],
           label: address || undefined,
         },
       });
@@ -117,13 +104,11 @@ export default function BusinessLocationScreen({ navigation }: any) {
       </View>
 
       <View style={styles.mapWrap}>
-        <MapView
-          ref={mapRef}
+        <OsmMap
           style={StyleSheet.absoluteFill}
-          initialRegion={initialRegion}
-          onRegionChangeComplete={onRegionChangeComplete}
-          showsUserLocation
-          showsMyLocationButton={false}
+          center={center}
+          flyKey={flyKey}
+          onMoveEnd={onMoveEnd}
         />
         {/* Fixed centre pin — the map pans underneath it */}
         <View style={styles.pinContainer} pointerEvents="none">
@@ -152,7 +137,7 @@ export default function BusinessLocationScreen({ navigation }: any) {
           </Text>
         </View>
         <Text style={styles.coordText}>
-          {center.latitude.toFixed(5)}, {center.longitude.toFixed(5)}
+          {center.lat.toFixed(5)}, {center.lng.toFixed(5)}
         </Text>
 
         <TouchableOpacity

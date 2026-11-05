@@ -8,7 +8,7 @@ import { Platform } from 'react-native';
 // Currently set to the PC's LAN IP so a physical phone (on the same Wi-Fi) can reach
 // the backend. Switch back to '10.0.2.2' if you go back to testing on the emulator.
 // ======================================================
-const LOCAL_IP = '10.4.57.225';
+const LOCAL_IP = '192.168.0.54';
 
 const getApiUrl = () => {
   if (__DEV__) {

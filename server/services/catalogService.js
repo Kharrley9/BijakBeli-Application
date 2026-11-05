@@ -40,7 +40,7 @@ class CatalogService {
     // Batch-load prices for all candidates
     const productIds = candidates.map((p) => p._id);
     const priceRows = await Price.find({ productId: { $in: productIds } })
-      .populate('storeId', 'storeName logo location city state isActive')
+      .populate('storeId', 'storeName mallName logo location city state isActive')
       .lean();
 
     const byProduct = new Map();
@@ -68,17 +68,16 @@ class CatalogService {
 
     let items = candidates.map((p) => {
       const rows = byProduct.get(String(p._id)) || [];
-      let cheapest = null;
-      let nearest = null;
-      for (const row of rows) {
+      const entries = rows.map((row) => {
         const s = row.storeId;
         const d = distanceMap.get(String(s._id));
-        const entry = {
+        return {
           price: row.price,
           previousPrice: row.previousPrice,
           store: {
             _id: s._id,
             storeName: s.storeName,
+            mallName: s.mallName,
             logo: s.logo,
             city: s.city,
             state: s.state,
@@ -86,17 +85,24 @@ class CatalogService {
             durationMin: d ? d.durationMin : null,
           },
         };
-        if (!cheapest || entry.price < cheapest.price) cheapest = entry;
-        if (
-          entry.store.distanceKm != null &&
-          (!nearest || entry.store.distanceKm < nearest.store.distanceKm)
-        ) {
-          nearest = entry;
+      });
+
+      // Cheapest among nearby stores when we know where the buyer is, else nationwide
+      const nearbyEntries = geoService.withinNearbyRadius(entries);
+      const pool = nearbyEntries.length ? nearbyEntries : entries;
+      let cheapest = null;
+      for (const e of pool) if (!cheapest || e.price < cheapest.price) cheapest = e;
+      let nearest = null;
+      for (const e of entries) {
+        if (e.store.distanceKm != null && (!nearest || e.store.distanceKm < nearest.store.distanceKm)) {
+          nearest = e;
         }
       }
       return {
         ...p,
         storeCount: rows.length,
+        nearbyStoreCount: nearbyEntries.length,
+        priceScope: nearbyEntries.length ? 'nearby' : 'all',
         lowestPrice: cheapest ? cheapest.price : null,
         cheapestStore: cheapest ? cheapest.store : null,
         nearestStore: nearest ? nearest.store : null,
@@ -135,7 +141,7 @@ class CatalogService {
    * Full product detail with "prices at nearby stores".
    * Reuses priceComparisonService.comparePrices (already handles distance + nearest).
    */
-  async getProductDetail(productId, origin = null) {
+  async getProductDetail(productId, origin = null, vehicle = 'car') {
     const product = await Product.findById(productId)
       .populate('categoryId', 'categoryName icon')
       .populate('brandId', 'brandName logo');
@@ -145,18 +151,21 @@ class CatalogService {
       throw e;
     }
 
-    const comparison = await priceComparisonService.comparePrices(productId, [], origin);
+    const comparison = await priceComparisonService.comparePrices(productId, [], origin, vehicle);
 
     const stores = comparison.comparisons.map((c) => ({
       store: c.store,
       price: c.currentPrice,
       previousPrice: c.previousPrice,
       effectivePrice: c.effectivePrice,
+      travelCost: c.travelCost,
+      totalCost: c.totalCost,
       inStock: c.inStock,
       hasPromotion: c.hasPromotion,
       promotion: c.promotion,
       isLowestPrice: !!c.isLowestPrice,
       isNearest: !!c.isNearest,
+      isBestValue: !!c.isBestValue,
     }));
 
     return {
@@ -164,6 +173,12 @@ class CatalogService {
       stores,
       cheapestStore: comparison.cheapestStore,
       nearestStore: comparison.nearestStore,
+      bestValueStore: comparison.bestValueStore,
+      fuel: comparison.fuel,
+      dataAsOf: comparison.dataAsOf || null,
+      priceScope: comparison.priceScope || 'all',
+      nearbyRadiusKm: comparison.nearbyRadiusKm,
+      nearbyStoreCount: comparison.nearbyStoreCount || 0,
       lowestPrice: comparison.lowestPrice ?? null,
       highestPrice: comparison.highestPrice ?? null,
       savings: comparison.savings || 0,

@@ -80,6 +80,19 @@ async function seed() {
   await mongoose.connect(MONGO_URI);
   console.log('✅ Connected to MongoDB');
 
+  // This wipes EVERYTHING and rebuilds the old generated catalogue. Refuse if the
+  // real PriceCatcher stores/prices (server/scripts/importPriceCatcher.js) are there.
+  const realStores = await Store.countDocuments({ premiseCode: { $ne: null } });
+  if (realStores > 0 && !process.argv.includes('--force')) {
+    console.error(
+      `❌ ${realStores} real PriceCatcher stores are in the database; seeding would delete them\n` +
+        '   and all real prices. Use `npm run import:prices` (in server/) to refresh data.\n' +
+        '   (Pass --force only if you really want the old generated data back.)'
+    );
+    await mongoose.disconnect();
+    process.exit(1);
+  }
+
   await Promise.all([
     User.deleteMany(), Store.deleteMany(), Category.deleteMany(), Brand.deleteMany(),
     Product.deleteMany(), Price.deleteMany(), Promotion.deleteMany(), Settings.deleteMany(),

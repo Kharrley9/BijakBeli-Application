@@ -8,6 +8,33 @@ const productSchema = new mongoose.Schema(
       sparse: true,
       trim: true,
     },
+    // ── Price Catcher / data.gov.my fields ──────────────────────────────
+    itemCode: {
+      type: Number,
+      default: null,
+      index: true,
+    },
+    itemGroup: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    itemCategory: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    isOfficialItem: {
+      type: Boolean,
+      default: false,
+    },
+    // True when scripts/importPriceCatcher.js hid this item because no store
+    // in our chains reported a price for it; the next import re-shows it once
+    // prices appear. Items hidden for other reasons never get this flag.
+    noPriceData: {
+      type: Boolean,
+      default: false,
+    },
     productName: {
       type: String,
       required: [true, 'Please add a product name'],
@@ -50,8 +77,8 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-// Text index for search
-productSchema.index({ productName: 'text', description: 'text' });
+// Text index for search (include itemGroup / itemCategory for better results)
+productSchema.index({ productName: 'text', description: 'text', itemGroup: 'text', itemCategory: 'text' });
 
 // Virtual for prices
 productSchema.virtual('prices', {

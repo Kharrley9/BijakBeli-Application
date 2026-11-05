@@ -9,3 +9,6 @@ build/
 
 # IDE
 .idea/
+
+# Database backups made by migration scripts
+server/backups/

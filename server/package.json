@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "seed": "node ../scripts/seed.js"
+    "seed": "node ../scripts/seed.js",
+    "import:prices": "node scripts/importPriceCatcher.js",
+    "import:prices:dry": "node scripts/importPriceCatcher.js --dry-run"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

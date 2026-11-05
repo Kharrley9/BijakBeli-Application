@@ -10,6 +10,7 @@ export default function SearchBar({
   placeholder = 'Search products...',
   editable = true,
   onPress,
+  onRightPress,
   autoFocus,
   style,
 }: {
@@ -19,6 +20,7 @@ export default function SearchBar({
   placeholder?: string;
   editable?: boolean;
   onPress?: () => void;
+  onRightPress?: () => void;
   autoFocus?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
@@ -42,6 +44,9 @@ export default function SearchBar({
           <Ionicons name="close-circle" size={18} color={colors.textMuted} />
         </TouchableOpacity>
       )}
+      <TouchableOpacity onPress={onRightPress} style={styles.filterBtn} hitSlop={8}>
+        <Ionicons name="options-outline" size={18} color={colors.white} />
+      </TouchableOpacity>
     </View>
   );
 
@@ -68,4 +73,12 @@ const styles = StyleSheet.create({
     minHeight: 46,
   },
   input: { flex: 1, fontSize: fontSize.md, color: colors.text, paddingVertical: 0 },
+  filterBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.sm,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

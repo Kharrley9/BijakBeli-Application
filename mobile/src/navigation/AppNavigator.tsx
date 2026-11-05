@@ -23,6 +23,7 @@ import StoreProfileScreen from '../screens/StoreProfileScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BusinessLocationScreen from '../screens/BusinessLocationScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ReportPriceScreen from '../screens/ReportPriceScreen';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,6 +87,7 @@ export default function AppNavigator() {
             <RootStack.Screen name="StoreProfile" component={StoreProfileScreen} />
             <RootStack.Screen name="BusinessLocation" component={BusinessLocationScreen} />
             <RootStack.Screen name="Settings" component={SettingsScreen} />
+            <RootStack.Screen name="ReportPrice" component={ReportPriceScreen} />
           </>
         )}
       </RootStack.Navigator>

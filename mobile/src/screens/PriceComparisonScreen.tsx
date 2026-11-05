@@ -15,6 +15,8 @@ import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
 import OriginToggle from '../components/OriginToggle';
 
+const MAX_CARDS = 30;
+
 export default function PriceComparisonScreen({ route }: any) {
   const { productId } = route.params || {};
   const { origin, originParams } = useLocation();
@@ -38,6 +40,7 @@ export default function PriceComparisonScreen({ route }: any) {
   const comparisons: any[] = data?.comparisons || [];
   const cheapest = data?.cheapestStore;
   const nearest = data?.nearestStore;
+  const bestValue = comparisons.find((c) => c.isBestValue && c.totalCost != null);
 
   return (
     <View style={styles.safe}>
@@ -54,6 +57,8 @@ export default function PriceComparisonScreen({ route }: any) {
             comparisons
               .slice()
               .sort((a, b) => (a.store.distanceKm ?? 1e9) - (b.store.distanceKm ?? 1e9))
+              // ~250 stores nationwide: the nearest 30 are the useful ones
+              .slice(0, MAX_CARDS)
               .map((c) => (
                 <View
                   key={c.store._id}
@@ -65,9 +70,10 @@ export default function PriceComparisonScreen({ route }: any) {
                         <Text style={styles.store} numberOfLines={1}>{c.store.storeName}</Text>
                         {c.isLowestPrice && <Tag text="CHEAPEST" />}
                         {c.isNearest && <Tag text="NEAREST" color={colors.primaryDark} />}
+                        {c.isBestValue && <Tag text="BEST VALUE" color={colors.accent} />}
                       </View>
                       <Text style={styles.city} numberOfLines={1}>
-                        {c.store.city || c.store.state}
+                        {[c.store.mallName, c.store.city || c.store.state].filter(Boolean).join(' · ')}
                       </Text>
                       {c.store.distanceKm != null && (
                         <DistanceBadge
@@ -83,6 +89,12 @@ export default function PriceComparisonScreen({ route }: any) {
                         <Text style={styles.was}>RM{c.currentPrice.toFixed(2)}</Text>
                       )}
                       <Text style={styles.price}>RM{c.effectivePrice.toFixed(2)}</Text>
+                      {c.travelCost != null && (
+                        <Text style={styles.fuel}>+RM{c.travelCost.toFixed(2)} petrol</Text>
+                      )}
+                      {c.totalCost != null && (
+                        <Text style={styles.total}>= RM{c.totalCost.toFixed(2)}</Text>
+                      )}
                     </View>
                   </View>
 
@@ -94,11 +106,21 @@ export default function PriceComparisonScreen({ route }: any) {
               ))
           )}
 
+          {bestValue && (
+            <View style={[styles.banner, styles.bannerValue]}>
+              <Ionicons name="car" size={16} color={colors.text} />
+              <Text style={[styles.bannerText, { color: colors.text }]}>
+                Best value incl. petrol: {bestValue.store.mallName || bestValue.store.storeName} — RM
+                {bestValue.totalCost.toFixed(2)}
+                {data?.fuel ? `  ·  by ${data.fuel.vehicle}, round trip` : ''}
+              </Text>
+            </View>
+          )}
           {cheapest && (
             <View style={styles.banner}>
               <Ionicons name="pricetag" size={16} color={colors.white} />
               <Text style={styles.bannerText}>
-                Cheapest: {cheapest.storeName} — RM{Number(data.lowestPrice).toFixed(2)}
+                Cheapest: {cheapest.mallName || cheapest.storeName} — RM{Number(data.lowestPrice).toFixed(2)}
                 {cheapest.distanceKm != null ? `  ·  ${cheapest.distanceKm} km` : ''}
               </Text>
             </View>
@@ -107,10 +129,15 @@ export default function PriceComparisonScreen({ route }: any) {
             <View style={[styles.banner, styles.bannerNear]}>
               <Ionicons name="location" size={16} color={colors.white} />
               <Text style={styles.bannerText}>
-                Nearest: {nearest.storeName}
+                Nearest: {nearest.mallName || nearest.storeName}
                 {nearest.distanceKm != null ? `  ·  ${nearest.distanceKm} km` : ''} — shorter trip
               </Text>
             </View>
+          )}
+          {comparisons.length > 0 && (
+            <Text style={styles.source}>
+              Prices: PriceCatcher, KPDN (data.gov.my). Petrol is an estimate.
+            </Text>
           )}
         </ScrollView>
       )}
@@ -174,5 +201,9 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   bannerNear: { backgroundColor: colors.primaryDark },
+  bannerValue: { backgroundColor: colors.accent },
+  source: { fontSize: 10, color: colors.textMuted, textAlign: 'center', marginTop: spacing.md },
+  fuel: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 1 },
+  total: { fontSize: fontSize.sm, fontWeight: '800', color: colors.primaryDark },
   bannerText: { color: colors.white, fontWeight: '700', fontSize: fontSize.sm, flex: 1 },
 });

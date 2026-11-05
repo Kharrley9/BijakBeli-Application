@@ -19,7 +19,8 @@ exports.getProduct = async (req, res, next) => {
   try {
     const detail = await catalogService.getProductDetail(
       req.params.id,
-      originFrom(req.query)
+      originFrom(req.query),
+      req.query.vehicle
     );
     res.status(200).json({ success: true, data: detail });
   } catch (error) { next(error); }

@@ -5,16 +5,24 @@ import { colors, fontSize, radius, spacing } from '../theme/theme';
 import AppHeader from '../components/AppHeader';
 import { ChipSelect } from '../components/FormField';
 import { useAuth } from '../context/AuthContext';
-import { getPrefs, setPref } from '../utils/prefs';
+import { getPrefs, setPref, Vehicle } from '../utils/prefs';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SettingsScreen() {
   const { signOut } = useAuth();
   const initial = getPrefs();
   const [distanceUnit, setDistanceUnit] = useState(initial.distanceUnit);
+  const [vehicle, setVehicle] = useState(initial.vehicle);
+  const { lang, setLang } = useLanguage();
 
   const changeUnit = (v: 'km' | 'mi') => {
     setDistanceUnit(v);
     setPref('distanceUnit', v);
+  };
+
+  const changeVehicle = (v: Vehicle) => {
+    setVehicle(v);
+    setPref('vehicle', v);
   };
 
   const logout = () =>
@@ -40,11 +48,34 @@ export default function SettingsScreen() {
           />
         </View>
 
+        <Text style={styles.groupTitle}>Travel cost</Text>
+        <View style={styles.card}>
+          <ChipSelect
+            label="I usually travel by"
+            options={[
+              { value: 'car', label: 'Car' },
+              { value: 'motorcycle', label: 'Motorcycle' },
+            ]}
+            value={vehicle}
+            onChange={changeVehicle}
+          />
+          <Text style={styles.note}>
+            Used to estimate round-trip petrol (RON95) to each store, so stores can be
+            ranked by item price plus fuel.
+          </Text>
+        </View>
+
         <Text style={styles.groupTitle}>Language</Text>
         <View style={styles.card}>
-          <Text style={styles.note}>
-            BijakBeli currently runs in English. More languages are planned.
-          </Text>
+          <ChipSelect
+            label="Category names"
+            options={[
+              { value: 'ms', label: 'Bahasa Melayu' },
+              { value: 'en', label: 'English' },
+            ]}
+            value={lang}
+            onChange={setLang}
+          />
         </View>
 
         <TouchableOpacity style={styles.logout} onPress={logout}>

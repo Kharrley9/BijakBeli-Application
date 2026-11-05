@@ -8,9 +8,20 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    // Malay is the primary name (categoryName, matching Price Catcher); the app
+    // can switch to this English name in Settings.
+    nameEn: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     icon: {
       type: String,
       default: 'pricetag-outline',
+    },
+    emoji: {
+      type: String,
+      default: '🛒',
     },
     order: {
       type: Number,

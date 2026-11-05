@@ -3,9 +3,20 @@ const promotionRepository = require('../repositories/promotionRepository');
 const geoService = require('./geoService');
 
 class PriceComparisonService {
-  async comparePrices(productId, preferredStores = [], origin = null) {
+  /**
+   * @param {string} productId
+   * @param {string[]} [preferredStores]
+   * @param {{lat:number,lng:number}|null} [origin] buyer location; enables distance + travel cost
+   * @param {string} [vehicle] 'car' | 'motorcycle', for the fuel-cost estimate
+   */
+  async comparePrices(productId, preferredStores = [], origin = null, vehicle = 'car') {
+    const fuel = geoService.fuelAssumptions(vehicle);
+
     // Get all prices for this product across stores
-    let prices = await priceRepository.findByProduct(productId);
+    // Skip prices whose store was removed or deactivated (e.g. no longer reports to PriceCatcher)
+    let prices = (await priceRepository.findByProduct(productId)).filter(
+      (p) => p.storeId && p.storeId.isActive !== false
+    );
 
     if (preferredStores && preferredStores.length > 0) {
       prices = prices.filter(p => preferredStores.includes(p.storeId._id.toString()));
@@ -15,7 +26,14 @@ class PriceComparisonService {
     const promotions = await promotionRepository.findByProduct(productId);
 
     if (!prices.length) {
-      return { comparisons: [], cheapestStore: null, nearestStore: null, savings: 0 };
+      return {
+        comparisons: [],
+        cheapestStore: null,
+        nearestStore: null,
+        bestValueStore: null,
+        savings: 0,
+        fuel,
+      };
     }
 
     // Travel distance from the buyer's origin to each store (optional)
@@ -40,6 +58,11 @@ class PriceComparisonService {
         ? priceEntry.previousPrice - priceEntry.price
         : 0;
 
+      // Round-trip fuel to this store, and what the trip really costs overall
+      const travelCost = dist ? geoService.travelCostRm(dist.roadKm, fuel) : null;
+      const totalCost =
+        travelCost != null ? Math.round((effectivePrice + travelCost) * 100) / 100 : null;
+
       return {
         store: {
           _id: store._id,
@@ -55,8 +78,11 @@ class PriceComparisonService {
         },
         currentPrice: priceEntry.price,
         previousPrice: priceEntry.previousPrice,
+        lastUpdated: priceEntry.lastUpdated,
         inStock: priceEntry.inStock !== false,
         effectivePrice,
+        travelCost,
+        totalCost,
         priceDifference,
         promotion: promotion
           ? {
@@ -74,11 +100,18 @@ class PriceComparisonService {
     // Sort by effective price (cheapest first)
     comparisons.sort((a, b) => a.effectivePrice - b.effectivePrice);
 
-    // Mark cheapest and best promotion
-    if (comparisons.length > 0) {
-      comparisons[0].isLowestPrice = true;
+    // "Cheapest" means cheapest the buyer could reasonably go to: stores within
+    // the nearby radius when we know where they are (and there are any), else all.
+    // The nationwide lowest is still available from GET /prices/lowest/:productId.
+    const nearby = geoService.withinNearbyRadius(comparisons);
+    const pool = nearby.length ? nearby : comparisons;
+    const scope = nearby.length ? 'nearby' : 'all';
 
-      const bestPromo = comparisons
+    // Mark cheapest and best promotion
+    if (pool.length > 0) {
+      pool[0].isLowestPrice = true;
+
+      const bestPromo = pool
         .filter((c) => c.hasPromotion)
         .sort((a, b) => (b.promotion?.discountPercentage || 0) - (a.promotion?.discountPercentage || 0))[0];
 
@@ -105,18 +138,41 @@ class PriceComparisonService {
       });
     }
 
-    // Calculate max savings
-    const maxPrice = Math.max(...comparisons.map((c) => c.effectivePrice));
-    const minPrice = Math.min(...comparisons.map((c) => c.effectivePrice));
+    // Best value: lowest item price + round-trip fuel, among in-stock stores.
+    // Only meaningful when we know where the buyer is.
+    let bestValueStore = null;
+    const withTotal = comparisons.filter((c) => c.totalCost != null && c.inStock);
+    if (withTotal.length > 0) {
+      const best = withTotal.reduce((a, b) => (b.totalCost < a.totalCost ? b : a));
+      bestValueStore = best.store;
+      comparisons.forEach((c) => {
+        c.isBestValue = c === best;
+      });
+    }
+
+    // Calculate max savings (within the same pool as "cheapest")
+    const maxPrice = Math.max(...pool.map((c) => c.effectivePrice));
+    const minPrice = Math.min(...pool.map((c) => c.effectivePrice));
     const savings = maxPrice - minPrice;
+
+    // Newest price date, shown with the PriceCatcher credit (CC BY 4.0 requires attribution)
+    const dates = comparisons.map((c) => c.lastUpdated).filter(Boolean).map((d) => new Date(d).getTime());
+    const dataAsOf = dates.length ? new Date(Math.max(...dates)) : null;
 
     return {
       comparisons,
-      cheapestStore: comparisons[0]?.store || null,
+      cheapestStore: pool[0]?.store || null,
       nearestStore,
+      bestValueStore,
       savings: parseFloat(savings.toFixed(2)),
       lowestPrice: minPrice,
       highestPrice: maxPrice,
+      // 'nearby': cheapest/lowest/savings are among stores within nearbyRadiusKm
+      priceScope: scope,
+      nearbyRadiusKm: geoService.NEARBY_RADIUS_KM,
+      nearbyStoreCount: nearby.length,
+      fuel,
+      dataAsOf,
     };
   }
 

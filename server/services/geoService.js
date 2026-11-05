@@ -4,13 +4,15 @@ const logger = require('../utils/logger');
 /**
  * Travel-distance helpers for store comparison.
  *
- * Current provider: 'estimate' — straight-line (haversine) distance plus a
- * drive-time estimate from AVG_DRIVE_SPEED_KMH. No network, no API key.
+ * Providers (ROUTING_PROVIDER):
+ *   'estimate' (default): straight-line (haversine) distance plus a drive-time
+ *       estimate from AVG_DRIVE_SPEED_KMH. No network, no API key.
+ *   'ors': real road distance/time from OpenRouteService (providers/orsProvider.js,
+ *       needs ROUTING_API_KEY). Falls back to 'estimate' on any failure.
  *
- * A real routing provider (OpenRouteService, Google Distance Matrix) can be
- * plugged in later by implementing `providers/<name>Provider.js` with the same
- * `getMatrix(origin, destinations)` shape and switching ROUTING_PROVIDER — no
- * schema or endpoint change required.
+ * Each entry also carries `roadKm` (the one-way road distance, estimated as
+ * 1.3x straight line when offline), which travelCostRm() turns into round-trip
+ * fuel cost.
  */
 
 const EARTH_RADIUS_KM = 6371;
@@ -38,8 +40,12 @@ function haversineKm(a, b) {
  * @param {number} straightKm
  * @returns {number} minutes, rounded
  */
+const ROAD_DETOUR = 1.3;
+// Stores farther than this (straight line) are estimated, not sent to ORS.
+const ORS_MAX_STRAIGHT_KM = 60;
+
 function estimateDurationMin(straightKm) {
-  const roadKm = straightKm * 1.3;
+  const roadKm = straightKm * ROAD_DETOUR;
   const speed = config.AVG_DRIVE_SPEED_KMH || 35;
   return Math.round((roadKm / speed) * 60);
 }
@@ -107,18 +113,25 @@ async function getStoreDistances(origin, stores) {
     try {
       // eslint-disable-next-line global-require
       const ors = require('./providers/orsProvider');
-      const matrix = await ors.getMatrix(
-        origin,
-        withCoords.map((s) => s.coord)
-      );
-      entries = withCoords.map((s, i) => [
-        s.id,
-        {
-          distanceKm: round1(matrix[i].distanceKm),
-          durationMin: Math.round(matrix[i].durationMin),
-          source: 'ors',
-        },
-      ]);
+      // Only route stores a buyer might actually drive to; the free ORS quota is
+      // small, and for far-away stores the estimate is close enough.
+      const near = withCoords.filter((s) => haversineKm(origin, s.coord) <= ORS_MAX_STRAIGHT_KM);
+      const matrix = near.length ? await ors.getMatrix(origin, near.map((s) => s.coord)) : [];
+      const routed = new Map(near.map((s, i) => [s.id, matrix[i]]));
+      entries = withCoords.map((s) => {
+        const m = routed.get(s.id);
+        return [
+          s.id,
+          m
+            ? {
+                distanceKm: round1(m.distanceKm),
+                roadKm: round1(m.distanceKm),
+                durationMin: Math.round(m.durationMin),
+                source: 'ors',
+              }
+            : estimateEntry(origin, s.coord), // too far to route, or ORS found no road
+        ];
+      });
     } catch (err) {
       logger.warn(`ORS routing failed, falling back to estimate: ${err.message}`);
       entries = null;
@@ -126,25 +139,73 @@ async function getStoreDistances(origin, stores) {
   }
 
   if (!entries) {
-    entries = withCoords.map((s) => {
-      const km = haversineKm(origin, s.coord);
-      return [
-        s.id,
-        {
-          distanceKm: round1(km),
-          durationMin: estimateDurationMin(km),
-          source: 'estimate',
-        },
-      ];
-    });
+    entries = withCoords.map((s) => [s.id, estimateEntry(origin, s.coord)]);
   }
 
   cache.set(key, { ts: Date.now(), value: entries });
   return new Map(entries);
 }
 
+/** Offline estimate: straight-line distance shown, 1.3x road detour for time and fuel. */
+function estimateEntry(origin, coord) {
+  const km = haversineKm(origin, coord);
+  return {
+    distanceKm: round1(km),
+    roadKm: round1(km * ROAD_DETOUR),
+    durationMin: estimateDurationMin(km),
+    source: 'estimate',
+  };
+}
+
 function round1(n) {
   return Math.round(n * 10) / 10;
+}
+
+// --- "nearby" -------------------------------------------------------------
+
+/** Stores within this distance count as "nearby" for cheapest-price picks. */
+const NEARBY_RADIUS_KM = config.NEARBY_RADIUS_KM;
+
+/**
+ * Rows (anything with `store.distanceKm`, or `distanceKm` directly) within the
+ * nearby radius. Empty when distances are unknown (no buyer location).
+ */
+function withinNearbyRadius(rows) {
+  return rows.filter((r) => {
+    const d = r.store ? r.store.distanceKm : r.distanceKm;
+    return typeof d === 'number' && d <= NEARBY_RADIUS_KM;
+  });
+}
+
+// --- travel (fuel) cost ----------------------------------------------------
+
+const VEHICLES = ['car', 'motorcycle'];
+
+/**
+ * Fuel assumptions for a request. `vehicle` comes from the app's settings;
+ * anything unrecognised falls back to a car.
+ * @param {string} [vehicle] 'car' | 'motorcycle'
+ */
+function fuelAssumptions(vehicle) {
+  const v = VEHICLES.includes(vehicle) ? vehicle : 'car';
+  return {
+    vehicle: v,
+    fuelPriceRm: config.FUEL_PRICE_RM,
+    litresPer100Km:
+      v === 'motorcycle' ? config.FUEL_L_PER_100KM_MOTORCYCLE : config.FUEL_L_PER_100KM_CAR,
+    roundTrip: true,
+  };
+}
+
+/**
+ * Fuel cost in RM to drive to a store and back.
+ * @param {number} roadKm one-way road distance
+ * @param {ReturnType<typeof fuelAssumptions>} fuel
+ */
+function travelCostRm(roadKm, fuel) {
+  if (typeof roadKm !== 'number' || !Number.isFinite(roadKm)) return null;
+  const km = fuel.roundTrip ? roadKm * 2 : roadKm;
+  return Math.round(((km * fuel.litresPer100Km) / 100) * fuel.fuelPriceRm * 100) / 100;
 }
 
 /**
@@ -171,4 +232,8 @@ module.exports = {
   pointToLatLng,
   getStoreDistances,
   pickNearestId,
+  fuelAssumptions,
+  travelCostRm,
+  withinNearbyRadius,
+  NEARBY_RADIUS_KM,
 };

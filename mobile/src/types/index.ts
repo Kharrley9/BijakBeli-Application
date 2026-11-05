@@ -58,7 +58,10 @@ export interface StoreProductListing {
 
 export interface Category {
   _id: string;
+  /** Malay name (primary, matches Price Catcher). */
   categoryName: string;
+  /** English name, shown when the app language is English. */
+  nameEn?: string;
   icon?: string;
   image?: string;
 }
@@ -81,6 +84,8 @@ export interface CatalogProduct {
 export interface StoreSummary {
   _id: string;
   storeName: string;
+  /** Chain + branch, e.g. "Giant Tampoi". */
+  mallName?: string;
   logo?: string;
   city?: string;
   state?: string;
@@ -96,6 +101,10 @@ export interface StorePriceRow {
   price: number;
   previousPrice?: number | null;
   effectivePrice: number;
+  /** Round-trip fuel to this store in RM; null when the buyer's location is unknown. */
+  travelCost?: number | null;
+  /** effectivePrice + travelCost. */
+  totalCost?: number | null;
   inStock?: boolean;
   hasPromotion: boolean;
   promotion?: {
@@ -107,6 +116,16 @@ export interface StorePriceRow {
   } | null;
   isLowestPrice?: boolean;
   isNearest?: boolean;
+  /** Lowest item price + fuel among in-stock stores. */
+  isBestValue?: boolean;
+}
+
+/** The fuel assumptions the server used for travelCost. */
+export interface FuelAssumptions {
+  vehicle: 'car' | 'motorcycle';
+  fuelPriceRm: number;
+  litresPer100Km: number;
+  roundTrip: boolean;
 }
 
 export interface ProductDetail {
@@ -117,6 +136,14 @@ export interface ProductDetail {
   stores: StorePriceRow[];
   cheapestStore: StoreSummary | null;
   nearestStore: StoreSummary | null;
+  bestValueStore?: StoreSummary | null;
+  fuel?: FuelAssumptions;
+  /** Date of the newest price (PriceCatcher observation date). */
+  dataAsOf?: string | null;
+  /** 'nearby': lowestPrice/cheapestStore/savings are among stores within nearbyRadiusKm. */
+  priceScope?: 'nearby' | 'all';
+  nearbyRadiusKm?: number;
+  nearbyStoreCount?: number;
   lowestPrice: number | null;
   highestPrice: number | null;
   savings: number;

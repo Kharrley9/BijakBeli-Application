@@ -23,6 +23,7 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
+const placesRoutes = require('./routes/placesRoutes');
 
 // Connect to database
 connectDB();
@@ -67,6 +68,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/places', placesRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

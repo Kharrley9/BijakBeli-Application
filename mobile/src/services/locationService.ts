@@ -1,3 +1,4 @@
+import { Linking } from 'react-native';
 import * as Location from 'expo-location';
 import { LatLng } from '../types';
 
@@ -11,15 +12,31 @@ export const locationService = {
     return status === 'granted';
   },
 
+  /** True if permission is already granted — never shows a prompt. */
+  async hasPermission(): Promise<boolean> {
+    const { status } = await Location.getForegroundPermissionsAsync();
+    return status === 'granted';
+  },
+
   async getCurrentPosition(): Promise<LatLng> {
     const granted = await this.requestPermission();
     if (!granted) {
       throw new Error('Location permission denied');
     }
-    const pos = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-    });
-    return { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    // High accuracy uses real GPS (~10-20 m) but can stall indoors, so cap the
+    // wait and fall back to a coarser fix rather than leaving the user hanging.
+    try {
+      const pos = await Promise.race([
+        Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error('gps-timeout')), 15000)),
+      ]);
+      return { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    } catch {
+      const pos =
+        (await Location.getLastKnownPositionAsync()) ||
+        (await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }));
+      return { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    }
   },
 
   /** Best-effort reverse geocode. Returns '' when unavailable rather than throwing. */
@@ -52,3 +69,9 @@ export const pointToLatLng = (
   if (lat === 0 && lng === 0) return null;
   return { lat, lng };
 };
+
+/** Open Google Maps (app or browser) with driving directions to a point. No API key needed. */
+export const openInGoogleMaps = (dest: LatLng) =>
+  Linking.openURL(
+    `https://www.google.com/maps/dir/?api=1&destination=${dest.lat},${dest.lng}&travelmode=driving`
+  );

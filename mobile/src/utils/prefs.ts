@@ -1,15 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type DistanceUnit = 'km' | 'mi';
+export type Language = 'ms' | 'en';
+/** How the buyer travels to the store; drives the fuel-cost estimate. */
+export type Vehicle = 'car' | 'motorcycle';
 
 const KEY = 'prefs_v1';
 
 interface Prefs {
   distanceUnit: DistanceUnit;
+  language: Language;
+  vehicle: Vehicle;
 }
 
 const DEFAULTS: Prefs = {
   distanceUnit: 'km',
+  language: 'ms',
+  vehicle: 'car',
 };
 
 // In-memory cache so synchronous readers (e.g. DistanceBadge's formatter) don't
