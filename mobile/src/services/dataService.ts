@@ -1,102 +1,100 @@
 import api from './api';
+import { getPrefs } from '../utils/prefs';
+export { authService } from './authService';
 
-export const productService = {
-  getAll: (params?: Record<string, string | number>) =>
-    api.get('/products', { params }),
+type Origin = { lat?: number; lng?: number } | null | undefined;
 
-  getById: (id: string) => api.get(`/products/${id}`),
-
-  search: (params: Record<string, string | number>) =>
-    api.get('/products/search', { params }),
-
-  create: (data: Record<string, unknown>) =>
-    api.post('/products', data),
-
-  update: (id: string, data: Record<string, unknown>) =>
-    api.put(`/products/${id}`, data),
-
-  delete: (id: string) => api.delete(`/products/${id}`),
-};
-
-export const storeService = {
-  getAll: () => api.get('/stores'),
-  getById: (id: string) => api.get(`/stores/${id}`),
-  create: (data: Record<string, unknown>) => api.post('/stores', data),
-  update: (id: string, data: Record<string, unknown>) => api.put(`/stores/${id}`, data),
-  delete: (id: string) => api.delete(`/stores/${id}`),
-};
+/** Adds the buyer's location, plus their vehicle so the server can price the trip. */
+function withOrigin(params: Record<string, any>, origin: Origin) {
+  if (origin && origin.lat != null && origin.lng != null) {
+    return { ...params, lat: origin.lat, lng: origin.lng, vehicle: getPrefs().vehicle };
+  }
+  return params;
+}
 
 export const categoryService = {
   getAll: () => api.get('/categories'),
-  create: (data: Record<string, unknown>) => api.post('/categories', data),
-  update: (id: string, data: Record<string, unknown>) => api.put(`/categories/${id}`, data),
-  delete: (id: string) => api.delete(`/categories/${id}`),
 };
 
-export const brandService = {
-  getAll: () => api.get('/brands'),
-  create: (data: Record<string, unknown>) => api.post('/brands', data),
-  update: (id: string, data: Record<string, unknown>) => api.put(`/brands/${id}`, data),
-  delete: (id: string) => api.delete(`/brands/${id}`),
+export const productService = {
+  /** Catalogue list: products annotated with cheapest price / cheapest & nearest store. */
+  list: (
+    params: {
+      categoryId?: string;
+      q?: string;
+      sort?: 'price_asc' | 'nearest' | '-createdAt';
+      page?: number;
+      limit?: number;
+    },
+    origin?: Origin
+  ) => api.get('/products', { params: withOrigin(params, origin) }),
+
+  /** Full detail with "prices at nearby stores". */
+  getDetail: (id: string, origin?: Origin) =>
+    api.get(`/products/${id}`, { params: withOrigin({}, origin) }),
+
+  search: (q: string, params: Record<string, any> = {}, origin?: Origin) =>
+    api.get('/products/search', { params: withOrigin({ q, ...params }, origin) }),
+
+  getById: (id: string) => api.get(`/products/${id}`),
+};
+
+export const storeService = {
+  list: (params: { state?: string; q?: string } = {}, origin?: Origin) =>
+    api.get('/stores', { params: withOrigin(params, origin) }),
+
+  getNearby: (params: { lat: number; lng: number; maxKm?: number; limit?: number }) =>
+    api.get('/stores/nearby', { params }),
+
+  getById: (id: string, origin?: Origin) =>
+    api.get(`/stores/${id}`, { params: withOrigin({}, origin) }),
+};
+
+/** Nearest shopping malls to a point, looked up server-side via Google Places. */
+export const placeService = {
+  getNearbyMalls: (params: { lat: number; lng: number; radiusKm?: number; limit?: number }) =>
+    api.get('/places/malls', { params }),
 };
 
 export const priceService = {
-  compare: (productId: string) => api.get(`/prices/compare/${productId}`),
-  getAll: (params?: Record<string, string | number>) => api.get('/prices', { params }),
-  update: (data: { productId: string; storeId: string; price: number }) => api.post('/prices', data),
-  delete: (id: string) => api.delete(`/prices/${id}`),
+  compare: (productId: string, storeIds?: string[], origin?: Origin) => {
+    const params: Record<string, any> = {};
+    if (storeIds?.length) params.storeIds = storeIds.join(',');
+    return api.get(`/prices/compare/${productId}`, {
+      params: withOrigin(params, origin),
+    });
+  },
+
+  /** Lowest price nationwide or by state (Price Catcher feature) */
+  getLowest: (productId: string, state?: string) =>
+    api.get(`/prices/lowest/${productId}`, { params: state ? { state } : {} }),
+
+  /** Historical price trend for charting */
+  getTrend: (productId: string, opts: { storeId?: string; days?: number; state?: string } = {}) =>
+    api.get(`/prices/trend/${productId}`, { params: opts }),
+
+  /** JOM Kongsi – submit a crowdsourced price report */
+  reportPrice: (data: {
+    productId: string;
+    storeId: string;
+    price: number;
+    isPromo?: boolean;
+    promoDescription?: string;
+    photoUrl?: string;
+  }) => api.post('/prices/report', data),
+
+  /** Fetch all user-submitted reports for a product */
+  getReports: (productId: string, params: { storeId?: string; status?: string } = {}) =>
+    api.get('/prices/reports', { params: { productId, ...params } }),
+
+  /** Confirm a crowdsourced price report */
+  confirmReport: (reportId: string) => api.post(`/prices/reports/${reportId}/confirm`),
+
+  /** Dispute a crowdsourced price report */
+  disputeReport: (reportId: string) => api.post(`/prices/reports/${reportId}/dispute`),
 };
 
 export const promotionService = {
-  getActive: () => api.get('/promotions/active'),
-  getBestDeals: () => api.get('/promotions/best-deals'),
-  getAll: (params?: Record<string, string | number>) => api.get('/promotions', { params }),
-  getById: (id: string) => api.get(`/promotions/${id}`),
-  create: (data: Record<string, unknown>) => api.post('/promotions', data),
-  update: (id: string, data: Record<string, unknown>) => api.put(`/promotions/${id}`, data),
-  delete: (id: string) => api.delete(`/promotions/${id}`),
-};
-
-export const shoppingListService = {
-  getAll: () => api.get('/shopping-lists'),
-  getById: (id: string) => api.get(`/shopping-lists/${id}`),
-  create: (title: string) => api.post('/shopping-lists', { title }),
-  delete: (id: string) => api.delete(`/shopping-lists/${id}`),
-  addItem: (listId: string, productId: string, quantity: number) =>
-    api.post(`/shopping-lists/${listId}/items`, { productId, quantity }),
-  updateItem: (listId: string, itemId: string, quantity: number) =>
-    api.put(`/shopping-lists/${listId}/items/${itemId}`, { quantity }),
-  removeItem: (listId: string, itemId: string) =>
-    api.delete(`/shopping-lists/${listId}/items/${itemId}`),
-  compareStores: (listId: string) => api.get(`/shopping-lists/${listId}/compare`),
-};
-
-export const budgetService = {
-  setCurrent: (data: { monthlyBudget: number; month: number; year: number }) =>
-    api.post('/budgets', data),
-  addExpense: (data: { amount: number; month: number; year: number }) =>
-    api.post('/budgets/expense', data),
-  getCurrent: () => api.get('/budgets/current'),
-  getHistory: () => api.get('/budgets/history'),
-  delete: (id: string) => api.delete(`/budgets/${id}`),
-};
-
-export const favoriteService = {
-  getAll: () => api.get('/favorites'),
-  toggle: (productId: string) => api.post(`/favorites/${productId}`),
-  check: (productId: string) => api.get(`/favorites/${productId}/check`),
-};
-
-export const notificationService = {
-  getAll: () => api.get('/notifications'),
-  getUnreadCount: () => api.get('/notifications/unread-count'),
-  markAsRead: (id: string) => api.put(`/notifications/${id}/read`),
-  markAllAsRead: () => api.put('/notifications/read-all'),
-  delete: (id: string) => api.delete(`/notifications/${id}`),
-};
-
-export const adminService = {
-  getStats: () => api.get('/admin/stats'),
-  getUsers: (params?: Record<string, string | number>) => api.get('/admin/users', { params }),
-  deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
+  getActive: (params?: Record<string, any>) => api.get('/promotions/active', { params }),
+  getBestDeals: (params?: Record<string, any>) => api.get('/promotions/best-deals', { params }),
 };

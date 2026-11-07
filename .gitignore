@@ -6,3 +6,9 @@ uploads/*
 dist/
 build/
 .DS_Store
+
+# IDE
+.idea/
+
+# Database backups made by migration scripts
+server/backups/

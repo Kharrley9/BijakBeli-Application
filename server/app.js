@@ -21,6 +21,9 @@ const budgetRoutes = require('./routes/budgetRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const userRoutes = require('./routes/userRoutes');
+const placesRoutes = require('./routes/placesRoutes');
 
 // Connect to database
 connectDB();
@@ -28,13 +31,13 @@ connectDB();
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
-// CORS
+// CORS — allow all origins in development for Expo mobile connections
 app.use(
   cors({
-    origin: config.CLIENT_URL,
-    credentials: true,
+    origin: config.NODE_ENV === 'development' ? '*' : config.CLIENT_URL,
+    credentials: config.NODE_ENV !== 'development',
   })
 );
 
@@ -47,7 +50,7 @@ if (config.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Static files for uploads
+// Static files for uploads (including product images)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Mount routes
@@ -63,6 +66,9 @@ app.use('/api/budgets', budgetRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/places', placesRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

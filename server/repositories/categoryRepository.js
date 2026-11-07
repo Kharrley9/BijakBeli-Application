@@ -9,8 +9,8 @@ class CategoryRepository {
     return await Category.findById(id);
   }
 
-  async findAll() {
-    return await Category.find().sort('categoryName');
+  async findAll(filter = {}) {
+    return await Category.find(filter).sort({ order: 1, categoryName: 1 });
   }
 
   async update(id, data) {

@@ -1,0 +1,4191 @@
+{
+ "{\"postalcode\":\"01000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.4383834,
+   "lng": 100.2000091,
+   "state": "",
+   "name": "01000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"05050\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.1093019,
+   "lng": 100.3518434,
+   "state": "Kedah",
+   "name": "05050",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"05150\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.1308104,
+   "lng": 100.3482678,
+   "state": "Kedah",
+   "name": "05150",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"05400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.0870487,
+   "lng": 100.3659854,
+   "state": "Kedah",
+   "name": "05400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"06000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.257299,
+   "lng": 100.4122585,
+   "state": "Kedah",
+   "name": "06000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"07000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.3292812,
+   "lng": 99.7749783,
+   "state": "Kedah",
+   "name": "07000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"08000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.6298557,
+   "lng": 100.5145863,
+   "state": "Kedah",
+   "name": "08000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"09000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3788851,
+   "lng": 100.534309,
+   "state": "Kedah",
+   "name": "09000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"09100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.6746305,
+   "lng": 100.9127432,
+   "state": "Kedah",
+   "name": "09100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"11000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3484739,
+   "lng": 100.2377664,
+   "state": "Penang",
+   "name": "11000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"11700\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3668905,
+   "lng": 100.3064243,
+   "state": "Penang",
+   "name": "11700",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"11900\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.329892,
+   "lng": 100.2690255,
+   "state": "Penang",
+   "name": "11900",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"12700\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"13000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.4450532,
+   "lng": 100.3830957,
+   "state": "Penang",
+   "name": "13000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"13200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.5162985,
+   "lng": 100.4416544,
+   "state": "Penang",
+   "name": "13200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"13400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.4313062,
+   "lng": 100.3990056,
+   "state": "Penang",
+   "name": "13400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"13600\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3524067,
+   "lng": 100.4147664,
+   "state": "Penang",
+   "name": "13600",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"13700\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.375943,
+   "lng": 100.4069333,
+   "state": "Penang",
+   "name": "13700",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"14000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.339604,
+   "lng": 100.4787061,
+   "state": "Penang",
+   "name": "14000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"14300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.1681943,
+   "lng": 100.477337,
+   "state": "Penang",
+   "name": "14300",
+   "kind": "boundary/postal_code"
+  }
+ ],
+ "{\"postalcode\":\"15100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.0885028,
+   "lng": 102.2275125,
+   "state": "Kelantan",
+   "name": "15100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"16150\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.0694473,
+   "lng": 102.2834744,
+   "state": "Kelantan",
+   "name": "16150",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"16800\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.8309787,
+   "lng": 102.4145003,
+   "state": "Kelantan",
+   "name": "16800",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"22000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.7342189,
+   "lng": 102.4965489,
+   "state": "Terengganu",
+   "name": "22000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"22051\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"26400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.7683728,
+   "lng": 102.4468563,
+   "state": "Pahang",
+   "name": "26400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"27000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.0993988,
+   "lng": 102.4381272,
+   "state": "Pahang",
+   "name": "27000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"30020\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.6414271,
+   "lng": 101.0655421,
+   "state": "Perak",
+   "name": "30020",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"30100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.6055011,
+   "lng": 101.0643135,
+   "state": "Perak",
+   "name": "30100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"30200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.5906864,
+   "lng": 101.0705058,
+   "state": "Perak",
+   "name": "30200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"31100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.8350163,
+   "lng": 101.081936,
+   "state": "Perak",
+   "name": "31100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"31350\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.5674368,
+   "lng": 101.1204002,
+   "state": "Perak",
+   "name": "31350",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"31650\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.5684811,
+   "lng": 101.0827355,
+   "state": "Perak",
+   "name": "31650",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"32000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.2152659,
+   "lng": 100.7021839,
+   "state": "Perak",
+   "name": "32000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"32040\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.1978795,
+   "lng": 100.664847,
+   "state": "Perak",
+   "name": "32040",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"33000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.7587415,
+   "lng": 100.9275198,
+   "state": "Perak",
+   "name": "33000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"33300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3975158,
+   "lng": 101.1387225,
+   "state": "Perak",
+   "name": "33300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"34100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.2358475,
+   "lng": 100.7197219,
+   "state": "Perak",
+   "name": "34100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"34200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.1188374,
+   "lng": 100.4785649,
+   "state": "Perak",
+   "name": "34200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"34300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.0095348,
+   "lng": 100.534881,
+   "state": "Perak",
+   "name": "34300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"34600\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.9042181,
+   "lng": 100.7179642,
+   "state": "Perak",
+   "name": "34600",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"35000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.2001355,
+   "lng": 101.2644688,
+   "state": "Perak",
+   "name": "35000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"35800\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.8466358,
+   "lng": 101.4249646,
+   "state": "Perak",
+   "name": "35800",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"36000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.0120612,
+   "lng": 101.0184402,
+   "state": "Perak",
+   "name": "36000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"36400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.8761889,
+   "lng": 100.9415547,
+   "state": "Perak",
+   "name": "36400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"36700\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.0726068,
+   "lng": 101.1527032,
+   "state": "Perak",
+   "name": "36700",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0722707,
+   "lng": 101.5023503,
+   "state": "Selangor",
+   "name": "40000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0819478,
+   "lng": 101.5440518,
+   "state": "Selangor",
+   "name": "40100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40170\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.1171036,
+   "lng": 101.4692172,
+   "state": "Selangor",
+   "name": "40170",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0551106,
+   "lng": 101.5137022,
+   "state": "Selangor",
+   "name": "40200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0451874,
+   "lng": 101.5267232,
+   "state": "Selangor",
+   "name": "40300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0318178,
+   "lng": 101.5415963,
+   "state": "Selangor",
+   "name": "40400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"40640\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"41200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0033726,
+   "lng": 101.4426935,
+   "state": "Selangor",
+   "name": "41200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"42100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0741137,
+   "lng": 101.4109956,
+   "state": "Selangor",
+   "name": "42100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"43000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.9912351,
+   "lng": 101.7828725,
+   "state": "Selangor",
+   "name": "43000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"43500\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.9323296,
+   "lng": 101.8588074,
+   "state": "Selangor",
+   "name": "43500",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"43900\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.828253,
+   "lng": 101.7100072,
+   "state": "Selangor",
+   "name": "43900",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"44220\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"44300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.4478954,
+   "lng": 101.6547757,
+   "state": "Selangor",
+   "name": "44300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"45000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.3164886,
+   "lng": 101.2784759,
+   "state": "Selangor",
+   "name": "45000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"45300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.6735688,
+   "lng": 100.9904904,
+   "state": "Selangor",
+   "name": "45300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"45500\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.3945821,
+   "lng": 101.2142621,
+   "state": "Selangor",
+   "name": "45500",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"46050\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0919858,
+   "lng": 101.6383626,
+   "state": "Selangor",
+   "name": "46050",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"47301\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.1122644,
+   "lng": 101.5946826,
+   "state": "Selangor",
+   "name": "47301",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"47500\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0737859,
+   "lng": 101.5906357,
+   "state": "Selangor",
+   "name": "47500",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"47600\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0512571,
+   "lng": 101.5651948,
+   "state": "Selangor",
+   "name": "47600",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"47810\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.1548099,
+   "lng": 101.5891535,
+   "state": "Selangor",
+   "name": "47810",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"56000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.0703895,
+   "lng": 101.740146,
+   "state": "",
+   "name": "56000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"62000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.9418516,
+   "lng": 101.7059596,
+   "state": "Putrajaya",
+   "name": "62000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"62130\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"62502\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.9691214,
+   "lng": 101.7139124,
+   "state": "Selangor",
+   "name": "62502",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"68100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.2347446,
+   "lng": 101.676469,
+   "state": "Selangor",
+   "name": "68100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"70300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.7004269,
+   "lng": 101.9130325,
+   "state": "Negeri Sembilan",
+   "name": "70300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"70400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.7327498,
+   "lng": 101.971111,
+   "state": "Negeri Sembilan",
+   "name": "70400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"70450\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.6971931,
+   "lng": 101.9948053,
+   "state": "Negeri Sembilan",
+   "name": "70450",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"71000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.5345546,
+   "lng": 101.8075213,
+   "state": "Negeri Sembilan",
+   "name": "71000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"72000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.7466778,
+   "lng": 102.2586562,
+   "state": "Negeri Sembilan",
+   "name": "72000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"72100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.8035557,
+   "lng": 102.3959456,
+   "state": "Negeri Sembilan",
+   "name": "72100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"75250\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.2397019,
+   "lng": 102.2275132,
+   "state": "Malacca",
+   "name": "75250",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"75400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.212915,
+   "lng": 102.2509514,
+   "state": "Malacca",
+   "name": "75400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"75450\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.2498115,
+   "lng": 102.3030623,
+   "state": "Malacca",
+   "name": "75450",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"76300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.2934334,
+   "lng": 102.1351326,
+   "state": "Malacca",
+   "name": "76300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"77000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.298624,
+   "lng": 102.42365,
+   "state": "Malacca",
+   "name": "77000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"78000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.3797742,
+   "lng": 102.2035343,
+   "state": "Malacca",
+   "name": "78000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"80400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.4784279,
+   "lng": 103.7758317,
+   "state": "Johor",
+   "name": "80400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.6333004,
+   "lng": 103.6107015,
+   "state": "Johor",
+   "name": "81000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5452051,
+   "lng": 103.7581572,
+   "state": "Johor",
+   "name": "81100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5045809,
+   "lng": 103.7158985,
+   "state": "Johor",
+   "name": "81200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81300\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5619894,
+   "lng": 103.6196671,
+   "state": "Johor",
+   "name": "81300",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.612836,
+   "lng": 103.655754,
+   "state": "Johor",
+   "name": "81400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81750\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5042964,
+   "lng": 103.8466001,
+   "state": "Johor",
+   "name": "81750",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81800\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5830264,
+   "lng": 103.8227184,
+   "state": "Johor",
+   "name": "81800",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"81900\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.8082071,
+   "lng": 103.8896018,
+   "state": "Johor",
+   "name": "81900",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"82000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.5180276,
+   "lng": 103.3790645,
+   "state": "Johor",
+   "name": "82000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"84000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.0447492,
+   "lng": 102.5901824,
+   "state": "Johor",
+   "name": "84000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"85000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.5038954,
+   "lng": 102.8394406,
+   "state": "Johor",
+   "name": "85000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"86000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 2.0330788,
+   "lng": 103.3259028,
+   "state": "Johor",
+   "name": "86000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"88200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.9397893,
+   "lng": 116.071202,
+   "state": "Sabah",
+   "name": "88200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"88450\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.010477,
+   "lng": 116.1273768,
+   "state": "Sabah",
+   "name": "88450",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"89000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3470596,
+   "lng": 116.1568165,
+   "state": "Sabah",
+   "name": "89000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"89100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 6.4886297,
+   "lng": 116.7618817,
+   "state": "Sabah",
+   "name": "89100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"89400\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.9871579,
+   "lng": 116.1035377,
+   "state": "Sabah",
+   "name": "89400",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"89808\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.3525207,
+   "lng": 115.7286963,
+   "state": "Sabah",
+   "name": "89808",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"90000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.8306053,
+   "lng": 118.0933641,
+   "state": "Sabah",
+   "name": "90000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"91027\",\"country\":\"Malaysia\"}": [],
+ "{\"postalcode\":\"91100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 5.0264753,
+   "lng": 118.3139114,
+   "state": "Sabah",
+   "name": "91100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"91200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.6824898,
+   "lng": 118.2137072,
+   "state": "Sabah",
+   "name": "91200",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"97000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 3.1905886,
+   "lng": 113.0587472,
+   "state": "Sarawak",
+   "name": "97000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"98000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.4072749,
+   "lng": 114.0040104,
+   "state": "Sarawak",
+   "name": "98000",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"98008\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.0307324,
+   "lng": 114.7998054,
+   "state": "Sarawak",
+   "name": "98008",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"postalcode\":\"98100\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 4.4652275,
+   "lng": 114.0160736,
+   "state": "Sarawak",
+   "name": "98100",
+   "kind": "place/postcode"
+  }
+ ],
+ "{\"q\":\"AEON BIG ( DANAU KOTA ), Wangsa Maju, Kuala Lumpur\"}": [],
+ "{\"q\":\"AEON BIG ( KEPONG ), Kepong, Kuala Lumpur\"}": [
+  {
+   "lat": 3.2147139,
+   "lng": 101.643944,
+   "state": "",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG ( MID VALLEY ), Lembah Pantai, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1166472,
+   "lng": 101.6766877,
+   "state": "",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG ( SRI PETALING ), Bandar Tun Razak, Kuala Lumpur\"}": [],
+ "{\"q\":\"AEON BIG ( WANGSA MAJU ), Setiawangsa, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1952912,
+   "lng": 101.742243,
+   "state": "",
+   "name": "Aeon Big Wangsa Maju",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"AEON BIG (KLUANG), Kluang, Johor\"}": [
+  {
+   "lat": 2.0365583,
+   "lng": 103.3339081,
+   "state": "Johor",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG ALAMANDA, Putrajaya, Putrajaya\"}": [
+  {
+   "lat": 2.941044,
+   "lng": 101.7112476,
+   "state": "Putrajaya",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG BUKIT TENGAH, Bukit Mertajam, Pulau Pinang\"}": [],
+ "{\"q\":\"AEON BiG Bukit Tengah, Pulau Pinang\"}": [
+  {
+   "lat": 5.3283411,
+   "lng": 100.445979,
+   "state": "Penang",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BiG Danau Kota, Kuala Lumpur\"}": [
+  {
+   "lat": 3.2043858,
+   "lng": 101.7158691,
+   "state": "",
+   "name": "Aeon Big Danau Kota",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"AEON BIG FALIM, Ipoh, Perak\"}": [
+  {
+   "lat": 4.5815608,
+   "lng": 101.0596177,
+   "state": "Perak",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG KAPAR, Klang, Selangor\"}": [
+  {
+   "lat": 3.0676684,
+   "lng": 101.4294144,
+   "state": "Selangor",
+   "name": "AEON BiG Klang",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"AEON BIG SEKSYEN 23, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.0433384,
+   "lng": 101.5257712,
+   "state": "Selangor",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG SEKSYEN 32, Shah Alam, Selangor\"}": [
+  {
+   "lat": 2.9994711,
+   "lng": 101.5286696,
+   "state": "Selangor",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BiG Sri Petaling, Kuala Lumpur\"}": [
+  {
+   "lat": 3.0634427,
+   "lng": 101.6944032,
+   "state": "",
+   "name": "AEON BiG",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"AEON BIG SUBANG JAYA, Subang Jaya, Selangor\"}": [
+  {
+   "lat": 3.0818444,
+   "lng": 101.5883114,
+   "state": "Selangor",
+   "name": "Aeon Big Subang Jaya (Opp)",
+   "kind": "highway/bus_stop"
+  },
+  {
+   "lat": 3.082121,
+   "lng": 101.5880841,
+   "state": "Selangor",
+   "name": "Aeon Big Subang Jaya",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"Bachok, Kelantan, Malaysia\"}": [
+  {
+   "lat": 5.9951191,
+   "lng": 102.3867413,
+   "state": "Kelantan",
+   "name": "Bachok",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 6.0616322,
+   "lng": 102.4008505,
+   "state": "Kelantan",
+   "name": "Bachok",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Bagan Datuk, Perak, Malaysia\"}": [
+  {
+   "lat": 3.9166667,
+   "lng": 100.9166667,
+   "state": "Perak",
+   "name": "Bagan Datuk",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.9905891,
+   "lng": 100.7864404,
+   "state": "Perak",
+   "name": "Bagan Datuk",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Bahau, Negeri Sembilan, Malaysia\"}": [
+  {
+   "lat": 2.8113584,
+   "lng": 102.4038906,
+   "state": "Negeri Sembilan",
+   "name": "Bahau",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 2.8100055,
+   "lng": 102.4004282,
+   "state": "Negeri Sembilan",
+   "name": "Bahau",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Baling, Kedah, Malaysia\"}": [
+  {
+   "lat": 5.5507199,
+   "lng": 100.797587,
+   "state": "Kedah",
+   "name": "Baling",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.673531,
+   "lng": 100.9177907,
+   "state": "Kedah",
+   "name": "Baling",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Bandar Tun Razak, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.0896257,
+   "lng": 101.7124086,
+   "state": "",
+   "name": "Bandar Tun Razak",
+   "kind": "railway/stop"
+  },
+  {
+   "lat": 3.092194,
+   "lng": 101.7193738,
+   "state": "",
+   "name": "Bandar Tun Razak",
+   "kind": "place/suburb"
+  },
+  {
+   "lat": 3.0916685,
+   "lng": 101.7211502,
+   "state": "",
+   "name": "Bandar Tun Razak",
+   "kind": "place/neighbourhood"
+  }
+ ],
+ "{\"q\":\"Batu, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.2018234,
+   "lng": 101.6710223,
+   "state": "",
+   "name": "Batu",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Beaufort, Sabah, Malaysia\"}": [
+  {
+   "lat": 5.2911244,
+   "lng": 115.672474,
+   "state": "Sabah",
+   "name": "Beaufort",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.3470611,
+   "lng": 115.7430094,
+   "state": "Sabah",
+   "name": "Beaufort",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Bentong, Pahang, Malaysia\"}": [
+  {
+   "lat": 3.3624708,
+   "lng": 102.0172675,
+   "state": "Pahang",
+   "name": "Bentong",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.5196355,
+   "lng": 101.9133469,
+   "state": "Pahang",
+   "name": "Bentong",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Bera, Pahang, Malaysia\"}": [
+  {
+   "lat": 3.2366738,
+   "lng": 102.5417723,
+   "state": "Pahang",
+   "name": "Bera",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Billion Alor Setar, Kedah\"}": [
+  {
+   "lat": 6.1035695,
+   "lng": 100.3505301,
+   "state": "Kedah",
+   "name": "Pasaraya Billion",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 6.1031474,
+   "lng": 100.3499429,
+   "state": "Kedah",
+   "name": "Medan Selera Pasar Besar",
+   "kind": "amenity/food_court"
+  }
+ ],
+ "{\"q\":\"BILLION BALING, Baling, Kedah\"}": [
+  {
+   "lat": 5.6558486,
+   "lng": 100.8719456,
+   "state": "Kedah",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  }
+ ],
+ "{\"q\":\"BILLION DUTY-FREE (LANGKAWI) SDN. BHD., Kuah, Kedah\"}": [],
+ "{\"q\":\"Billion Duty-Free Langkawi, Kedah\"}": [],
+ "{\"q\":\"Billion Hutan Melintang, Perak\"}": [],
+ "{\"q\":\"Billion Jalan Lumut, Perak\"}": [
+  {
+   "lat": 4.1979648,
+   "lng": 100.6591632,
+   "state": "Perak",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  }
+ ],
+ "{\"q\":\"BILLION JELAPANG, Ipoh, Perak\"}": [],
+ "{\"q\":\"Billion Jelapang, Perak\"}": [],
+ "{\"q\":\"Billion Kota Permai, Pulau Pinang\"}": [
+  {
+   "lat": 5.3422093,
+   "lng": 100.45927,
+   "state": "Penang",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  }
+ ],
+ "{\"q\":\"Billion Kota Seri Mutiara, Kelantan\"}": [],
+ "{\"q\":\"BILLION KOTA SERI MUTIARA, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"Billion Mart Tanjong Chat, Kelantan\"}": [],
+ "{\"q\":\"BILLION MART TANJONG CHAT, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"Billion Mart, Kelantan\"}": [
+  {
+   "lat": 6.133529,
+   "lng": 102.253661,
+   "state": "Kelantan",
+   "name": "Billion Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Billion Mart, Perak\"}": [],
+ "{\"q\":\"BILLION PARIT BUNTAR, Parit Buntar, Perak\"}": [
+  {
+   "lat": 5.1175335,
+   "lng": 100.4857282,
+   "state": "Perak",
+   "name": "Billion",
+   "kind": "amenity/marketplace"
+  }
+ ],
+ "{\"q\":\"Billion Seberang Jaya, Pulau Pinang\"}": [
+  {
+   "lat": 5.3973444,
+   "lng": 100.397929,
+   "state": "Penang",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  },
+  {
+   "lat": 5.3972389,
+   "lng": 100.3985168,
+   "state": "Penang",
+   "name": "Billion",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"Billion Segamat, Johor\"}": [
+  {
+   "lat": 2.5032151,
+   "lng": 102.8221238,
+   "state": "Johor",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  }
+ ],
+ "{\"q\":\"Billion Shoping Centre Sungai Petani, Kedah\"}": [],
+ "{\"q\":\"BILLION SHOPPING CENTRE (KOTA PERMAI) SDN BHD, Bukit Mertajam, Pulau Pinang\"}": [],
+ "{\"q\":\"BILLION SHOPPING CENTRE SEBERANG JAYA, Seberang Jaya, Pulau Pinang\"}": [],
+ "{\"q\":\"BILLION SHOPPING CENTRE, Seberang Perai Utara, Pulau Pinang\"}": [],
+ "{\"q\":\"Bukit Bintang, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.1460953,
+   "lng": 101.7114762,
+   "state": "",
+   "name": "Bukit Bintang",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.1460769,
+   "lng": 101.7115145,
+   "state": "",
+   "name": "Bukit Bintang (Monorail)",
+   "kind": "railway/stop"
+  },
+  {
+   "lat": 3.1471068,
+   "lng": 101.7086011,
+   "state": "",
+   "name": "Bukit Bintang",
+   "kind": "place/suburb"
+  },
+  {
+   "lat": 3.1464424,
+   "lng": 101.7109754,
+   "state": "",
+   "name": "Bukit Bintang",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.1465033,
+   "lng": 101.7109772,
+   "state": "",
+   "name": "Bukit Bintang (KG)",
+   "kind": "railway/stop"
+  }
+ ],
+ "{\"q\":\"Butterworth, Pulau Pinang, Malaysia\"}": [
+  {
+   "lat": 5.4082015,
+   "lng": 100.3697208,
+   "state": "Penang",
+   "name": "Butterworth",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Cheras, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.0991919,
+   "lng": 101.7374229,
+   "state": "",
+   "name": "Cheras",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.11265,
+   "lng": 101.7142958,
+   "state": "",
+   "name": "Cheras",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.1127677,
+   "lng": 101.7142995,
+   "state": "",
+   "name": "Cheras",
+   "kind": "railway/stop"
+  }
+ ],
+ "{\"q\":\"Econsave Alma, Pulau Pinang\"}": [
+  {
+   "lat": 5.3366239,
+   "lng": 100.4663256,
+   "state": "Penang",
+   "name": "Econsave",
+   "kind": "building/retail"
+  }
+ ],
+ "{\"q\":\"ECONSAVE AMPANG, Ipoh, Perak\"}": [
+  {
+   "lat": 4.5855149,
+   "lng": 101.13623,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Bagan Serai, Perak\"}": [
+  {
+   "lat": 5.0136013,
+   "lng": 100.5311664,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Bahau, Negeri Sembilan\"}": [
+  {
+   "lat": 2.8116099,
+   "lng": 102.3994644,
+   "state": "Negeri Sembilan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Bakri Muar, Johor\"}": [],
+ "{\"q\":\"Econsave Bandar Tun Razak Jengka, Pahang\"}": [
+  {
+   "lat": 3.7683133,
+   "lng": 102.5621895,
+   "state": "Pahang",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Batang Kali, Selangor\"}": [
+  {
+   "lat": 3.4600994,
+   "lng": 101.6606469,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Bintulu, Sarawak\"}": [
+  {
+   "lat": 3.246785,
+   "lng": 113.0989334,
+   "state": "Sarawak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.1713727,
+   "lng": 113.0478651,
+   "state": "Sarawak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE BOTANI VILLAGE, Kinta, Perak\"}": [],
+ "{\"q\":\"Econsave Botani Village, Perak\"}": [],
+ "{\"q\":\"Econsave Bukit Gambir, Johor\"}": [
+  {
+   "lat": 2.2127981,
+   "lng": 102.6508406,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Butterworth, Pulau Pinang\"}": [
+  {
+   "lat": 5.3988305,
+   "lng": 100.376471,
+   "state": "Penang",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE CASH & CARRY ( BS) SDN BHD, Bagan Serai, Perak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (ALMA) SDN BHD, Bukit Mertajam, Pulau Pinang\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (BH) SDN BHD. BAHAU, Bahau, Negeri Sembilan\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (EM) SDN. BHD, Bintulu, Sarawak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (EM) SDN. BHD, Meradong, Sarawak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (EM) SDN. BHD., Miri, Sarawak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (EM) SDN. BHD., Sandakan, Sabah\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (GM) SDN. BHD, Gua Musang, Kelantan\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (JAWI) SDN BHD, Seberang Perai Selatan, Pulau Pinang\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (KUBANG KERIAN) SDN.BHD, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (LD) SDN. BHD, Lahad Datu, Sabah\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (MJ) SDN. BHD. (SETIAWAN), Setiawan, Perak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (PP), Pasir Putih, Kelantan\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY (TPJ) SDN BHD, Sungai Petani, Kedah\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY BUTTERWORTH, Butterworth, Pulau Pinang\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY JERAM BATU, Pontian, Johor\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY KUCHING, Kuching, Sarawak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY PONTIAN, Pontian, Johor\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY RAJA UDA, Butterworth, Pulau Pinang\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY SDN. BHD. (BATANG KALI), Batang Kali, Selangor\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY SDN. BHD. (SLIM RIVER), Slim River, Perak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY SDN. BHD. KAMUNTING, Kamunting, Perak\"}": [],
+ "{\"q\":\"ECONSAVE CASH & CARRY SDN. BHD. KUALA PILAH, Kuala Pilah, Negeri Sembilan\"}": [],
+ "{\"q\":\"ECONSAVE CASH &CARRY (SUNGAI UDANG), Melaka, Melaka\"}": [],
+ "{\"q\":\"ECONSAVE CASH AND CARRY ( SCOTT GARDEN ), Seputeh, Kuala Lumpur\"}": [],
+ "{\"q\":\"ECONSAVE CASH AND CARRY (BLG) SDN. BHD., Baling, Kedah\"}": [],
+ "{\"q\":\"ECONSAVE CASH AND CARRY (TRI) SDN BHD, Bera, Pahang\"}": [],
+ "{\"q\":\"ECONSAVE CASH AND CARRY MALIM S/B, Melaka, Melaka\"}": [],
+ "{\"q\":\"ECONSAVE EXPRESS, Cheras, Kuala Lumpur\"}": [],
+ "{\"q\":\"Econsave Express, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1929569,
+   "lng": 101.6256875,
+   "state": "",
+   "name": "Econsave Express",
+   "kind": "shop/variety_store"
+  },
+  {
+   "lat": 3.146258,
+   "lng": 101.7376129,
+   "state": "",
+   "name": "Econsave Express",
+   "kind": "shop/variety_store"
+  },
+  {
+   "lat": 3.1323417,
+   "lng": 101.688429,
+   "state": "",
+   "name": "Econsave Express",
+   "kind": "shop/variety_store"
+  }
+ ],
+ "{\"q\":\"Econsave Forest Height, Negeri Sembilan\"}": [],
+ "{\"q\":\"ECONSAVE GERIK, Hulu Perak, Perak\"}": [
+  {
+   "lat": 5.4312151,
+   "lng": 101.1299278,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE GONG BADAK, Kuala Nerus, Terengganu\"}": [],
+ "{\"q\":\"Econsave Gong Badak, Terengganu\"}": [],
+ "{\"q\":\"Econsave Hutan Melintang, Perak\"}": [
+  {
+   "lat": 3.8847041,
+   "lng": 100.9345883,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE JALAN REKO, Kajang, Selangor\"}": [
+  {
+   "lat": 2.9665898,
+   "lng": 101.7881434,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Jasin, Melaka\"}": [],
+ "{\"q\":\"Econsave Jawi, Pulau Pinang\"}": [
+  {
+   "lat": 5.2018066,
+   "lng": 100.4973788,
+   "state": "Penang",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE JELAPANG, Kinta, Perak\"}": [
+  {
+   "lat": 4.6419496,
+   "lng": 101.0634054,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Jeram Batu, Johor\"}": [],
+ "{\"q\":\"Econsave Jerantut, Pahang\"}": [
+  {
+   "lat": 3.9348071,
+   "lng": 102.3814097,
+   "state": "Pahang",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Kamunting, Perak\"}": [
+  {
+   "lat": 4.8976445,
+   "lng": 100.715851,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Kapar, Selangor\"}": [
+  {
+   "lat": 3.1346187,
+   "lng": 101.3859344,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.1362558,
+   "lng": 101.3719014,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Kipmall, Selangor\"}": [],
+ "{\"q\":\"ECONSAVE KIPMALL, Sepang, Selangor\"}": [],
+ "{\"q\":\"ECONSAVE KLEBANG, Kinta, Perak\"}": [
+  {
+   "lat": 4.6872356,
+   "lng": 101.1197809,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE KLUANG, Kluang, Johor\"}": [
+  {
+   "lat": 2.035619,
+   "lng": 103.3325314,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 1.8372226,
+   "lng": 103.3070848,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE KOTA KEMUNING, Shah Alam, Selangor\"}": [
+  {
+   "lat": 2.9933773,
+   "lng": 101.5313844,
+   "state": "Selangor",
+   "name": "Econsave Express",
+   "kind": "shop/variety_store"
+  }
+ ],
+ "{\"q\":\"ECONSAVE KOTA TINGGI, Kota Tinggi, Johor\"}": [
+  {
+   "lat": 1.3629496,
+   "lng": 104.2341471,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 1.3625893,
+   "lng": 104.2343505,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "highway/bus_stop"
+  },
+  {
+   "lat": 1.7182515,
+   "lng": 103.8952883,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE KUALA KANGSAR, Kuala Kangsar, Perak\"}": [
+  {
+   "lat": 4.7731547,
+   "lng": 100.9293011,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Kuala Pilah, Negeri Sembilan\"}": [
+  {
+   "lat": 2.7366844,
+   "lng": 102.2317717,
+   "state": "Negeri Sembilan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE KUALA SELANGOR, Kuala, Selangor\"}": [
+  {
+   "lat": 3.2358148,
+   "lng": 101.4891743,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.2377574,
+   "lng": 101.4475968,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.2559211,
+   "lng": 101.3073976,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.3441037,
+   "lng": 101.2555781,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.6594157,
+   "lng": 101.5644081,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "building/house"
+  }
+ ],
+ "{\"q\":\"Econsave Kubang Kerian, Kelantan\"}": [
+  {
+   "lat": 6.1001999,
+   "lng": 102.2791368,
+   "state": "Kelantan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Kuching, Sarawak\"}": [
+  {
+   "lat": 1.4957503,
+   "lng": 110.3707644,
+   "state": "Sarawak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Lahad Datu, Sabah\"}": [
+  {
+   "lat": 5.0212251,
+   "lng": 118.3218788,
+   "state": "Sabah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.0370298,
+   "lng": 118.340034,
+   "state": "Sabah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.0219837,
+   "lng": 118.3275976,
+   "state": "Sabah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Langkap, Perak\"}": [
+  {
+   "lat": 4.0703101,
+   "lng": 101.1545639,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE LENGGONG, Hulu Perak, Perak\"}": [
+  {
+   "lat": 5.1079776,
+   "lng": 100.9687137,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Lenggong, Perak\"}": [
+  {
+   "lat": 5.1079776,
+   "lng": 100.9687137,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Malim, Melaka\"}": [
+  {
+   "lat": 2.2284818,
+   "lng": 102.2278563,
+   "state": "Malacca",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE MART HENTIAN KAJANG, Kajang, Selangor\"}": [],
+ "{\"q\":\"Econsave Mart Hentian Kajang, Selangor\"}": [],
+ "{\"q\":\"Econsave Mart Salak Tinggi, Selangor\"}": [],
+ "{\"q\":\"ECONSAVE MART SALAK TINGGI, Sepang, Selangor\"}": [],
+ "{\"q\":\"Econsave Mart Taman Seroja, Selangor\"}": [],
+ "{\"q\":\"ECONSAVE MART TAMAN SEROJA, Sepang, Selangor\"}": [],
+ "{\"q\":\"Econsave Miri, Sarawak\"}": [
+  {
+   "lat": 4.4705554,
+   "lng": 114.0104835,
+   "state": "Sarawak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Muar, Johor\"}": [
+  {
+   "lat": 2.0459427,
+   "lng": 102.5861949,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.043933,
+   "lng": 102.6140488,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE PARIT BUNTAR, Parit Buntar, Perak\"}": [
+  {
+   "lat": 5.1084551,
+   "lng": 100.4897888,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Pasir Putih, Kelantan\"}": [],
+ "{\"q\":\"ECONSAVE PAYA TERUBONG, Timur Laut, Pulau Pinang\"}": [
+  {
+   "lat": 5.3855838,
+   "lng": 100.2762771,
+   "state": "Penang",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE PERMAS JAYA, Johor Bahru, Johor\"}": [
+  {
+   "lat": 1.5117598,
+   "lng": 103.8160155,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Pontian, Johor\"}": [
+  {
+   "lat": 1.4804821,
+   "lng": 103.3966731,
+   "state": "Johor",
+   "name": "Econsave Pontian",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"ECONSAVE PORT DICKSON, Port Dickson, Negeri Sembilan\"}": [
+  {
+   "lat": 2.5617206,
+   "lng": 101.8159367,
+   "state": "Negeri Sembilan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.5304025,
+   "lng": 101.8016636,
+   "state": "Negeri Sembilan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Raja Uda, Pulau Pinang\"}": [],
+ "{\"q\":\"Econsave Scott Garden, Kuala Lumpur\"}": [],
+ "{\"q\":\"Econsave Segamat, Johor\"}": [
+  {
+   "lat": 2.5034814,
+   "lng": 102.8249906,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE SENAI, Senai, Johor\"}": [
+  {
+   "lat": 1.610907,
+   "lng": 103.6562589,
+   "state": "Johor",
+   "name": "Econsave Senai",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"ECONSAVE SERI ISKANDAR, Perak Tengah, Perak\"}": [
+  {
+   "lat": 4.3602323,
+   "lng": 100.9706385,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Setiawan, Perak\"}": [],
+ "{\"q\":\"Econsave Simpang Renggam, Johor\"}": [
+  {
+   "lat": 1.8372226,
+   "lng": 103.3070848,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE SIMPANG RENGGAM, Kluang, Johor\"}": [
+  {
+   "lat": 1.8372226,
+   "lng": 103.3070848,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Slim River, Perak\"}": [
+  {
+   "lat": 3.843218,
+   "lng": 101.393656,
+   "state": "Perak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Sungai Petani, Kedah\"}": [
+  {
+   "lat": 5.6217949,
+   "lng": 100.5400521,
+   "state": "Kedah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.631386,
+   "lng": 100.4879366,
+   "state": "Kedah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Sungai Udang, Melaka\"}": [
+  {
+   "lat": 2.2905593,
+   "lng": 102.1422105,
+   "state": "Malacca",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE TAMAN DAYA, Johor Bahru, Johor\"}": [
+  {
+   "lat": 1.5449687,
+   "lng": 103.7609389,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE TAMAN DESA CEMERLANG, Bahru, Johor\"}": [
+  {
+   "lat": 1.5653083,
+   "lng": 103.8116314,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE TAMAN TERATAI, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"Econsave Taman Teratai, Johor\"}": [
+  {
+   "lat": 1.567594,
+   "lng": 103.6116118,
+   "state": "Johor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"ECONSAVE TANJONG KARANG, Tanjong Karang, Selangor\"}": [
+  {
+   "lat": 3.4242993,
+   "lng": 101.1813348,
+   "state": "Selangor",
+   "name": "Econsave Express",
+   "kind": "shop/variety_store"
+  }
+ ],
+ "{\"q\":\"ECONSAVE TANJUNG, Kuala Terengganu, Terengganu\"}": [],
+ "{\"q\":\"Econsave Tanjung, Terengganu\"}": [],
+ "{\"q\":\"GIANT BUKIT TINGGI, Klang, Selangor\"}": [
+  {
+   "lat": 3.0093872,
+   "lng": 101.4332568,
+   "state": "Selangor",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT HYPERMARKET ( SETAPAK ), Setiawangsa, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT HYPERMARKET BAYAN BARU, Bayan Lepas, Pulau Pinang\"}": [
+  {
+   "lat": 5.3208758,
+   "lng": 100.2838807,
+   "state": "Penang",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT HYPERMARKET KOTA DAMANSARA, Petaling Jaya, Selangor\"}": [
+  {
+   "lat": 3.1562489,
+   "lng": 101.5966672,
+   "state": "Selangor",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT HYPERMARKET LEISURE MALL, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"GIANT HYPERMARKET PLENTONG, Masai, Johor\"}": [
+  {
+   "lat": 1.5281885,
+   "lng": 103.8148184,
+   "state": "Johor",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT HYPERMARKET SOUTHERN CITY, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"GIANT HYPERMARKET TAMPOI, Tampoi, Johor\"}": [
+  {
+   "lat": 1.498836,
+   "lng": 103.6988604,
+   "state": "Johor",
+   "name": "Giant Hypermarket Tampoi",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"GIANT JERTEH MALL, Jerteh, Terengganu\"}": [],
+ "{\"q\":\"Giant Jerteh Mall, Terengganu\"}": [],
+ "{\"q\":\"GIANT KEMUNING UTAMA, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.018472,
+   "lng": 101.5374149,
+   "state": "Selangor",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT KUANTAN, Kuantan, Pahang\"}": [
+  {
+   "lat": 3.7915326,
+   "lng": 103.3104451,
+   "state": "Pahang",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Giant Leisure Mall, Johor\"}": [],
+ "{\"q\":\"GIANT MINI (JUTARIA GEMILANG SDN BHD), Seputeh, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT MINI BANDAR BARU SENTUL, Batu, Kuala Lumpur\"}": [],
+ "{\"q\":\"Giant Mini Bandar Baru Sentul, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT MINI BANGI SEKSYEN 3, Hulu Langat, Selangor\"}": [],
+ "{\"q\":\"Giant Mini Bangi Seksyen 3, Selangor\"}": [],
+ "{\"q\":\"Giant Mini Jutaria Gemilang, Kuala Lumpur\"}": [],
+ "{\"q\":\"Giant Mini Klts, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT MINI KLTS, Wangsa Maju, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT MINI KOTA DAMANSARA, Petaling Jaya, Selangor\"}": [],
+ "{\"q\":\"Giant Mini Kota Damansara, Selangor\"}": [],
+ "{\"q\":\"GIANT MINI MAXIM CITYLIGHTS, Batu, Kuala Lumpur\"}": [],
+ "{\"q\":\"Giant Mini Maxim Citylights, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT MINI PLAZA DWITASIK, Kuala Lumpur, Kuala Lumpur\"}": [],
+ "{\"q\":\"Giant Mini Plaza Dwitasik, Kuala Lumpur\"}": [],
+ "{\"q\":\"GIANT NILAI, Seremban, Negeri Sembilan\"}": [
+  {
+   "lat": 2.8124169,
+   "lng": 101.7912599,
+   "state": "Negeri Sembilan",
+   "name": "Spectrum Forex Nilai Giant",
+   "kind": "amenity/bureau_de_change"
+  },
+  {
+   "lat": 2.8122456,
+   "lng": 101.7916865,
+   "state": "Negeri Sembilan",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Giant Penang Plaza, Pulau Pinang\"}": [],
+ "{\"q\":\"GIANT PENANG PLAZA, Timur Laut, Pulau Pinang\"}": [],
+ "{\"q\":\"GIANT SEKSYEN 13, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.0850459,
+   "lng": 101.5494066,
+   "state": "Selangor",
+   "name": "Giant Seksyen 13",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"GIANT SEKSYEN 7 SHAH ALAM, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.0656924,
+   "lng": 101.4888941,
+   "state": "Selangor",
+   "name": "Giant",
+   "kind": "building/commercial"
+  },
+  {
+   "lat": 3.0657596,
+   "lng": 101.4888515,
+   "state": "Selangor",
+   "name": "Giant",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SENAWANG, Senawang, Negeri Sembilan\"}": [
+  {
+   "lat": 2.7020281,
+   "lng": 101.9847357,
+   "state": "Negeri Sembilan",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Giant Setapak, Kuala Lumpur\"}": [
+  {
+   "lat": 3.199916,
+   "lng": 101.7229053,
+   "state": "",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.1993016,
+   "lng": 101.7293753,
+   "state": "",
+   "name": "Giant Mini",
+   "kind": "shop/variety_store"
+  }
+ ],
+ "{\"q\":\"GIANT SETIAWANGSA, Setiawangsa, Kuala Lumpur\"}": [
+  {
+   "lat": 3.178307,
+   "lng": 101.7435756,
+   "state": "",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Giant Southern City, Johor\"}": [],
+ "{\"q\":\"GIANT SUPERMARKET ( DESA PETALING ), Bandar Tun Razak, Kuala Lumpur\"}": [
+  {
+   "lat": 3.0827594,
+   "lng": 101.7023761,
+   "state": "",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SUPERMARKET ( SUNGEI WANG ), Bukit Bintang, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1445214,
+   "lng": 101.7108414,
+   "state": "",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SUPERMARKET KELANA JAYA, Petaling Jaya, Selangor\"}": [
+  {
+   "lat": 3.1054516,
+   "lng": 101.6001413,
+   "state": "Selangor",
+   "name": "Giant Supermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SUPERSTORE KANGAR, Kangar, Perlis\"}": [
+  {
+   "lat": 6.4192514,
+   "lng": 100.1966322,
+   "state": "Perlis",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SUPERSTORE KUALA PILAH, Kuala Pilah, Negeri Sembilan\"}": [
+  {
+   "lat": 2.7383749,
+   "lng": 102.2180097,
+   "state": "Negeri Sembilan",
+   "name": "Giant Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"GIANT SUPERSTORE TUNJONG, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"Giant Tunjong, Kelantan\"}": [],
+ "{\"q\":\"Gua Musang, Kelantan, Malaysia\"}": [
+  {
+   "lat": 5.0198136,
+   "lng": 102.0382663,
+   "state": "Kelantan",
+   "name": "Gua Musang",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 4.8792724,
+   "lng": 101.9652332,
+   "state": "Kelantan",
+   "name": "Gua Musang",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Hulu Langat, Selangor, Malaysia\"}": [
+  {
+   "lat": 3.083333,
+   "lng": 101.833333,
+   "state": "Selangor",
+   "name": "Hulu Langat",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Hulu Perak, Perak, Malaysia\"}": [
+  {
+   "lat": 5.4479728,
+   "lng": 101.2971493,
+   "state": "Perak",
+   "name": "Hulu Perak District",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"HYPERMARKET MYDIN PULAU SEBANG, Alor Gajah, Melaka\"}": [
+  {
+   "lat": 2.4629303,
+   "lng": 102.2313935,
+   "state": "Malacca",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Jerantut, Pahang, Malaysia\"}": [
+  {
+   "lat": 4.2834137,
+   "lng": 102.5575232,
+   "state": "Pahang",
+   "name": "Jerantut",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.9366586,
+   "lng": 102.3719554,
+   "state": "Pahang",
+   "name": "Jerantut",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Johor Bahru, Johor, Malaysia\"}": [
+  {
+   "lat": 1.4581986,
+   "lng": 103.7649059,
+   "state": "Johor",
+   "name": "Johor Bahru",
+   "kind": "place/city"
+  },
+  {
+   "lat": 1.5366667,
+   "lng": 103.7205556,
+   "state": "Johor",
+   "name": "Johor Bahru",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kalabakan, Sabah, Malaysia\"}": [
+  {
+   "lat": 4.4808936,
+   "lng": 117.4071326,
+   "state": "Sabah",
+   "name": "Kalabakan",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 4.4144005,
+   "lng": 117.4905986,
+   "state": "Sabah",
+   "name": "Kalabakan",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Kapar, Selangor, Malaysia\"}": [
+  {
+   "lat": 3.1377492,
+   "lng": 101.3732079,
+   "state": "Selangor",
+   "name": "Kapar",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Kepong, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.2140294,
+   "lng": 101.634842,
+   "state": "",
+   "name": "Kepong",
+   "kind": "place/town"
+  },
+  {
+   "lat": 3.2028384,
+   "lng": 101.6373867,
+   "state": "",
+   "name": "Kepong",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.2026423,
+   "lng": 101.6372464,
+   "state": "",
+   "name": "Kepong",
+   "kind": "railway/stop"
+  }
+ ],
+ "{\"q\":\"Kinta, Perak, Malaysia\"}": [
+  {
+   "lat": 4.5833333,
+   "lng": 101.0833333,
+   "state": "Perak",
+   "name": "Kinta",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Klang, Selangor, Malaysia\"}": [
+  {
+   "lat": 3.0448394,
+   "lng": 101.4447363,
+   "state": "Selangor",
+   "name": "Klang City",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.083333,
+   "lng": 101.416667,
+   "state": "Selangor",
+   "name": "Klang",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kluang, Johor, Malaysia\"}": [
+  {
+   "lat": 2.0323472,
+   "lng": 103.3190766,
+   "state": "Johor",
+   "name": "Kluang",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 2.0322421,
+   "lng": 103.3190922,
+   "state": "Johor",
+   "name": "Kluang",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Kota Bharu, Kelantan, Malaysia\"}": [
+  {
+   "lat": 6.1247911,
+   "lng": 102.2378065,
+   "state": "Kelantan",
+   "name": "Kota Bharu",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 6.0389924,
+   "lng": 102.2588546,
+   "state": "Kelantan",
+   "name": "Kota Bharu",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kota Setar, Kedah, Malaysia\"}": [
+  {
+   "lat": 6.122603,
+   "lng": 100.3690317,
+   "state": "Kedah",
+   "name": "Kota Setar",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuala Kangsar, Perak, Malaysia\"}": [
+  {
+   "lat": 4.7720713,
+   "lng": 100.9408776,
+   "state": "Perak",
+   "name": "Kuala Kangsar",
+   "kind": "place/city"
+  },
+  {
+   "lat": 4.75,
+   "lng": 100.9166667,
+   "state": "Perak",
+   "name": "Kuala Kangsar",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuala Muda, Kedah, Malaysia\"}": [
+  {
+   "lat": 5.7073152,
+   "lng": 100.4952892,
+   "state": "Kedah",
+   "name": "Kuala Muda",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuala Nerus, Terengganu, Malaysia\"}": [
+  {
+   "lat": 5.3957398,
+   "lng": 103.0615343,
+   "state": "Terengganu",
+   "name": "Kuala Nerus",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuala Penyu, Sabah, Malaysia\"}": [
+  {
+   "lat": 5.4401919,
+   "lng": 115.4949313,
+   "state": "Sabah",
+   "name": "Kuala Penyu",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.5675507,
+   "lng": 115.6008534,
+   "state": "Sabah",
+   "name": "Kuala Penyu",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Kuala Terengganu, Terengganu, Malaysia\"}": [
+  {
+   "lat": 5.3296461,
+   "lng": 103.1383265,
+   "state": "Terengganu",
+   "name": "Kuala Terengganu",
+   "kind": "place/city"
+  },
+  {
+   "lat": 5.2797084,
+   "lng": 103.0837811,
+   "state": "Terengganu",
+   "name": "Kuala Terengganu",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuantan, Pahang, Malaysia\"}": [
+  {
+   "lat": 3.7974493,
+   "lng": 103.3219191,
+   "state": "Pahang",
+   "name": "Kuantan",
+   "kind": "place/city"
+  },
+  {
+   "lat": 3.8560694,
+   "lng": 103.039502,
+   "state": "Pahang",
+   "name": "Kuantan",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kuching, Sarawak, Malaysia\"}": [
+  {
+   "lat": 1.5597561,
+   "lng": 110.345397,
+   "state": "Sarawak",
+   "name": "Kuching",
+   "kind": "place/city"
+  },
+  {
+   "lat": 1.4250728,
+   "lng": 110.2993218,
+   "state": "Sarawak",
+   "name": "Kuching",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Kudat, Sabah, Malaysia\"}": [
+  {
+   "lat": 7.2316455,
+   "lng": 117.1711562,
+   "state": "Sabah",
+   "name": "Kudat",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 6.8824598,
+   "lng": 116.8494435,
+   "state": "Sabah",
+   "name": "Kudat",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Kulim, Kedah, Malaysia\"}": [
+  {
+   "lat": 5.3707128,
+   "lng": 100.6172071,
+   "state": "Kedah",
+   "name": "Kulim",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.3663769,
+   "lng": 100.5525705,
+   "state": "Kedah",
+   "name": "Kulim",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Larut, Matang & Selama, Perak, Malaysia\"}": [
+  {
+   "lat": 4.8166917,
+   "lng": 100.66436,
+   "state": "Perak",
+   "name": "Larut River",
+   "kind": "waterway/river"
+  },
+  {
+   "lat": 4.8618713,
+   "lng": 100.7930488,
+   "state": "Perak",
+   "name": "Bukit Larut",
+   "kind": "place/village"
+  }
+ ],
+ "{\"q\":\"Lawas, Sarawak, Malaysia\"}": [
+  {
+   "lat": 4.4551211,
+   "lng": 115.427188,
+   "state": "Sarawak",
+   "name": "Lawas",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 4.8596843,
+   "lng": 115.4082501,
+   "state": "Sarawak",
+   "name": "Lawas",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Lembah Pantai, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.101597,
+   "lng": 101.6688966,
+   "state": "",
+   "name": "Pantai Dalam",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Lipis, Pahang, Malaysia\"}": [
+  {
+   "lat": 4.3242506,
+   "lng": 101.9085845,
+   "state": "Pahang",
+   "name": "Lipis",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 4.1869878,
+   "lng": 102.0544343,
+   "state": "Pahang",
+   "name": "Kuala Lipis",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Lotus's Ara Damansara, Selangor\"}": [
+  {
+   "lat": 3.1185486,
+   "lng": 101.5761792,
+   "state": "Selangor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S BAGAN AJAM, Butterworth, Pulau Pinang\"}": [
+  {
+   "lat": 5.4391621,
+   "lng": 100.382188,
+   "state": "Penang",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.4393565,
+   "lng": 100.3813782,
+   "state": "Penang",
+   "name": "Lotus's Bagan Ajam",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"Lotus's Bercham, Perak\"}": [
+  {
+   "lat": 4.626637,
+   "lng": 101.1176974,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S BERTAM PERDANA, Kepala Batas, Pulau Pinang\"}": [
+  {
+   "lat": 5.5169232,
+   "lng": 100.4424866,
+   "state": "Penang",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S CHERAS, Cheras, Kuala Lumpur\"}": [
+  {
+   "lat": 3.0992717,
+   "lng": 101.7346293,
+   "state": "",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S DESA TEBRAU, Bharu, Johor\"}": [],
+ "{\"q\":\"Lotus's Desa Tebrau, Johor\"}": [
+  {
+   "lat": 1.5476112,
+   "lng": 103.793539,
+   "state": "Johor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS’S IOI MALL PUTRAJAYA, Putrajaya, Putrajaya\"}": [],
+ "{\"q\":\"Lotus's Ioi Mall Putrajaya, Putrajaya\"}": [],
+ "{\"q\":\"Lotus's Kajang, Selangor\"}": [
+  {
+   "lat": 3.0043489,
+   "lng": 101.7861915,
+   "state": "Selangor",
+   "name": "Lotus's Kajang",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Kepong, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1933575,
+   "lng": 101.6332536,
+   "state": "",
+   "name": "Lotus's Kepong",
+   "kind": "shop/mall"
+  }
+ ],
+ "{\"q\":\"LOTUS'S KEPONG, Segambut, Kuala Lumpur\"}": [],
+ "{\"q\":\"Lotus's Manjung, Perak\"}": [
+  {
+   "lat": 4.2087143,
+   "lng": 100.6718273,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S MUAR, Muar, Johor\"}": [
+  {
+   "lat": 2.0498046,
+   "lng": 102.601539,
+   "state": "Johor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S PLENTONG, Johor Bahru, Johor\"}": [
+  {
+   "lat": 1.5215815,
+   "lng": 103.8152495,
+   "state": "Johor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S SELAYANG, Batu, Kuala Lumpur\"}": [
+  {
+   "lat": 3.2218883,
+   "lng": 101.6705006,
+   "state": "",
+   "name": "Lotus's Selayang",
+   "kind": "highway/bus_stop"
+  },
+  {
+   "lat": 3.2211298,
+   "lng": 101.6707795,
+   "state": "",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"LOTUS'S SERI ALAM, Johor Bahru, Johor\"}": [
+  {
+   "lat": 1.4971205,
+   "lng": 103.8696201,
+   "state": "Johor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Seri Iskandar, Perak\"}": [
+  {
+   "lat": 4.3661146,
+   "lng": 100.9797129,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Station 18, Perak\"}": [
+  {
+   "lat": 4.5447841,
+   "lng": 101.0680709,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Sungai Dua, Pulau Pinang\"}": [
+  {
+   "lat": 5.3514095,
+   "lng": 100.2961547,
+   "state": "Penang",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Taiping, Perak\"}": [
+  {
+   "lat": 4.866234,
+   "lng": 100.7302655,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Teluk Intan, Perak\"}": [
+  {
+   "lat": 4.0171631,
+   "lng": 101.0268721,
+   "state": "Perak",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Lotus's Tesco Jitra, Kedah\"}": [],
+ "{\"q\":\"Lotus's Tesco Mergong, Kedah\"}": [],
+ "{\"q\":\"Lotus's Tesco Sg. Petani Selatan, Kedah\"}": [],
+ "{\"q\":\"Lotus's Tesco Stargate, Kedah\"}": [],
+ "{\"q\":\"Lotus's Tesco Stores, Kedah\"}": [],
+ "{\"q\":\"LOTUSS (TESCO SG. PETANI SELATAN), Sungai Petani, Kedah\"}": [],
+ "{\"q\":\"LOTUSS (TESCO STORES (M) SDN BHD), Sungai Petani, Kedah\"}": [],
+ "{\"q\":\"LOTUSS STORE (TESCO JITRA), Jitra, Kedah\"}": [],
+ "{\"q\":\"LOTUSS STORE (TESCO MERGONG), Alor Setar, Kedah\"}": [],
+ "{\"q\":\"LOTUSS STORE (TESCO STARGATE), Alor Setar, Kedah\"}": [],
+ "{\"q\":\"LOTUSS STORE BERCHAM, Ipoh, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORE MANJUNG, Manjung, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORE SERI ISKANDAR, Perak Tengah, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORE STATION 18, Pengkalan, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORE TAIPING, Larut, Matang & Selama, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORE TELUK INTAN, Teluk Intan, Perak\"}": [],
+ "{\"q\":\"LOTUSS STORES, Kajang, Selangor\"}": [],
+ "{\"q\":\"Manjung, Perak, Malaysia\"}": [
+  {
+   "lat": 4.334761,
+   "lng": 100.6342662,
+   "state": "Perak",
+   "name": "Manjung",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Melaka Tengah, Melaka, Malaysia\"}": [
+  {
+   "lat": 2.2301451,
+   "lng": 102.2453068,
+   "state": "Malacca",
+   "name": "Central Malacca",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Meradong, Sarawak, Malaysia\"}": [
+  {
+   "lat": 2.1676316,
+   "lng": 111.6779884,
+   "state": "Sarawak",
+   "name": "Meradong",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Muar, Johor, Malaysia\"}": [
+  {
+   "lat": 2.05,
+   "lng": 102.5666667,
+   "state": "Johor",
+   "name": "Muar",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 2.0425046,
+   "lng": 102.5658852,
+   "state": "Johor",
+   "name": "Muar",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"MY MYDIN ( DANAU SAUJANA ), Wangsa Maju, Kuala Lumpur\"}": [],
+ "{\"q\":\"MYDIN ( SINAR KOTA ), Bukit Bintang, Kuala Lumpur\"}": [
+  {
+   "lat": 3.1467318,
+   "lng": 101.6986534,
+   "state": "",
+   "name": "Hab Lebuh Pudu (TP)",
+   "kind": "amenity/bus_station"
+  }
+ ],
+ "{\"q\":\"MYDIN Alor Setar, Kedah\"}": [
+  {
+   "lat": 6.0926003,
+   "lng": 100.3830054,
+   "state": "Kedah",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 6.1242262,
+   "lng": 100.3660062,
+   "state": "Kedah",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN BAZAAR PRESINT 15, Putrajaya, Putrajaya\"}": [],
+ "{\"q\":\"MYDIN Bazaar Presint 15, Putrajaya\"}": [],
+ "{\"q\":\"MYDIN Bertam, Pulau Pinang\"}": [
+  {
+   "lat": 5.5189118,
+   "lng": 100.4783364,
+   "state": "Penang",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.5177536,
+   "lng": 100.477209,
+   "state": "Penang",
+   "name": "Pasaraya Mydin Bertam",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"MYDIN Bukit Jambul, Pulau Pinang\"}": [
+  {
+   "lat": 5.3343008,
+   "lng": 100.291034,
+   "state": "Penang",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Bukit Mertajam, Pulau Pinang\"}": [
+  {
+   "lat": 5.3680609,
+   "lng": 100.4146605,
+   "state": "Penang",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Danau Saujana, Kuala Lumpur\"}": [
+  {
+   "lat": 3.2068362,
+   "lng": 101.7179507,
+   "state": "",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Gong Badak, Terengganu\"}": [
+  {
+   "lat": 5.3551023,
+   "lng": 103.0961958,
+   "state": "Terengganu",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN HYPERMARKET BUKIT JAMBUL, Bayan Lepas, Pulau Pinang\"}": [],
+ "{\"q\":\"MYDIN HYPERMARKET MUTIARA RINI, Skudai, Johor\"}": [],
+ "{\"q\":\"MYDIN HYPERMARKET TAMAN RINTING, Johor Bahru, Johor\"}": [
+  {
+   "lat": 1.4903313,
+   "lng": 103.8667552,
+   "state": "Johor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Jengka, Pahang\"}": [
+  {
+   "lat": 3.7727798,
+   "lng": 102.5434067,
+   "state": "Pahang",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN KOTA BHARU, Kota Bharu, Kelantan\"}": [
+  {
+   "lat": 6.0706013,
+   "lng": 102.2409706,
+   "state": "Kelantan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 6.0976831,
+   "lng": 102.2777682,
+   "state": "Kelantan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 6.1308244,
+   "lng": 102.2415,
+   "state": "Kelantan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN KUALA IBAI, Kuala Terengganu, Terengganu\"}": [],
+ "{\"q\":\"MYDIN Kuala Ibai, Terengganu\"}": [],
+ "{\"q\":\"MYDIN Kubang Kerian, Kelantan\"}": [
+  {
+   "lat": 6.0976831,
+   "lng": 102.2777682,
+   "state": "Kelantan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Kulai Utama, Johor\"}": [
+  {
+   "lat": 1.6630015,
+   "lng": 103.5967393,
+   "state": "Johor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN KULIM HYPERMARKET, Kulim, Kedah\"}": [],
+ "{\"q\":\"MYDIN Kulim, Kedah\"}": [
+  {
+   "lat": 5.378082,
+   "lng": 100.5434831,
+   "state": "Kedah",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN MALL BUKIT MERTAJAM, Seberang Perai, Pulau Pinang\"}": [],
+ "{\"q\":\"MYDIN MALL TUNJONG, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"MYDIN MALL, Jengka, Pahang\"}": [],
+ "{\"q\":\"MYDIN MALL, Kuala Terengganu, Terengganu\"}": [
+  {
+   "lat": 5.3114966,
+   "lng": 103.1306033,
+   "state": "Terengganu",
+   "name": "Mydin Mall",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN MART PASIR PUTEH, Pasir Puteh, Kelantan\"}": [],
+ "{\"q\":\"MYDIN MART SEKSYEN 18, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.0451205,
+   "lng": 101.5157144,
+   "state": "Selangor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN MERU RAYA, Ipoh, Perak\"}": [
+  {
+   "lat": 4.6709662,
+   "lng": 101.074499,
+   "state": "Perak",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN MITC MELAKA, Ayer Keroh, Melaka\"}": [
+  {
+   "lat": 2.2704937,
+   "lng": 102.2918248,
+   "state": "Malacca",
+   "name": "Mydin MITC",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"MYDIN Mutiara Rini, Johor\"}": [
+  {
+   "lat": 1.5153593,
+   "lng": 103.6353512,
+   "state": "Johor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN PARIT BUNTAR HYPERMARKET, Parit Buntar, Perak\"}": [],
+ "{\"q\":\"MYDIN Parit Buntar, Perak\"}": [
+  {
+   "lat": 5.1283096,
+   "lng": 100.483232,
+   "state": "Perak",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN PASIR MAS, Pasir Mas, Kelantan\"}": [
+  {
+   "lat": 6.0179616,
+   "lng": 101.9755217,
+   "state": "Kelantan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Pasir Puteh, Kelantan\"}": [],
+ "{\"q\":\"MYDIN RTC GOPENG, Kinta, Perak\"}": [
+  {
+   "lat": 4.4945423,
+   "lng": 101.1543462,
+   "state": "Perak",
+   "name": "Subway",
+   "kind": "amenity/fast_food"
+  }
+ ],
+ "{\"q\":\"MYDIN SEJATI HYPERMARKET, Sandakan, Sabah\"}": [],
+ "{\"q\":\"MYDIN Sejati, Sabah\"}": [
+  {
+   "lat": 5.8917113,
+   "lng": 118.0547747,
+   "state": "Sabah",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN SELAYANG, Gombak, Selangor\"}": [
+  {
+   "lat": 3.2379911,
+   "lng": 101.6436398,
+   "state": "Selangor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.319269,
+   "lng": 101.5787369,
+   "state": "Selangor",
+   "name": "Mydin Rawang",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN SEREMBAN 2, Seremban, Negeri Sembilan\"}": [
+  {
+   "lat": 2.6955865,
+   "lng": 101.9037021,
+   "state": "Negeri Sembilan",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN SUNGAI PETANI, Sungai Petani, Kedah\"}": [
+  {
+   "lat": 5.6324744,
+   "lng": 100.5379598,
+   "state": "Kedah",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN TAMAN ANGGERIK, Semenyih, Selangor\"}": [
+  {
+   "lat": 2.9754285,
+   "lng": 101.8249368,
+   "state": "Selangor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Tunjong, Kelantan\"}": [],
+ "{\"q\":\"MYDIN USJ, Subang Jaya, Selangor\"}": [
+  {
+   "lat": 3.0589764,
+   "lng": 101.5965048,
+   "state": "Selangor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN WHOLESALE HYPERMARKET ALOR SETAR, Alor Setar, Kedah\"}": [],
+ "{\"q\":\"MYDIN WHOLESALE HYPERMARKET BERTAM, Kepala Batas, Pulau Pinang\"}": [],
+ "{\"q\":\"MYDIN WHOLESALE HYPERMARKET GONG BADAK, Kuala Nerus, Terengganu\"}": [],
+ "{\"q\":\"MYDIN WHOLESALE HYPERMARKET KULAI UTAMA, Kulai, Johor\"}": [],
+ "{\"q\":\"MYDIN WHOLESALE HYPERMARKET, Kubang Kerian, Kelantan\"}": [],
+ "{\"q\":\"NSK GROCER ( QUILL CITY MALL ), Bukit Bintang, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK GROCER ( TIMES SQUARE ), Bukit Bintang, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK GROCER AMCORP MALL, Petaling Jaya, Selangor\"}": [],
+ "{\"q\":\"NSK TOPZELLER, Setiawangsa, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK TRADE CITY ( JALAN PEEL ), Cheras, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK TRADE CITY ( KEPONG ), Kepong, Kuala Lumpur\"}": [
+  {
+   "lat": 3.2047441,
+   "lng": 101.6674318,
+   "state": "",
+   "name": "NSK Trade City",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"NSK TRADE CITY ( KUCHAI LAMA ), Seputeh, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK TRADE CITY (MELAKA) SDN BHD, Melaka Tengah, Melaka\"}": [],
+ "{\"q\":\"NSK TRADE CITY (PANDAN) SDN BHD, Bahru, Johor\"}": [],
+ "{\"q\":\"NSK Trade City Amcorp Mall, Selangor\"}": [],
+ "{\"q\":\"NSK Trade City Jalan Peel, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK Trade City Kuchai Lama, Kuala Lumpur\"}": [
+  {
+   "lat": 3.0851745,
+   "lng": 101.6910545,
+   "state": "",
+   "name": "NSK Trade City",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"NSK Trade City Melaka, Melaka\"}": [
+  {
+   "lat": 2.2600767,
+   "lng": 102.2328623,
+   "state": "Malacca",
+   "name": "NSK Trade City",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"NSK Trade City Pandan, Johor\"}": [],
+ "{\"q\":\"NSK Trade City Quill City Mall, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK TRADE CITY SDN BHD, Tangkak, Johor\"}": [],
+ "{\"q\":\"NSK Trade City Times Square, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK Trade City Topzeller, Kuala Lumpur\"}": [],
+ "{\"q\":\"NSK Trade City Trading Bahau, Negeri Sembilan\"}": [],
+ "{\"q\":\"NSK TRADING (BAHAU), Bahau, Negeri Sembilan\"}": [],
+ "{\"q\":\"Papar, Sabah, Malaysia\"}": [
+  {
+   "lat": 5.7461495,
+   "lng": 116.0449789,
+   "state": "Sabah",
+   "name": "Papar District",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.7330227,
+   "lng": 115.9320971,
+   "state": "Sabah",
+   "name": "Papar",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"PASARAYA BILLION (ALOR SETAR) SDN BHD, Alor Setar, Kedah\"}": [],
+ "{\"q\":\"PASARAYA BILLION (HUTAN MELINTANG), Hutan Melintang, Perak\"}": [],
+ "{\"q\":\"PASARAYA BILLION JALAN LUMUT, Manjung, Perak\"}": [],
+ "{\"q\":\"PASARAYA BILLION MART, Bachok, Kelantan\"}": [],
+ "{\"q\":\"PASARAYA BILLION SHOPING CENTRE (SUNGAI PETANI), Kuala Muda, Kedah\"}": [],
+ "{\"q\":\"PASARAYA BILLION, Segamat, Johor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE BAKRI MUAR, Muar, Johor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE BUKIT GAMBIR, Tangkak, Johor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE FOREST HEIGHT, Seremban, Negeri Sembilan\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE HUTAN MELINTANG, Bagan Datuk, Perak\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE JASIN, Jasin, Melaka\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE JERANTUT, Jerantut, Pahang\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE KAPAR SDN BHD, Kapar, Selangor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE LANGKAP, Langkap, Perak\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE MUAR, Muar, Johor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE SEGAMAT, Segamat, Johor\"}": [],
+ "{\"q\":\"PASARAYA ECONSAVE, Bandar Tun Razak Jengka, Pahang\"}": [],
+ "{\"q\":\"PASARAYA MINI ECONSAVE, Hulu Langat, Selangor\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART (KUALA LIPIS), Lipis, Pahang\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART BENTONG 2, Bentong, Pahang\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART JERANTUT, Jerantut, Pahang\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART MENTAKAB, Temerloh, Pahang\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART MUAR, Muar, Johor\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART SDN BHD (BERA), Bera, Pahang\"}": [],
+ "{\"q\":\"PASARAYA TF VALUE MART SDN BHD, Tangkak, Johor\"}": [],
+ "{\"q\":\"Pasir Mas, Kelantan, Malaysia\"}": [
+  {
+   "lat": 6.0080942,
+   "lng": 102.0925134,
+   "state": "Kelantan",
+   "name": "Pasir Mas",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 6.0416128,
+   "lng": 102.1429248,
+   "state": "Kelantan",
+   "name": "Pasir Mas",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Pasir Puteh, Kelantan, Malaysia\"}": [
+  {
+   "lat": 5.8346168,
+   "lng": 102.3829644,
+   "state": "Kelantan",
+   "name": "Pasir Puteh",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 5.8355343,
+   "lng": 102.4050452,
+   "state": "Kelantan",
+   "name": "Pasir Puteh",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Perak Tengah, Perak, Malaysia\"}": [
+  {
+   "lat": 4.25,
+   "lng": 100.9166667,
+   "state": "Perak",
+   "name": "Perak Tengah",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Petaling, Selangor, Malaysia\"}": [
+  {
+   "lat": 3.083333,
+   "lng": 101.583333,
+   "state": "Selangor",
+   "name": "Petaling",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.0988792,
+   "lng": 101.6454202,
+   "state": "Selangor",
+   "name": "Petaling Jaya",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Pontian, Johor, Malaysia\"}": [
+  {
+   "lat": 1.5,
+   "lng": 103.5,
+   "state": "Johor",
+   "name": "Pontian",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 1.4867387,
+   "lng": 103.3884296,
+   "state": "Johor",
+   "name": "Pontian",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Port Dickson, Negeri Sembilan, Malaysia\"}": [
+  {
+   "lat": 2.5262491,
+   "lng": 101.8106156,
+   "state": "Negeri Sembilan",
+   "name": "Port Dickson",
+   "kind": "place/city"
+  },
+  {
+   "lat": 2.5152478,
+   "lng": 101.8996104,
+   "state": "Negeri Sembilan",
+   "name": "Port Dickson",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Putrajaya, Putrajaya, Malaysia\"}": [
+  {
+   "lat": 2.9179726,
+   "lng": 101.6840801,
+   "state": "Putrajaya",
+   "name": "Putrajaya",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Raub, Pahang, Malaysia\"}": [
+  {
+   "lat": 3.8843564,
+   "lng": 101.7920275,
+   "state": "Pahang",
+   "name": "Raub",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.7950465,
+   "lng": 101.8560075,
+   "state": "Pahang",
+   "name": "Raub",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Sandakan, Sabah, Malaysia\"}": [
+  {
+   "lat": 5.8391274,
+   "lng": 118.1158598,
+   "state": "Sabah",
+   "name": "Sandakan",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"Seberang Perai Utara, Pulau Pinang, Malaysia\"}": [
+  {
+   "lat": 5.4992806,
+   "lng": 100.4467987,
+   "state": "Penang",
+   "name": "North Seberang Perai District",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Segambut, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.1864418,
+   "lng": 101.6641964,
+   "state": "",
+   "name": "Segambut",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.1864172,
+   "lng": 101.6641977,
+   "state": "",
+   "name": "Segambut",
+   "kind": "railway/stop"
+  },
+  {
+   "lat": 3.1871476,
+   "lng": 101.664489,
+   "state": "",
+   "name": "Segambut",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Semporna, Sabah, Malaysia\"}": [
+  {
+   "lat": 4.4790765,
+   "lng": 118.4297732,
+   "state": "Sabah",
+   "name": "Semporna",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 4.4790651,
+   "lng": 118.6118806,
+   "state": "Sabah",
+   "name": "Semporna",
+   "kind": "place/town"
+  }
+ ],
+ "{\"q\":\"Seputeh, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.1136874,
+   "lng": 101.68142,
+   "state": "",
+   "name": "Seputeh",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.1167607,
+   "lng": 101.6862016,
+   "state": "",
+   "name": "Seputeh",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Seremban, Negeri Sembilan, Malaysia\"}": [
+  {
+   "lat": 2.723099,
+   "lng": 101.9400601,
+   "state": "Negeri Sembilan",
+   "name": "Seremban",
+   "kind": "place/city"
+  },
+  {
+   "lat": 2.7442928,
+   "lng": 101.9264418,
+   "state": "Negeri Sembilan",
+   "name": "Seremban",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Servay Bandar Baru Koidupan, Penampang, Sabah\"}": [],
+ "{\"q\":\"Servay Bandar, Sabah\"}": [
+  {
+   "lat": 5.8582984,
+   "lng": 118.0781457,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Evergreen Branch, Sarawak\"}": [],
+ "{\"q\":\"SERVAY EVERGREEN SDN BHD (BRANCH), Lawas, Sarawak\"}": [],
+ "{\"q\":\"SERVAY EVERGREEN SDN BHD, Lawas, Sarawak\"}": [],
+ "{\"q\":\"SERVAY EVERGREEN SDN BHD, Sandakan, Sabah\"}": [],
+ "{\"q\":\"Servay Evergreen, Sabah\"}": [],
+ "{\"q\":\"Servay Evergreen, Sarawak\"}": [],
+ "{\"q\":\"Servay Express Sandakan, Sabah\"}": [],
+ "{\"q\":\"SERVAY EXPRESS SDN BHD (SANDAKAN), Sandakan, Sabah\"}": [],
+ "{\"q\":\"SERVAY EXPRESS SDN BHD, Kuala Penyu, Sabah\"}": [],
+ "{\"q\":\"Servay Express, Sabah\"}": [
+  {
+   "lat": 5.9263298,
+   "lng": 116.0755543,
+   "state": "Sabah",
+   "name": "Servay Express",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.9539155,
+   "lng": 116.0558713,
+   "state": "Sabah",
+   "name": "Servay Express",
+   "kind": "shop/convenience"
+  },
+  {
+   "lat": 5.9761738,
+   "lng": 116.0701865,
+   "state": "Sabah",
+   "name": "Servay Express",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"SERVAY HYPERMARKET (PERMY MALL), Miri, Sarawak\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET (S) S/B LAHAD DATU, Lahad Datu, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET (SABAH) SDN BHD (INANAM), Kota Kinabalu, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET (SABAH) SDN BHD BENONI, Papar, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET (SABAH) SDN BHD, Beaufort, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET BANDAR BARU KOIDUPAN, PENAMPANG, Kota Kinabalu, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET BANDAR, Tawau, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET LIKAS, Likas, Sabah\"}": [
+  {
+   "lat": 5.9920174,
+   "lng": 116.1119478,
+   "state": "Sabah",
+   "name": "Servay Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"SERVAY HYPERMARKET PARKWELL DEPARTMENTAL STORE PUTATAN, Putatan, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET SANDAKAN, Sandakan, Sabah\"}": [],
+ "{\"q\":\"SERVAY HYPERMARKET, Miri, Sarawak\"}": [
+  {
+   "lat": 4.4499811,
+   "lng": 114.0384062,
+   "state": "Sarawak",
+   "name": "Servay Hypermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.4051904,
+   "lng": 114.0021347,
+   "state": "Sarawak",
+   "name": "Servay Hypermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"SERVAY JAYA HYPERMARKET, Kota Marudu, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA KUNAK S/B, Kunak, Sabah\"}": [],
+ "{\"q\":\"Servay Jaya Kunak, Sabah\"}": [
+  {
+   "lat": 4.6844426,
+   "lng": 118.2483588,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Jaya Semporna, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA SEMPORNA, Semporna, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA SUPERMARKET SDN BHD, Kudat, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA SUPERMARKET SDN. BHD., Beaufort, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA SUPERMARKET SDN.BHD, Kalabakan, Sabah\"}": [],
+ "{\"q\":\"SERVAY JAYA SUPERMARKET, Keningau, Sabah\"}": [
+  {
+   "lat": 5.3369138,
+   "lng": 116.1541441,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Jaya, Sabah\"}": [
+  {
+   "lat": 5.8929584,
+   "lng": 118.0531012,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.254404,
+   "lng": 117.8964268,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.3369138,
+   "lng": 116.1541441,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 6.9107964,
+   "lng": 116.8460125,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "building/commercial"
+  },
+  {
+   "lat": 4.6844426,
+   "lng": 118.2483588,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Lahad Datu, Sabah\"}": [
+  {
+   "lat": 5.0247873,
+   "lng": 118.3380894,
+   "state": "Sabah",
+   "name": "Servay Jaya Supermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Miri, Sarawak\"}": [
+  {
+   "lat": 4.3244155,
+   "lng": 113.9963434,
+   "state": "Sarawak",
+   "name": "Servay Supermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.4051904,
+   "lng": 114.0021347,
+   "state": "Sarawak",
+   "name": "Servay Hypermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.4499811,
+   "lng": 114.0384062,
+   "state": "Sarawak",
+   "name": "Servay Hypermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.3534489,
+   "lng": 113.9879487,
+   "state": "Sarawak",
+   "name": "Servay Supermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.5017281,
+   "lng": 114.0404513,
+   "state": "Sarawak",
+   "name": "Servay Supermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Parkwell Putatan, Sabah\"}": [],
+ "{\"q\":\"Servay Permy Mall, Sarawak\"}": [],
+ "{\"q\":\"Servay Sabah Benoni, Sabah\"}": [
+  {
+   "lat": 5.7003306,
+   "lng": 115.9369072,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Sabah Inanam, Sabah\"}": [],
+ "{\"q\":\"Servay Sabah, Sabah\"}": [
+  {
+   "lat": 5.9829003,
+   "lng": 116.0735162,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.8582984,
+   "lng": 118.0781457,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.3369138,
+   "lng": 116.1541441,
+   "state": "Sabah",
+   "name": "Servay Jaya",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.7003306,
+   "lng": 115.9369072,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 5.8921154,
+   "lng": 117.9211759,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Servay Sandakan, Sabah\"}": [
+  {
+   "lat": 5.8582984,
+   "lng": 118.0781457,
+   "state": "Sabah",
+   "name": "Servay",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Setiawangsa, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.1827768,
+   "lng": 101.7452477,
+   "state": "",
+   "name": "Setiawangsa",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Shah Alam, Selangor, Malaysia\"}": [
+  {
+   "lat": 3.0739429,
+   "lng": 101.5185278,
+   "state": "Selangor",
+   "name": "Shah Alam",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"SUPER BILLION MART, Manjung, Perak\"}": [],
+ "{\"q\":\"Tangkak, Johor, Malaysia\"}": [
+  {
+   "lat": 2.25,
+   "lng": 102.5833333,
+   "state": "Johor",
+   "name": "Tangkak",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 2.266995,
+   "lng": 102.5399606,
+   "state": "Johor",
+   "name": "Tangkak",
+   "kind": "landuse/residential"
+  }
+ ],
+ "{\"q\":\"Tawau, Sabah, Malaysia\"}": [
+  {
+   "lat": 4.2435206,
+   "lng": 117.885331,
+   "state": "Sabah",
+   "name": "Tawau",
+   "kind": "place/city"
+  },
+  {
+   "lat": 4.4336165,
+   "lng": 117.9794409,
+   "state": "Sabah",
+   "name": "Tawau",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Temerloh, Pahang, Malaysia\"}": [
+  {
+   "lat": 3.6124468,
+   "lng": 102.2566818,
+   "state": "Pahang",
+   "name": "Temerloh",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 3.4505701,
+   "lng": 102.4190974,
+   "state": "Pahang",
+   "name": "Temerloh",
+   "kind": "place/city"
+  }
+ ],
+ "{\"q\":\"TESCO BUKIT MERTAJAM, Bukit Mertajam, Pulau Pinang\"}": [
+  {
+   "lat": 5.3160719,
+   "lng": 100.4758894,
+   "state": "Penang",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO BUKIT TINGGI, Klang, Selangor\"}": [
+  {
+   "lat": 3.0055264,
+   "lng": 101.4409008,
+   "state": "Selangor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO EXTRA ARA DAMANSARA, Petaling Jaya, Selangor\"}": [],
+ "{\"q\":\"TESCO EXTRA SEBERANG JAYA, Seberang Jaya, Pulau Pinang\"}": [
+  {
+   "lat": 5.4063346,
+   "lng": 100.4045518,
+   "state": "Penang",
+   "name": "Tesco Extra",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"TESCO EXTRA SUNGAI DUA, Barat Daya, Pulau Pinang\"}": [],
+ "{\"q\":\"TESCO JELUTONG PULAU PINANG, Timur Laut, Pulau Pinang\"}": [
+  {
+   "lat": 5.3771946,
+   "lng": 100.3151458,
+   "state": "Penang",
+   "name": "Tesco Tunku Kudin",
+   "kind": "highway/bus_stop"
+  },
+  {
+   "lat": 5.3778449,
+   "lng": 100.3152739,
+   "state": "Penang",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO KOTA BHARU, Kota Bharu, Kelantan\"}": [
+  {
+   "lat": 6.1144538,
+   "lng": 102.2317296,
+   "state": "Kelantan",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO KUALA SELANGOR, Kuala, Selangor\"}": [
+  {
+   "lat": 3.236574,
+   "lng": 101.4283756,
+   "state": "Selangor",
+   "name": "Lotus's Puncak Alam",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.3198229,
+   "lng": 101.2710009,
+   "state": "Selangor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO KULIM, Kulim, Kedah\"}": [
+  {
+   "lat": 5.3622237,
+   "lng": 100.5271974,
+   "state": "Kedah",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO PERINGGIT, Peringgit, Melaka\"}": [
+  {
+   "lat": 2.218128,
+   "lng": 102.2467051,
+   "state": "Malacca",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO SEKSYEN 13, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.0719402,
+   "lng": 101.5386631,
+   "state": "Selangor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO SEREMBAN 2, Seremban, Negeri Sembilan\"}": [
+  {
+   "lat": 2.7125899,
+   "lng": 101.9147315,
+   "state": "Negeri Sembilan",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO SEREMBAN JAYA, Seremban, Negeri Sembilan\"}": [
+  {
+   "lat": 2.6845532,
+   "lng": 101.9712379,
+   "state": "Negeri Sembilan",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TESCO SETIA ALAM, Shah Alam, Selangor\"}": [
+  {
+   "lat": 3.1059025,
+   "lng": 101.4441499,
+   "state": "Selangor",
+   "name": "Tesco Setia Alam",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"TESCO TANJUNG PINANG, Timur Laut, Pulau Pinang\"}": [
+  {
+   "lat": 5.4588528,
+   "lng": 100.3079556,
+   "state": "Penang",
+   "name": "Tesco Tanjung Pinang",
+   "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"TF VALUE – MART SUNGAI LALANG, Kuala Muda, Kedah\"}": [
+  {
+   "lat": 5.70596,
+   "lng": 100.536511,
+   "state": "Kedah",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART ( TAMAN CONNOUGHT ), Bandar Tun Razak, Kuala Lumpur\"}": [],
+ "{\"q\":\"TF VALUE MART (GUA MUSANG) SDN. BHD, Gua Musang, Kelantan\"}": [],
+ "{\"q\":\"TF VALUE MART ALOR SETAR, Kota Setar, Kedah\"}": [
+  {
+   "lat": 6.1343717,
+   "lng": 100.3894776,
+   "state": "Kedah",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART BALIK PULAU, Balik Pulau, Pulau Pinang\"}": [
+  {
+   "lat": 5.3699412,
+   "lng": 100.2176796,
+   "state": "Penang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART BATU GAJAH, Kinta, Perak\"}": [
+  {
+   "lat": 4.473572,
+   "lng": 101.0477424,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART GERIK, Gerik, Perak\"}": [
+  {
+   "lat": 5.4319924,
+   "lng": 101.1272345,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART JLN MAHARAJALELA, Teluk Intan, Perak\"}": [],
+ "{\"q\":\"TF VALUE MART PORT DICKSON, Port Dickson, Negeri Sembilan\"}": [
+  {
+   "lat": 2.5216876,
+   "lng": 101.8004207,
+   "state": "Negeri Sembilan",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART RAUB, Raub, Pahang\"}": [
+  {
+   "lat": 3.8046384,
+   "lng": 101.8701876,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART SDN BHD BENTONG 1, Bentong, Pahang\"}": [],
+ "{\"q\":\"TF VALUE MART SDN BHD SEGAMAT, Segamat, Johor\"}": [],
+ "{\"q\":\"TF VALUE MART SDN BHD, Kamunting, Perak\"}": [],
+ "{\"q\":\"TF VALUE MART SG SIPUT, Sungai Siput, Perak\"}": [
+  {
+   "lat": 4.8298283,
+   "lng": 101.0796226,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART SRI MANJUNG, Seri Manjung, Perak\"}": [],
+ "{\"q\":\"TF VALUE MART TAMAN MELOR, Teluk Intan, Perak\"}": [],
+ "{\"q\":\"TF VALUE MART TAMBUN, Kinta, Perak\"}": [
+  {
+   "lat": 4.6223512,
+   "lng": 101.150453,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART TAPAH, Tapah, Perak\"}": [
+  {
+   "lat": 4.1961188,
+   "lng": 101.2641299,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF VALUE MART U-MALL PULAI UTAMA, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"TF VALUE MART, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"TF VALUE-MART BATU CAVES, Gombak, Selangor\"}": [
+  {
+   "lat": 3.2348489,
+   "lng": 101.6941016,
+   "state": "Selangor",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Bentong 1, Pahang\"}": [
+  {
+   "lat": 3.5225555,
+   "lng": 101.9087969,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Bentong 2, Pahang\"}": [],
+ "{\"q\":\"TF Value-Mart Bera, Pahang\"}": [
+  {
+   "lat": 3.2588173,
+   "lng": 102.435557,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Gua Musang, Kelantan\"}": [
+  {
+   "lat": 4.8928363,
+   "lng": 101.9753448,
+   "state": "Kelantan",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Jerantut, Pahang\"}": [
+  {
+   "lat": 3.9342152,
+   "lng": 102.3677787,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Jln Maharajalela, Perak\"}": [],
+ "{\"q\":\"TF Value-Mart Kamunting, Perak\"}": [
+  {
+   "lat": 4.8626587,
+   "lng": 100.7070661,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Kuala Kangsar, Perak\"}": [
+  {
+   "lat": 4.764321,
+   "lng": 100.9315039,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.8298283,
+   "lng": 101.0796226,
+   "state": "Perak",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Kuala Lipis, Pahang\"}": [
+  {
+   "lat": 4.1883429,
+   "lng": 102.0570132,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Mentakab, Pahang\"}": [
+  {
+   "lat": 3.4857075,
+   "lng": 102.3496577,
+   "state": "Pahang",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Muar, Johor\"}": [
+  {
+   "lat": 2.068633,
+   "lng": 102.5807977,
+   "state": "Johor",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TF Value-Mart Segamat, Johor\"}": [],
+ "{\"q\":\"TF Value-Mart Sri Manjung, Perak\"}": [],
+ "{\"q\":\"TF Value-Mart Taman Connought, Kuala Lumpur\"}": [],
+ "{\"q\":\"TF Value-Mart Taman Melor, Perak\"}": [],
+ "{\"q\":\"TF Value-Mart U-Mall Pulai Utama, Johor\"}": [],
+ "{\"q\":\"TF Value-Mart Vl Mart, Selangor\"}": [],
+ "{\"q\":\"TF VALUEMART KUALA KANGSAR, Kuala Kangsar, Perak\"}": [],
+ "{\"q\":\"TF VL MART, Sungai Besar, Selangor\"}": [],
+ "{\"q\":\"THE STORE ( M3 MALL TMN MELATI ), Wangsa Maju, Kuala Lumpur\"}": [],
+ "{\"q\":\"THE STORE ( PUDU PLAZA ), Cheras, Kuala Lumpur\"}": [],
+ "{\"q\":\"THE STORE ( SRI PETALING ), Seputeh, Kuala Lumpur\"}": [],
+ "{\"q\":\"THE STORE (KUALA KANGSAR), Kuala Kangsar, Perak\"}": [
+  {
+   "lat": 4.7693193,
+   "lng": 100.9399103,
+   "state": "Perak",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.8213405,
+   "lng": 101.0699741,
+   "state": "Perak",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 4.8198952,
+   "lng": 101.071303,
+   "state": "Perak",
+   "name": "Super Jimat",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"THE STORE KAMUNTING, Kamunting, Perak\"}": [
+  {
+   "lat": 4.8770391,
+   "lng": 100.7278456,
+   "state": "Perak",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"The Store M3 Mall Tmn Melati, Kuala Lumpur\"}": [],
+ "{\"q\":\"The Store Muar, Johor\"}": [],
+ "{\"q\":\"THE STORE MUAR, Muar, Johor\"}": [],
+ "{\"q\":\"The Store Pudu Plaza, Kuala Lumpur\"}": [],
+ "{\"q\":\"The Store Sri Petaling, Kuala Lumpur\"}": [
+  {
+   "lat": 3.0693835,
+   "lng": 101.6932526,
+   "state": "",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"THE STORE TELUK INTAN, Teluk Intan, Perak\"}": [
+  {
+   "lat": 4.0250388,
+   "lng": 101.0216933,
+   "state": "Perak",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"THE STORE TEMERLOH, Temerloh, Pahang\"}": [
+  {
+   "lat": 3.4838703,
+   "lng": 102.3498994,
+   "state": "Pahang",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.4497973,
+   "lng": 102.4150698,
+   "state": "Pahang",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Timur Laut, Pulau Pinang, Malaysia\"}": [
+  {
+   "lat": 5.4103136,
+   "lng": 100.2870311,
+   "state": "Penang",
+   "name": "North-East",
+   "kind": "boundary/administrative"
+  }
+ ],
+ "{\"q\":\"Wangsa Maju, Kuala Lumpur, Malaysia\"}": [
+  {
+   "lat": 3.2057782,
+   "lng": 101.7318615,
+   "state": "",
+   "name": "Wangsa Maju",
+   "kind": "railway/station"
+  },
+  {
+   "lat": 3.2058319,
+   "lng": 101.7319177,
+   "state": "",
+   "name": "Wangsa Maju",
+   "kind": "railway/stop"
+  },
+  {
+   "lat": 3.2057139,
+   "lng": 101.731852,
+   "state": "",
+   "name": "Wangsa Maju",
+   "kind": "railway/stop"
+  },
+  {
+   "lat": 3.2023801,
+   "lng": 101.7395016,
+   "state": "",
+   "name": "Wangsa Maju",
+   "kind": "place/suburb"
+  }
+ ],
+ "{\"q\":\"Wp Putrajaya, Putrajaya, Malaysia\"}": []
+}

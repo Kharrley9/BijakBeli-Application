@@ -7,7 +7,7 @@ class CategoryService {
     if (!cat) { const e = new Error('Category not found'); e.statusCode = 404; throw e; }
     return cat;
   }
-  async getAll() { return await categoryRepository.findAll(); }
+  async getAll(filter = {}) { return await categoryRepository.findAll(filter); }
   async update(id, data) {
     const cat = await categoryRepository.update(id, data);
     if (!cat) { const e = new Error('Category not found'); e.statusCode = 404; throw e; }

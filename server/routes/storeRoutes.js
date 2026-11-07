@@ -4,6 +4,7 @@ const ctrl = require('../controllers/storeController');
 const { protect, authorize } = require('../middleware/auth');
 
 router.get('/', ctrl.getAllStores);
+router.get('/nearby', ctrl.getNearbyStores);
 router.get('/:id', ctrl.getStore);
 router.post('/', protect, authorize('admin'), ctrl.createStore);
 router.put('/:id', protect, authorize('admin'), ctrl.updateStore);

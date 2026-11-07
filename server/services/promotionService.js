@@ -21,8 +21,8 @@ class PromotionService {
     return promo;
   }
 
-  async getActivePromotions() {
-    return await promotionRepository.findActive();
+  async getActivePromotions(query = {}) {
+    return await promotionRepository.findActive(query);
   }
 
   async getPromotionsByProduct(productId) {
@@ -41,8 +41,10 @@ class PromotionService {
     return await promotionRepository.delete(id);
   }
 
-  async getBestDeals(limit = 10) {
-    const active = await promotionRepository.findActive();
+  async getBestDeals(query = {}, limit = 10) {
+    const active = await promotionRepository.findActive(query);
+    // Sort by discount descending
+    active.sort((a, b) => b.discountPercentage - a.discountPercentage);
     return active.slice(0, limit);
   }
 

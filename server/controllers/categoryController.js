@@ -7,6 +7,7 @@ exports.create = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+// GET /api/categories — all grocery product categories, ordered.
 exports.getAll = async (req, res, next) => {
   try {
     const categories = await categoryService.getAll();

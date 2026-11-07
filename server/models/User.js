@@ -41,12 +41,49 @@ const userSchema = new mongoose.Schema(
       enum: ['customer', 'admin'],
       default: 'customer',
     },
+    preferredState: {
+      type: String,
+      default: '',
+    },
+    // Trader's home base — used as an origin for store travel-distance comparison.
+    // Left entirely unset until the trader picks a location (no nested defaults, so
+    // users without one don't materialise an empty { type: 'Point' } subdoc).
+    businessLocation: {
+      type: {
+        type: String,
+        enum: ['Point'],
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+      },
+      label: {
+        type: String,
+        trim: true,
+      },
+    },
+    preferredStores: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Store',
+      }
+    ],
+    preferredProducts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      }
+    ],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
   {
     timestamps: true,
   }
+);
+
+userSchema.index(
+  { businessLocation: '2dsphere' },
+  { partialFilterExpression: { 'businessLocation.coordinates': { $exists: true } } }
 );
 
 // Encrypt password using bcrypt

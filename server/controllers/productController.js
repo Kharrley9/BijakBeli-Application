@@ -1,4 +1,11 @@
 const productService = require('../services/productService');
+const catalogService = require('../services/catalogService');
+
+function originFrom(query) {
+  const { lat, lng } = query;
+  if (lat === undefined || lng === undefined) return null;
+  return { lat: Number(lat), lng: Number(lng) };
+}
 
 exports.createProduct = async (req, res, next) => {
   try {
@@ -7,26 +14,39 @@ exports.createProduct = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
+// GET /api/products/:id  — full detail with "prices at nearby stores"
 exports.getProduct = async (req, res, next) => {
   try {
-    const product = await productService.getProduct(req.params.id);
-    res.status(200).json({ success: true, data: product });
+    const detail = await catalogService.getProductDetail(
+      req.params.id,
+      originFrom(req.query),
+      req.query.vehicle
+    );
+    res.status(200).json({ success: true, data: detail });
   } catch (error) { next(error); }
 };
 
+// GET /api/products — catalogue list with cheapest price / cheapest & nearest store
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const { page, limit, sort, status } = req.query;
-    const query = status ? { status } : {};
-    const result = await productService.getAllProducts(query, { page, limit, sort });
+    const { page, limit, sort, q, categoryId, brandId } = req.query;
+    const result = await catalogService.listProducts(
+      { categoryId, brandId, q },
+      { page, limit, sort },
+      originFrom(req.query)
+    );
     res.status(200).json({ success: true, ...result });
   } catch (error) { next(error); }
 };
 
 exports.searchProducts = async (req, res, next) => {
   try {
-    const { q, categoryId, brandId, page, limit, sort } = req.query;
-    const result = await productService.searchProducts(q, { categoryId, brandId }, { page, limit, sort });
+    const { q, categoryId, page, limit, sort } = req.query;
+    const result = await catalogService.listProducts(
+      { q, categoryId },
+      { page, limit, sort },
+      originFrom(req.query)
+    );
     res.status(200).json({ success: true, ...result });
   } catch (error) { next(error); }
 };
