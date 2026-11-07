@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const path = require('path');
 const connectDB = require('./config/db');
 const config = require('./config/env');
 const errorHandler = require('./middleware/errorHandler');
@@ -13,16 +12,8 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const storeRoutes = require('./routes/storeRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
-const brandRoutes = require('./routes/brandRoutes');
 const priceRoutes = require('./routes/priceRoutes');
 const promotionRoutes = require('./routes/promotionRoutes');
-const shoppingListRoutes = require('./routes/shoppingListRoutes');
-const budgetRoutes = require('./routes/budgetRoutes');
-const favoriteRoutes = require('./routes/favoriteRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const uploadRoutes = require('./routes/uploadRoutes');
-const userRoutes = require('./routes/userRoutes');
 const placesRoutes = require('./routes/placesRoutes');
 
 // Connect to database
@@ -50,24 +41,13 @@ if (config.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Static files for uploads (including product images)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/stores', storeRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/brands', brandRoutes);
 app.use('/api/prices', priceRoutes);
 app.use('/api/promotions', promotionRoutes);
-app.use('/api/shopping-lists', shoppingListRoutes);
-app.use('/api/budgets', budgetRoutes);
-app.use('/api/favorites', favoriteRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/places', placesRoutes);
 
 // Health check

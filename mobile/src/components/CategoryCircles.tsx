@@ -2,7 +2,7 @@
  * CategoryCircles.tsx
  * "Shop by Category" row for the HomeScreen — one horizontally scrollable line
  * of round category photos on soft pastel rings, with a short label underneath.
- * Photos come from each category's `image` (set by server/scripts/setCategoryImages.js);
+ * Photos come from each category's `image` (set by server/scripts/migrateFreshOnly.js);
  * a category without one falls back to its Ionicon.
  */
 import React, { useEffect, useState } from 'react';

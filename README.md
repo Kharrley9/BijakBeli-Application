@@ -1,29 +1,28 @@
-# BijakBeli - Smart Grocery Price & Travel Comparison
+# BijakBeli - Fresh Produce Price & Travel Comparison
 
-> 🛒 Compare grocery prices **and travel distance** across supermarkets and grocery
-> stores across Malaysia. Built for traders and small retailers who buy stock in bulk
-> and want to cut both the shelf price and the cost of getting there.
+> 🛒 A mobile app that compares fresh-produce prices at supermarkets across Malaysia
+> and adds the cost of getting there, so buyers see which store is really the best value.
 
 ## Features
 
-- **Price Comparison** — Compare item prices across stores nationwide
-- **Travel Comparison** — See the distance and estimated drive time to every store,
-  and the nearest store alongside the cheapest one, from your GPS location or a saved
-  business location
-- **Nearby Stores** — Map + distance-sorted list of stores around you
-- **Smart Shopping Lists** — Auto-calculate basket totals and find the cheapest store
-- **Budget Planner** — Set and track monthly grocery budgets
-- **Promotions Tracker** — Never miss a deal
-- **Savings Reports** — Visualize your savings over time
+- **Price comparison**: real prices from PriceCatcher (KPDN, data.gov.my) at chain
+  supermarkets (AEON BiG, Lotus's, MYDIN, Giant, Econsave and others)
+- **Travel cost**: road distance, drive time and round-trip fuel cost (car or
+  motorcycle) to each store; "best value" = item price + fuel
+- **Nearby stores and malls**: map and distance-sorted list around the buyer's location
+- **Price trend**: daily median price, by state where there is enough data
+- **JOM Kongsi**: users report shelf prices; others confirm or dispute them
+- **Promotions**: active deals at nearby stores
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React, TypeScript, Tailwind CSS |
+| Mobile | React Native (Expo), TypeScript, NativeWind |
 | Backend | Node.js, Express.js |
-| Database | MongoDB |
+| Database | MongoDB (Atlas) |
 | Auth | JWT + bcrypt |
+| Data | PriceCatcher open data, OpenStreetMap (Nominatim, map tiles), OpenRouteService (optional) |
 
 ## Getting Started
 
@@ -31,33 +30,50 @@
 - Node.js >= 18
 - MongoDB (local or Atlas)
 
-### Installation
+### Server
 
 ```bash
-# Install all dependencies
-npm run install:all
-
-# Seed database with sample data
-npm run seed
-
-# Start development servers
-npm run dev
+cd server
+npm install
+cp .env.example .env      # then fill in MONGO_URI, JWT_SECRET, ...
+npm run dev               # http://localhost:5000
 ```
 
-- Frontend: http://localhost:5173
-- Backend: http://localhost:5000
+### Prices
+
+Stores and prices come from PriceCatcher. To refresh them with the latest month:
+
+```bash
+cd server
+npm run import:prices:dry   # preview
+npm run import:prices
+```
+
+On an empty database, build the catalogue first:
+`node scripts/seedPriceCatcher.js`, then `node scripts/migrateFreshOnly.js`,
+then `npm run import:prices`.
+
+### Mobile
+
+```bash
+cd mobile
+npm install
+npx expo run:android      # custom dev build (see mobile/AGENTS.md)
+```
 
 ## Project Structure
 
 ```
 bijakbeli/
-├── client/          # React frontend
-├── server/          # Express backend
-├── database/        # Database schemas documentation
-├── scripts/         # Seed & utility scripts
-├── docs/            # Documentation
-└── tests/           # Test files
+├── mobile/          # React Native (Expo) app
+└── server/          # Express API
+    └── scripts/     # PriceCatcher import and catalogue scripts
 ```
+
+## Data attribution
+
+Prices: PriceCatcher, KPDN, published on data.gov.my under CC BY 4.0.
+Map data © OpenStreetMap contributors.
 
 ## License
 

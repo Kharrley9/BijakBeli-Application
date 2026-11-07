@@ -11,8 +11,6 @@ module.exports = {
   JWT_EXPIRE: process.env.JWT_EXPIRE || '30d',
   JWT_COOKIE_EXPIRE: parseInt(process.env.JWT_COOKIE_EXPIRE) || 30,
   CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:5173',
-  MAX_FILE_UPLOAD: parseInt(process.env.MAX_FILE_UPLOAD) || 5000000,
-  FILE_UPLOAD_PATH: process.env.FILE_UPLOAD_PATH || './uploads',
 
   // Travel-distance comparison
   AVG_DRIVE_SPEED_KMH: parseFloat(process.env.AVG_DRIVE_SPEED_KMH) || 35,

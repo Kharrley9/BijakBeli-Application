@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// Registers the Brand model, which product queries populate via brandId
+require('./Brand');
 
 const productSchema = new mongoose.Schema(
   {

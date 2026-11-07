@@ -30,9 +30,6 @@ const Promotion = require('../models/Promotion');
 const Store = require('../models/Store');
 const User = require('../models/User');
 const CrowdsourcedPrice = require('../models/CrowdsourcedPrice');
-const FavoriteProduct = require('../models/FavoriteProduct');
-const ShoppingListItem = require('../models/ShoppingListItem');
-const Analytics = require('../models/Analytics');
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const FRESH_GROUP = 'BARANGAN SEGAR';
@@ -230,9 +227,14 @@ async function main() {
   await del('prices', Price, { productId: { $in: nonFreshIds } });
   await del('promotions', Promotion, { productId: { $in: nonFreshIds } });
   await del('crowdsourced prices', CrowdsourcedPrice, { productId: { $in: nonFreshIds } });
-  await del('favourites', FavoriteProduct, { productId: { $in: nonFreshIds } });
-  await del('shopping-list items', ShoppingListItem, { productId: { $in: nonFreshIds } });
-  await del('analytics', Analytics, { productId: { $in: nonFreshIds } });
+  // Collections left over from the removed web-client features (no models any more)
+  for (const [label, name] of [
+    ['favourites', 'favoriteproducts'],
+    ['shopping-list items', 'shoppinglistitems'],
+    ['analytics', 'analytics'],
+  ]) {
+    await del(label, mongoose.connection.collection(name), { productId: { $in: nonFreshIds } });
+  }
   await User.updateMany({}, { $pull: { preferredProducts: { $in: nonFreshIds } } });
   await del('products', Product, { _id: { $in: nonFreshIds } });
   await del('old categories', Category, { _id: { $nin: keepCatIds } });
