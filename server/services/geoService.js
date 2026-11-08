@@ -6,7 +6,7 @@ const logger = require('../utils/logger');
  *
  * Providers (ROUTING_PROVIDER):
  *   'estimate' (default): straight-line (haversine) distance plus a drive-time
- *       estimate from AVG_DRIVE_SPEED_KMH. No network, no API key.
+ *       estimate (town speed AVG_DRIVE_SPEED_KMH, faster on longer trips). No network.
  *   'ors': real road distance/time from OpenRouteService (providers/orsProvider.js,
  *       needs ROUTING_API_KEY). Falls back to 'estimate' on any failure.
  *
@@ -44,10 +44,29 @@ const ROAD_DETOUR = 1.3;
 // Stores farther than this (straight line) are estimated, not sent to ORS.
 const ORS_MAX_STRAIGHT_KM = 60;
 
+/**
+ * Drive time over `roadKm`, with speed rising with trip length: town streets
+ * for the first few km (AVG_DRIVE_SPEED_KMH), then trunk roads, then highway.
+ * One flat town speed made a 55 km trip take ~1h35m instead of ~55 min.
+ */
+const SPEED_BANDS = [
+  { uptoKm: 5, kmh: null }, // null = AVG_DRIVE_SPEED_KMH (town driving)
+  { uptoKm: 20, kmh: 55 },
+  { uptoKm: Infinity, kmh: 75 },
+];
+
 function estimateDurationMin(straightKm) {
-  const roadKm = straightKm * ROAD_DETOUR;
-  const speed = config.AVG_DRIVE_SPEED_KMH || 35;
-  return Math.round((roadKm / speed) * 60);
+  let left = straightKm * ROAD_DETOUR;
+  let from = 0;
+  let hours = 0;
+  for (const band of SPEED_BANDS) {
+    const km = Math.min(left, band.uptoKm - from);
+    if (km <= 0) break;
+    hours += km / (band.kmh || config.AVG_DRIVE_SPEED_KMH || 35);
+    left -= km;
+    from = band.uptoKm;
+  }
+  return Math.round(hours * 60);
 }
 
 function isValidCoord(c) {
@@ -163,17 +182,28 @@ function round1(n) {
 
 // --- "nearby" -------------------------------------------------------------
 
-/** Stores within this distance count as "nearby" for cheapest-price picks. */
+/**
+ * Default search radius: only stores within this distance of the buyer are
+ * compared. The app sends the buyer's own choice as `radiusKm`.
+ */
 const NEARBY_RADIUS_KM = config.NEARBY_RADIUS_KM;
+const MAX_RADIUS_KM = 200;
+
+/** The buyer's chosen radius from a query value, or the default if missing/invalid. */
+function parseRadiusKm(value) {
+  const n = parseFloat(value);
+  if (!Number.isFinite(n) || n <= 0) return NEARBY_RADIUS_KM;
+  return Math.min(n, MAX_RADIUS_KM);
+}
 
 /**
- * Rows (anything with `store.distanceKm`, or `distanceKm` directly) within the
- * nearby radius. Empty when distances are unknown (no buyer location).
+ * Rows (anything with `store.distanceKm`, or `distanceKm` directly) within
+ * `radiusKm`. Empty when distances are unknown (no buyer location).
  */
-function withinNearbyRadius(rows) {
+function withinNearbyRadius(rows, radiusKm = NEARBY_RADIUS_KM) {
   return rows.filter((r) => {
     const d = r.store ? r.store.distanceKm : r.distanceKm;
-    return typeof d === 'number' && d <= NEARBY_RADIUS_KM;
+    return typeof d === 'number' && d <= radiusKm;
   });
 }
 
@@ -235,5 +265,6 @@ module.exports = {
   fuelAssumptions,
   travelCostRm,
   withinNearbyRadius,
+  parseRadiusKm,
   NEARBY_RADIUS_KM,
 };

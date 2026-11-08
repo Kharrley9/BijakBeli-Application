@@ -19,6 +19,7 @@ import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
 import OriginToggle from '../components/OriginToggle';
 import BrandAvatar from '../components/BrandAvatar';
+import { OutsideRadiusNotice, useRadiusKm } from '../components/RadiusChips';
 
 export default function ProductDetailScreen({ route, navigation }: any) {
   const { id } = route.params || {};
@@ -30,6 +31,7 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   const [trendRegion, setTrendRegion]   = useState('Malaysia');
   const [reports, setReports]           = useState<any[]>([]);
   const [reportsLoading, setReportsLoading] = useState(false);
+  const radiusKm = useRadiusKm();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -41,7 +43,7 @@ export default function ProductDetailScreen({ route, navigation }: any) {
     } finally {
       setLoading(false);
     }
-  }, [id, origin?.lat, origin?.lng]);
+  }, [id, origin?.lat, origin?.lng, radiusKm]);
 
   // Load supplementary Price Catcher data
   useEffect(() => {
@@ -89,7 +91,8 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   }
 
   const { product, stores } = data;
-  const nearby = data.priceScope === 'nearby' && !!data.nearbyStoreCount;
+  const located = data.priceScope === 'nearby';
+  const nearby = located && !!data.nearbyStoreCount;
   const brand = (product as any).brandId?.brandName;
   const rows = [...stores].sort(
     (a, b) => (a.store.distanceKm ?? 1e9) - (b.store.distanceKm ?? 1e9)
@@ -143,7 +146,12 @@ export default function ProductDetailScreen({ route, navigation }: any) {
 
         <OriginToggle />
 
-        <Text style={styles.section}>Prices at Nearby Stores</Text>
+        <Text style={styles.section}>
+          {located ? `Prices within ${data.nearbyRadiusKm ?? radiusKm} km` : 'Prices at Stores'}
+        </Text>
+        {located && rows.length === 0 ? (
+          <OutsideRadiusNotice radiusKm={data.nearbyRadiusKm ?? radiusKm} nearestBeyond={data.nearestBeyond} />
+        ) : (
         <View style={styles.table}>
           <View style={[styles.tr, styles.trHead]}>
             <Text style={[styles.th, { flex: 2 }]}>Store</Text>
@@ -186,6 +194,7 @@ export default function ProductDetailScreen({ route, navigation }: any) {
             </TouchableOpacity>
           ))}
         </View>
+        )}
 
         <BestValueCard data={data} />
 

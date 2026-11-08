@@ -4,10 +4,14 @@ export { authService } from './authService';
 
 type Origin = { lat?: number; lng?: number } | null | undefined;
 
-/** Adds the buyer's location, plus their vehicle so the server can price the trip. */
+/**
+ * Adds the buyer's location, their vehicle (to price the trip) and their search
+ * radius (only stores that close are compared).
+ */
 function withOrigin(params: Record<string, any>, origin: Origin) {
   if (origin && origin.lat != null && origin.lng != null) {
-    return { ...params, lat: origin.lat, lng: origin.lng, vehicle: getPrefs().vehicle };
+    const { vehicle, radiusKm } = getPrefs();
+    return { ...params, lat: origin.lat, lng: origin.lng, vehicle, radiusKm };
   }
   return params;
 }

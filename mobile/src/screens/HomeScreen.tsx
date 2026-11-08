@@ -34,7 +34,7 @@ import { colors, fontSize, radius, spacing } from '../theme/theme';
 import { useAuth } from '../context/AuthContext';
 import { useLocation } from '../context/LocationContext';
 import { promotionService, productService, storeService, placeService } from '../services/dataService';
-import { DEFAULT_MAX_NEARBY_KM } from '../constants';
+import { useRadiusKm } from '../components/RadiusChips';
 import CategoryCircles from '../components/CategoryCircles';
 import StoreCard from '../components/StoreCard';
 
@@ -52,6 +52,7 @@ export default function HomeScreen({ navigation }: any) {
   const [nearby, setNearby]       = useState<any[]>([]);
   const [malls, setMalls]         = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const radiusKm = useRadiusKm();
 
   const load = useCallback(async () => {
     // Exclusive Offers / promotions
@@ -64,7 +65,8 @@ export default function HomeScreen({ navigation }: any) {
 
     // Top Picks — cheapest active products
     try {
-      const r: any = await productService.list({ sort: 'price_asc', limit: 10 }, null);
+      // Cheapest within the buyer's radius when we know where they are
+      const r: any = await productService.list({ sort: 'price_asc', limit: 10 }, origin);
       setProducts((r?.data?.products || r?.products || []).slice(0, 10));
     } catch {}
 
@@ -73,7 +75,7 @@ export default function HomeScreen({ navigation }: any) {
       try {
         const r: any = await storeService.getNearby({
           lat: origin.lat, lng: origin.lng,
-          maxKm: DEFAULT_MAX_NEARBY_KM, limit: 4,
+          maxKm: radiusKm, limit: 4,
         });
         setNearby(r?.data || r || []);
       } catch {}
@@ -84,13 +86,13 @@ export default function HomeScreen({ navigation }: any) {
     // Nearest malls (Google Places, via our server). Empty when the key isn't configured.
     if (origin) {
       try {
-        const r: any = await placeService.getNearbyMalls({ lat: origin.lat, lng: origin.lng, limit: 5 });
+        const r: any = await placeService.getNearbyMalls({ lat: origin.lat, lng: origin.lng, radiusKm, limit: 5 });
         setMalls(r?.data || []);
       } catch { setMalls([]); }
     } else {
       setMalls([]);
     }
-  }, [user?.preferredState, origin?.lat, origin?.lng]);
+  }, [user?.preferredState, origin?.lat, origin?.lng, radiusKm]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
@@ -220,7 +222,7 @@ export default function HomeScreen({ navigation }: any) {
               <Text style={styles.promptText}>Turn on location to see nearby stores</Text>
             </TouchableOpacity>
           ) : nearby.length === 0 ? (
-            <Text style={styles.empty}>No stores found nearby.</Text>
+            <Text style={styles.empty}>No stores within {radiusKm} km. Choose a wider distance in Nearby.</Text>
           ) : (
             <View style={{ paddingHorizontal: spacing.lg }}>
               {nearby.map((s, i) => (

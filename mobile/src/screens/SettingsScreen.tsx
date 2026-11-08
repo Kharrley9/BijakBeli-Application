@@ -6,6 +6,7 @@ import AppHeader from '../components/AppHeader';
 import { ChipSelect } from '../components/FormField';
 import { useAuth } from '../context/AuthContext';
 import { getPrefs, setPref, Vehicle } from '../utils/prefs';
+import RadiusChips from '../components/RadiusChips';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function SettingsScreen() {
@@ -46,6 +47,11 @@ export default function SettingsScreen() {
             value={distanceUnit}
             onChange={changeUnit}
           />
+          <Text style={styles.fieldLabel}>Search for stores</Text>
+          <RadiusChips />
+          <Text style={[styles.note, { marginTop: spacing.sm }]}>
+            Only stores this close to you are listed and compared. Also on the Nearby tab.
+          </Text>
         </View>
 
         <Text style={styles.groupTitle}>Travel cost</Text>
@@ -102,6 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   note: { fontSize: fontSize.sm, color: colors.textSecondary, lineHeight: 20 },
+  fieldLabel: { fontSize: fontSize.sm, fontWeight: '700', color: colors.text, marginTop: spacing.md, marginBottom: spacing.sm },
   logout: {
     flexDirection: 'row',
     alignItems: 'center',

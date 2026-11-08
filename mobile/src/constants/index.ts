@@ -26,8 +26,6 @@ export const SORT_OPTIONS = [
   { value: '-createdAt', label: 'Newest' },
 ] as const;
 
-export const DEFAULT_MAX_NEARBY_KM = 60;
-
 export const POPULAR_SEARCHES = [
   'Beras', 'Minyak Masak', 'Gula', 'Biskut', 'Mi Segera', 'Coklat',
 ];

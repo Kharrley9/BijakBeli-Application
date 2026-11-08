@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const catalogService = require('../services/catalogService');
+const { parseRadiusKm } = require('../services/geoService');
 
 function originFrom(query) {
   const { lat, lng } = query;
@@ -20,7 +21,8 @@ exports.getProduct = async (req, res, next) => {
     const detail = await catalogService.getProductDetail(
       req.params.id,
       originFrom(req.query),
-      req.query.vehicle
+      req.query.vehicle,
+      parseRadiusKm(req.query.radiusKm)
     );
     res.status(200).json({ success: true, data: detail });
   } catch (error) { next(error); }
@@ -33,7 +35,8 @@ exports.getAllProducts = async (req, res, next) => {
     const result = await catalogService.listProducts(
       { categoryId, brandId, q },
       { page, limit, sort },
-      originFrom(req.query)
+      originFrom(req.query),
+      parseRadiusKm(req.query.radiusKm)
     );
     res.status(200).json({ success: true, ...result });
   } catch (error) { next(error); }
@@ -45,7 +48,8 @@ exports.searchProducts = async (req, res, next) => {
     const result = await catalogService.listProducts(
       { q, categoryId },
       { page, limit, sort },
-      originFrom(req.query)
+      originFrom(req.query),
+      parseRadiusKm(req.query.radiusKm)
     );
     res.status(200).json({ success: true, ...result });
   } catch (error) { next(error); }

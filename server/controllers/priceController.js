@@ -1,11 +1,12 @@
 const priceComparisonService = require('../services/priceComparisonService');
+const { parseRadiusKm } = require('../services/geoService');
 const CrowdsourcedPrice = require('../models/CrowdsourcedPrice');
 const Product = require('../models/Product');
 const Price   = require('../models/Price');
 
 exports.comparePrices = async (req, res, next) => {
   try {
-    const { storeIds, lat, lng, vehicle } = req.query;
+    const { storeIds, lat, lng, vehicle, radiusKm } = req.query;
     const preferredStores = storeIds ? storeIds.split(',') : [];
     const origin =
       lat !== undefined && lng !== undefined
@@ -15,7 +16,8 @@ exports.comparePrices = async (req, res, next) => {
       req.params.productId,
       preferredStores,
       origin,
-      vehicle
+      vehicle,
+      parseRadiusKm(radiusKm)
     );
     res.status(200).json({ success: true, data: result });
   } catch (error) { next(error); }

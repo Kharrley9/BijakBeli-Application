@@ -8,8 +8,15 @@ class PriceComparisonService {
    * @param {string[]} [preferredStores]
    * @param {{lat:number,lng:number}|null} [origin] buyer location; enables distance + travel cost
    * @param {string} [vehicle] 'car' | 'motorcycle', for the fuel-cost estimate
+   * @param {number} [radiusKm] only stores this close to `origin` are compared
    */
-  async comparePrices(productId, preferredStores = [], origin = null, vehicle = 'car') {
+  async comparePrices(
+    productId,
+    preferredStores = [],
+    origin = null,
+    vehicle = 'car',
+    radiusKm = geoService.NEARBY_RADIUS_KM
+  ) {
     const fuel = geoService.fuelAssumptions(vehicle);
 
     // Get all prices for this product across stores
@@ -100,77 +107,74 @@ class PriceComparisonService {
     // Sort by effective price (cheapest first)
     comparisons.sort((a, b) => a.effectivePrice - b.effectivePrice);
 
-    // "Cheapest" means cheapest the buyer could reasonably go to: stores within
-    // the nearby radius when we know where they are (and there are any), else all.
-    // The nationwide lowest is still available from GET /prices/lowest/:productId.
-    const nearby = geoService.withinNearbyRadius(comparisons);
-    const pool = nearby.length ? nearby : comparisons;
-    const scope = nearby.length ? 'nearby' : 'all';
+    // When we know where the buyer is, only stores within their chosen radius
+    // count: the list, cheapest, nearest, best value and savings all come from
+    // those. The closest store beyond the radius is reported so the app can
+    // suggest widening it. Without a location, every store is compared.
+    const located = distanceMap.size > 0;
+    const rows = located ? geoService.withinNearbyRadius(comparisons, radiusKm) : comparisons;
+    const beyond = located
+      ? comparisons.filter((c) => !rows.includes(c) && typeof c.store.distanceKm === 'number')
+      : [];
+    const nearestBeyond = beyond.length
+      ? beyond.reduce((a, b) => (b.store.distanceKm < a.store.distanceKm ? b : a)).store
+      : null;
 
     // Mark cheapest and best promotion
-    if (pool.length > 0) {
-      pool[0].isLowestPrice = true;
+    if (rows.length > 0) {
+      rows[0].isLowestPrice = true;
 
-      const bestPromo = pool
+      const bestPromo = rows
         .filter((c) => c.hasPromotion)
         .sort((a, b) => (b.promotion?.discountPercentage || 0) - (a.promotion?.discountPercentage || 0))[0];
-
-      if (bestPromo) {
-        const idx = comparisons.findIndex(
-          (c) => c.store._id.toString() === bestPromo.store._id.toString()
-        );
-        if (idx >= 0) comparisons[idx].isBestPromotion = true;
-      }
+      if (bestPromo) bestPromo.isBestPromotion = true;
     }
 
-    // Nearest store among those that carry this product (if origin supplied)
+    // Nearest store among those that carry this product
     let nearestStore = null;
-    const withDistance = comparisons.filter(
-      (c) => typeof c.store.distanceKm === 'number'
-    );
+    const withDistance = rows.filter((c) => typeof c.store.distanceKm === 'number');
     if (withDistance.length > 0) {
-      nearestStore = withDistance.reduce((a, b) =>
-        b.store.distanceKm < a.store.distanceKm ? b : a
-      ).store;
-      const nid = String(nearestStore._id);
-      comparisons.forEach((c) => {
-        c.isNearest = String(c.store._id) === nid;
+      const nearest = withDistance.reduce((a, b) => (b.store.distanceKm < a.store.distanceKm ? b : a));
+      nearestStore = nearest.store;
+      rows.forEach((c) => {
+        c.isNearest = c === nearest;
       });
     }
 
     // Best value: lowest item price + round-trip fuel, among in-stock stores.
-    // Only meaningful when we know where the buyer is.
     let bestValueStore = null;
-    const withTotal = comparisons.filter((c) => c.totalCost != null && c.inStock);
+    const withTotal = rows.filter((c) => c.totalCost != null && c.inStock);
     if (withTotal.length > 0) {
       const best = withTotal.reduce((a, b) => (b.totalCost < a.totalCost ? b : a));
       bestValueStore = best.store;
-      comparisons.forEach((c) => {
+      rows.forEach((c) => {
         c.isBestValue = c === best;
       });
     }
 
-    // Calculate max savings (within the same pool as "cheapest")
-    const maxPrice = Math.max(...pool.map((c) => c.effectivePrice));
-    const minPrice = Math.min(...pool.map((c) => c.effectivePrice));
-    const savings = maxPrice - minPrice;
+    const effective = rows.map((c) => c.effectivePrice);
+    const maxPrice = effective.length ? Math.max(...effective) : null;
+    const minPrice = effective.length ? Math.min(...effective) : null;
+    const savings = effective.length ? maxPrice - minPrice : 0;
 
     // Newest price date, shown with the PriceCatcher credit (CC BY 4.0 requires attribution)
     const dates = comparisons.map((c) => c.lastUpdated).filter(Boolean).map((d) => new Date(d).getTime());
     const dataAsOf = dates.length ? new Date(Math.max(...dates)) : null;
 
     return {
-      comparisons,
-      cheapestStore: pool[0]?.store || null,
+      comparisons: rows,
+      cheapestStore: rows[0]?.store || null,
       nearestStore,
       bestValueStore,
       savings: parseFloat(savings.toFixed(2)),
       lowestPrice: minPrice,
       highestPrice: maxPrice,
-      // 'nearby': cheapest/lowest/savings are among stores within nearbyRadiusKm
-      priceScope: scope,
-      nearbyRadiusKm: geoService.NEARBY_RADIUS_KM,
-      nearbyStoreCount: nearby.length,
+      // 'nearby': everything above is limited to stores within nearbyRadiusKm
+      priceScope: located ? 'nearby' : 'all',
+      nearbyRadiusKm: radiusKm,
+      nearbyStoreCount: located ? rows.length : 0,
+      storesBeyondRadius: beyond.length,
+      nearestBeyond,
       fuel,
       dataAsOf,
     };

@@ -140,10 +140,14 @@ export interface ProductDetail {
   fuel?: FuelAssumptions;
   /** Date of the newest price (PriceCatcher observation date). */
   dataAsOf?: string | null;
-  /** 'nearby': lowestPrice/cheapestStore/savings are among stores within nearbyRadiusKm. */
+  /** 'nearby': stores and all figures are limited to stores within nearbyRadiusKm. */
   priceScope?: 'nearby' | 'all';
   nearbyRadiusKm?: number;
   nearbyStoreCount?: number;
+  /** Stores selling this item that are farther than the radius. */
+  storesBeyondRadius?: number;
+  /** The closest of those, so the app can suggest a wider radius. */
+  nearestBeyond?: StoreSummary | null;
   lowestPrice: number | null;
   highestPrice: number | null;
   savings: number;

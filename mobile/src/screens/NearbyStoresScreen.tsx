@@ -15,10 +15,11 @@ import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme'
 import { useLocation } from '../context/LocationContext';
 import { storeService, placeService } from '../services/dataService';
 import { openInGoogleMaps } from '../services/locationService';
-import { DEFAULT_MAX_NEARBY_KM } from '../constants';
 import { Store } from '../types';
 import StoreCard from '../components/StoreCard';
 import EmptyState from '../components/EmptyState';
+import RadiusChips, { useRadiusKm, widerRadius } from '../components/RadiusChips';
+import { setPref } from '../utils/prefs';
 
 const FALLBACK = { lat: 1.8548, lng: 102.9358 };
 
@@ -30,6 +31,8 @@ export default function NearbyStoresScreen({ navigation }: any) {
   const [malls, setMalls] = useState<any[]>([]);
   const [selected, setSelected] = useState<{ kind: 'store' | 'mall'; id: string; name: string; sub: string; lat: number; lng: number } | null>(null);
   const [loading, setLoading] = useState(true);
+  const radiusKm = useRadiusKm();
+  const wider = widerRadius(radiusKm);
 
   const relocate = () => {
     setOriginMode('gps');
@@ -49,14 +52,14 @@ export default function NearbyStoresScreen({ navigation }: any) {
       const res: any = await storeService.getNearby({
         lat: o.lat,
         lng: o.lng,
-        maxKm: DEFAULT_MAX_NEARBY_KM,
+        maxKm: radiusKm,
         limit: 40,
       });
       const data: Store[] = res?.data || res || [];
       setStores(data);
       setSelected(null);
-      // Malls from OpenStreetMap (via our server)
-      placeService.getNearbyMalls({ lat: o.lat, lng: o.lng, limit: 8 })
+      // Malls from OpenStreetMap (via our server), within the same radius
+      placeService.getNearbyMalls({ lat: o.lat, lng: o.lng, radiusKm, limit: 8 })
         .then((r: any) => setMalls(r?.data || []))
         .catch(() => setMalls([]));
       setFlyKey((k) => k + 1);
@@ -65,7 +68,7 @@ export default function NearbyStoresScreen({ navigation }: any) {
     } finally {
       setLoading(false);
     }
-  }, [origin?.lat, origin?.lng]);
+  }, [origin?.lat, origin?.lng, radiusKm]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
@@ -139,6 +142,7 @@ export default function NearbyStoresScreen({ navigation }: any) {
           ))}
         </View>
       </View>
+      <RadiusChips style={styles.radius} />
 
       {!origin ? (
         <EmptyState icon="location-outline" title="Location off" body="Enable location to see stores near you.">
@@ -195,7 +199,29 @@ export default function NearbyStoresScreen({ navigation }: any) {
               onPress={() => navigation.navigate('StoreProfile', { id: item._id })}
             />
           )}
-          ListEmptyComponent={<EmptyState icon="storefront-outline" title="No stores nearby" />}
+          ListHeaderComponent={
+            stores.length ? (
+              <Text style={styles.count}>
+                {stores.length} {stores.length === 1 ? 'store' : 'stores'} within {radiusKm} km
+              </Text>
+            ) : null
+          }
+          ListEmptyComponent={
+            <EmptyState
+              icon="storefront-outline"
+              title={`No stores within ${radiusKm} km`}
+              body={wider ? 'Try a wider distance to see more stores.' : undefined}
+            >
+              {wider && (
+                <TouchableOpacity
+                  style={[commonStyles.primaryButton, { marginTop: spacing.md, paddingHorizontal: spacing.xl }]}
+                  onPress={() => setPref('radiusKm', wider)}
+                >
+                  <Text style={commonStyles.primaryButtonText}>Show stores within {wider} km</Text>
+                </TouchableOpacity>
+              )}
+            </EmptyState>
+          }
         />
       )}
     </SafeAreaView>
@@ -228,6 +254,13 @@ const styles = StyleSheet.create({
   toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.sm, padding: 3, gap: 3 },
   toggleBtn: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.sm },
   toggleActive: { backgroundColor: colors.primary },
+  radius: {
+    paddingLeft: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  count: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: spacing.sm },
   list: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
   sheet: {
     position: 'absolute', left: spacing.lg, right: spacing.lg, bottom: spacing.lg,

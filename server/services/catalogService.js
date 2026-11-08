@@ -12,8 +12,10 @@ class CatalogService {
    * @param {object} f  filters: { categoryId, q, brandId }
    * @param {object} opts { page, limit, sort }  sort: 'price_asc' | 'nearest' | '-createdAt'
    * @param {{lat:number,lng:number}|null} origin
+   * @param {number} [radiusKm] with an origin, only stores this close count, and
+   *   products none of them sell are left out (counted in `outsideRadius`)
    */
-  async listProducts(f = {}, opts = {}, origin = null) {
+  async listProducts(f = {}, opts = {}, origin = null, radiusKm = geoService.NEARBY_RADIUS_KM) {
     const page = Math.max(1, parseInt(opts.page) || 1);
     const limit = Math.min(50, parseInt(opts.limit) || 15);
 
@@ -53,7 +55,8 @@ class CatalogService {
 
     // Distances (once, for every store that appears)
     let distanceMap = new Map();
-    if (origin && geoService.isValidCoord(origin)) {
+    const located = !!(origin && geoService.isValidCoord(origin));
+    if (located) {
       const uniqueStores = [];
       const seen = new Set();
       for (const row of priceRows) {
@@ -87,13 +90,13 @@ class CatalogService {
         };
       });
 
-      // Cheapest among nearby stores when we know where the buyer is, else nationwide
-      const nearbyEntries = geoService.withinNearbyRadius(entries);
-      const pool = nearbyEntries.length ? nearbyEntries : entries;
+      // With a buyer location, only stores within their radius count
+      const nearbyEntries = located ? geoService.withinNearbyRadius(entries, radiusKm) : [];
+      const pool = located ? nearbyEntries : entries;
       let cheapest = null;
       for (const e of pool) if (!cheapest || e.price < cheapest.price) cheapest = e;
       let nearest = null;
-      for (const e of entries) {
+      for (const e of pool) {
         if (e.store.distanceKm != null && (!nearest || e.store.distanceKm < nearest.store.distanceKm)) {
           nearest = e;
         }
@@ -102,15 +105,17 @@ class CatalogService {
         ...p,
         storeCount: rows.length,
         nearbyStoreCount: nearbyEntries.length,
-        priceScope: nearbyEntries.length ? 'nearby' : 'all',
+        priceScope: located ? 'nearby' : 'all',
         lowestPrice: cheapest ? cheapest.price : null,
         cheapestStore: cheapest ? cheapest.store : null,
         nearestStore: nearest ? nearest.store : null,
       };
     });
 
-    // Only products that have at least one price
+    // Only products that have at least one price (within the radius, if located)
+    const priced = items.filter((i) => i.storeCount > 0).length;
     items = items.filter((i) => i.lowestPrice != null);
+    const outsideRadius = priced - items.length;
 
     // Sort
     const sort = opts.sort || '-createdAt';
@@ -134,6 +139,8 @@ class CatalogService {
       total: items.length,
       page,
       pages: Math.ceil(items.length / limit) || 1,
+      radiusKm: located ? radiusKm : null,
+      outsideRadius,
     };
   }
 
@@ -141,7 +148,7 @@ class CatalogService {
    * Full product detail with "prices at nearby stores".
    * Reuses priceComparisonService.comparePrices (already handles distance + nearest).
    */
-  async getProductDetail(productId, origin = null, vehicle = 'car') {
+  async getProductDetail(productId, origin = null, vehicle = 'car', radiusKm = geoService.NEARBY_RADIUS_KM) {
     const product = await Product.findById(productId)
       .populate('categoryId', 'categoryName icon')
       .populate('brandId', 'brandName logo');
@@ -151,7 +158,7 @@ class CatalogService {
       throw e;
     }
 
-    const comparison = await priceComparisonService.comparePrices(productId, [], origin, vehicle);
+    const comparison = await priceComparisonService.comparePrices(productId, [], origin, vehicle, radiusKm);
 
     const stores = comparison.comparisons.map((c) => ({
       store: c.store,
@@ -179,6 +186,8 @@ class CatalogService {
       priceScope: comparison.priceScope || 'all',
       nearbyRadiusKm: comparison.nearbyRadiusKm,
       nearbyStoreCount: comparison.nearbyStoreCount || 0,
+      storesBeyondRadius: comparison.storesBeyondRadius || 0,
+      nearestBeyond: comparison.nearestBeyond || null,
       lowestPrice: comparison.lowestPrice ?? null,
       highestPrice: comparison.highestPrice ?? null,
       savings: comparison.savings || 0,

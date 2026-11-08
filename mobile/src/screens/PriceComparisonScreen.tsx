@@ -14,6 +14,7 @@ import { priceService } from '../services/dataService';
 import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
 import OriginToggle from '../components/OriginToggle';
+import RadiusChips, { OutsideRadiusNotice, useRadiusKm } from '../components/RadiusChips';
 
 const MAX_CARDS = 30;
 
@@ -22,6 +23,7 @@ export default function PriceComparisonScreen({ route }: any) {
   const { origin, originParams } = useLocation();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const radiusKm = useRadiusKm();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -33,7 +35,7 @@ export default function PriceComparisonScreen({ route }: any) {
     } finally {
       setLoading(false);
     }
-  }, [productId, origin?.lat, origin?.lng]);
+  }, [productId, origin?.lat, origin?.lng, radiusKm]);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
@@ -50,9 +52,14 @@ export default function PriceComparisonScreen({ route }: any) {
       ) : (
         <ScrollView contentContainerStyle={styles.scroll}>
           <OriginToggle />
+          {!!origin && <RadiusChips style={{ marginBottom: spacing.md }} />}
 
           {comparisons.length === 0 ? (
-            <Text style={styles.empty}>No price data for this product.</Text>
+            data?.priceScope === 'nearby' ? (
+              <OutsideRadiusNotice radiusKm={data.nearbyRadiusKm ?? radiusKm} nearestBeyond={data.nearestBeyond} />
+            ) : (
+              <Text style={styles.empty}>No price data for this product.</Text>
+            )
           ) : (
             comparisons
               .slice()

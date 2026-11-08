@@ -17,13 +17,16 @@ import { CatalogProduct } from '../types';
 import ProductRow from './ProductRow';
 import SortChips from './SortChips';
 import EmptyState from './EmptyState';
+import RadiusChips, { useRadiusKm, widerRadius } from './RadiusChips';
+import { setPref } from '../utils/prefs';
 
+// Distance is not a filter here: the app-wide search radius (RadiusChips) already
+// limits which stores the server prices products from.
 type Filters = {
   priceMax: number | null;
-  maxKm: number | null;
   inStockOnly: boolean;
 };
-const EMPTY: Filters = { priceMax: null, maxKm: null, inStockOnly: false };
+const EMPTY: Filters = { priceMax: null, inStockOnly: false };
 
 export default function CatalogList({
   baseParams,
@@ -40,6 +43,9 @@ export default function CatalogList({
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>(EMPTY);
   const [draft, setDraft] = useState<Filters>(EMPTY);
+  const [outsideRadius, setOutsideRadius] = useState(0);
+  const radiusKm = useRadiusKm();
+  const wider = widerRadius(radiusKm);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -49,12 +55,14 @@ export default function CatalogList({
         originParams()
       );
       setItems(res?.products || res?.data?.products || []);
+      setOutsideRadius(res?.outsideRadius || 0);
     } catch {
       setItems([]);
+      setOutsideRadius(0);
     } finally {
       setLoading(false);
     }
-  }, [JSON.stringify(baseParams), sort, origin?.lat, origin?.lng]);
+  }, [JSON.stringify(baseParams), sort, origin?.lat, origin?.lng, radiusKm]);
 
   useEffect(() => {
     load();
@@ -63,17 +71,12 @@ export default function CatalogList({
   const filtered = useMemo(() => {
     return items.filter((p) => {
       if (filters.priceMax != null && (p.lowestPrice == null || p.lowestPrice > filters.priceMax)) return false;
-      if (filters.maxKm != null) {
-        const d = p.nearestStore?.distanceKm;
-        if (d == null || d > filters.maxKm) return false;
-      }
       return true;
     });
   }, [items, filters]);
 
   const activeCount =
     (filters.priceMax != null ? 1 : 0) +
-    (filters.maxKm != null ? 1 : 0) +
     (filters.inStockOnly ? 1 : 0);
 
   return (
@@ -85,6 +88,7 @@ export default function CatalogList({
           onFilterPress={showFilters ? () => { setDraft(filters); setFilterOpen(true); } : undefined}
           filterCount={activeCount}
         />
+        {!!origin && <RadiusChips style={{ paddingBottom: spacing.sm }} />}
       </View>
 
       {loading ? (
@@ -101,11 +105,28 @@ export default function CatalogList({
             />
           )}
           ListEmptyComponent={
-            <EmptyState
-              icon="basket-outline"
-              title="Nothing here yet"
-              body="No products match. Try clearing filters or a different search."
-            />
+            origin && outsideRadius > 0 ? (
+              <EmptyState
+                icon="storefront-outline"
+                title={`Not sold within ${radiusKm} km`}
+                body={`${outsideRadius} matching ${outsideRadius === 1 ? 'item is' : 'items are'} sold at stores farther away.`}
+              >
+                {wider && (
+                  <TouchableOpacity
+                    style={[commonStyles.primaryButton, { marginTop: spacing.md, paddingHorizontal: spacing.xl }]}
+                    onPress={() => setPref('radiusKm', wider)}
+                  >
+                    <Text style={commonStyles.primaryButtonText}>Show stores within {wider} km</Text>
+                  </TouchableOpacity>
+                )}
+              </EmptyState>
+            ) : (
+              <EmptyState
+                icon="basket-outline"
+                title="Nothing here yet"
+                body="No products match. Try clearing filters or a different search."
+              />
+            )
           }
         />
       )}
@@ -130,21 +151,6 @@ export default function CatalogList({
                 >
                   <Text style={[styles.optText, draft.priceMax === v && styles.optTextActive]}>
                     {v == null ? 'Any' : `RM${v}`}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <Text style={styles.fLabel}>Within distance</Text>
-            <View style={styles.optRow}>
-              {[null, 2, 5, 10, 25].map((v) => (
-                <TouchableOpacity
-                  key={String(v)}
-                  style={[styles.opt, draft.maxKm === v && styles.optActive]}
-                  onPress={() => setDraft((d) => ({ ...d, maxKm: v }))}
-                >
-                  <Text style={[styles.optText, draft.maxKm === v && styles.optTextActive]}>
-                    {v == null ? 'Any' : `${v} km`}
                   </Text>
                 </TouchableOpacity>
               ))}
