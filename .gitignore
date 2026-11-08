@@ -12,3 +12,6 @@ build/
 
 # Database backups made by migration scripts
 server/backups/
+
+# Claude Code local settings
+.claude/
