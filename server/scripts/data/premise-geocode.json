@@ -814,6 +814,15 @@
    "kind": "place/postcode"
   }
  ],
+ "{\"postalcode\":\"83000\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.8454763,
+   "lng": 102.9500317,
+   "state": "Johor",
+   "name": "83000",
+   "kind": "place/postcode"
+  }
+ ],
  "{\"postalcode\":\"84000\",\"country\":\"Malaysia\"}": [
   {
    "lat": 2.0447492,
@@ -1006,6 +1015,15 @@
    "kind": "shop/supermarket"
   }
  ],
+ "{\"q\":\"AEON BiG Batu Pahat, Johor\"}": [
+  {
+   "lat": 1.8655374,
+   "lng": 102.948464,
+   "state": "Johor",
+   "name": "AEON Big Batu Pahat",
+   "kind": "shop/mall"
+  }
+ ],
  "{\"q\":\"AEON BIG BUKIT TENGAH, Bukit Mertajam, Pulau Pinang\"}": [],
  "{\"q\":\"AEON BiG Bukit Tengah, Pulau Pinang\"}": [
   {
@@ -1173,6 +1191,22 @@
    "kind": "place/neighbourhood"
   }
  ],
+ "{\"q\":\"Batu Pahat, Johor, Malaysia\"}": [
+  {
+   "lat": 1.933333,
+   "lng": 103,
+   "state": "Johor",
+   "name": "Batu Pahat",
+   "kind": "boundary/administrative"
+  },
+  {
+   "lat": 1.8472584,
+   "lng": 102.9346697,
+   "state": "Johor",
+   "name": "Batu Pahat",
+   "kind": "place/city"
+  }
+ ],
  "{\"q\":\"Batu, Kuala Lumpur, Malaysia\"}": [
   {
    "lat": 3.2018234,
@@ -1310,6 +1344,15 @@
    "kind": "highway/bus_stop"
   }
  ],
+ "{\"q\":\"Billion Seberang Perai Utara, Pulau Pinang\"}": [
+  {
+   "lat": 5.4142144,
+   "lng": 100.3770745,
+   "state": "Penang",
+   "name": "Billion",
+   "kind": "shop/department_store"
+  }
+ ],
  "{\"q\":\"Billion Segamat, Johor\"}": [
   {
    "lat": 2.5032151,
@@ -1429,6 +1472,15 @@
   }
  ],
  "{\"q\":\"Econsave Bakri Muar, Johor\"}": [],
+ "{\"q\":\"Econsave Baling, Kedah\"}": [
+  {
+   "lat": 5.6564671,
+   "lng": 100.8700124,
+   "state": "Kedah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"Econsave Bandar Tun Razak Jengka, Pahang\"}": [
   {
    "lat": 3.7683133,
@@ -1443,6 +1495,15 @@
    "lat": 3.4600994,
    "lng": 101.6606469,
    "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Bera, Pahang\"}": [
+  {
+   "lat": 3.2607697,
+   "lng": 102.4376603,
+   "state": "Pahang",
    "name": "Econsave",
    "kind": "shop/supermarket"
   }
@@ -1547,6 +1608,52 @@
  ],
  "{\"q\":\"ECONSAVE GONG BADAK, Kuala Nerus, Terengganu\"}": [],
  "{\"q\":\"Econsave Gong Badak, Terengganu\"}": [],
+ "{\"q\":\"Econsave Gua Musang, Kelantan\"}": [
+  {
+   "lat": 4.8779969,
+   "lng": 101.9631341,
+   "state": "Kelantan",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Econsave Hulu Langat, Selangor\"}": [
+  {
+   "lat": 3.0328352,
+   "lng": 101.7623771,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.090644,
+   "lng": 101.7625,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.9665898,
+   "lng": 101.7881434,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.9574372,
+   "lng": 101.7902909,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 2.9267434,
+   "lng": 101.8583253,
+   "state": "Selangor",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"Econsave Hutan Melintang, Perak\"}": [
   {
    "lat": 3.8847041,
@@ -1816,6 +1923,15 @@
  "{\"q\":\"ECONSAVE MART SALAK TINGGI, Sepang, Selangor\"}": [],
  "{\"q\":\"Econsave Mart Taman Seroja, Selangor\"}": [],
  "{\"q\":\"ECONSAVE MART TAMAN SEROJA, Sepang, Selangor\"}": [],
+ "{\"q\":\"Econsave Meradong, Sarawak\"}": [
+  {
+   "lat": 2.1690686,
+   "lng": 111.6350426,
+   "state": "Sarawak",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"Econsave Miri, Sarawak\"}": [
   {
    "lat": 4.4705554,
@@ -1895,6 +2011,15 @@
   }
  ],
  "{\"q\":\"Econsave Raja Uda, Pulau Pinang\"}": [],
+ "{\"q\":\"Econsave Sandakan, Sabah\"}": [
+  {
+   "lat": 5.8650504,
+   "lng": 118.0837749,
+   "state": "Sabah",
+   "name": "Econsave",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"Econsave Scott Garden, Kuala Lumpur\"}": [],
  "{\"q\":\"Econsave Segamat, Johor\"}": [
   {
@@ -2257,6 +2382,7 @@
    "kind": "boundary/administrative"
   }
  ],
+ "{\"q\":\"HYPERMARKET LOTUS SDN BHD, Batu Pahat, Johor\"}": [],
  "{\"q\":\"HYPERMARKET MYDIN PULAU SEBANG, Alor Gajah, Melaka\"}": [
   {
    "lat": 2.4629303,
@@ -2622,6 +2748,15 @@
    "state": "Penang",
    "name": "Lotus's Bagan Ajam",
    "kind": "highway/bus_stop"
+  }
+ ],
+ "{\"q\":\"Lotus's Batu Pahat, Johor\"}": [
+  {
+   "lat": 1.8497817,
+   "lng": 103.0769964,
+   "state": "Johor",
+   "name": "Lotus's",
+   "kind": "shop/supermarket"
   }
  ],
  "{\"q\":\"Lotus's Bercham, Perak\"}": [
@@ -3080,7 +3215,24 @@
    "kind": "shop/supermarket"
   }
  ],
+ "{\"q\":\"MYDIN SELAYANG, Batu Caves, Selangor\"}": [],
  "{\"q\":\"MYDIN SELAYANG, Gombak, Selangor\"}": [
+  {
+   "lat": 3.2379911,
+   "lng": 101.6436398,
+   "state": "Selangor",
+   "name": "Mydin",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 3.319269,
+   "lng": 101.5787369,
+   "state": "Selangor",
+   "name": "Mydin Rawang",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"MYDIN Selayang, Selangor\"}": [
   {
    "lat": 3.2379911,
    "lng": 101.6436398,
@@ -3178,6 +3330,15 @@
  "{\"q\":\"NSK Trade City Pandan, Johor\"}": [],
  "{\"q\":\"NSK Trade City Quill City Mall, Kuala Lumpur\"}": [],
  "{\"q\":\"NSK TRADE CITY SDN BHD, Tangkak, Johor\"}": [],
+ "{\"q\":\"NSK Trade City Tangkak, Johor\"}": [
+  {
+   "lat": 2.0532339,
+   "lng": 102.5669891,
+   "state": "Johor",
+   "name": "NSK Trade City",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"NSK Trade City Times Square, Kuala Lumpur\"}": [],
  "{\"q\":\"NSK Trade City Topzeller, Kuala Lumpur\"}": [],
  "{\"q\":\"NSK Trade City Trading Bahau, Negeri Sembilan\"}": [],
@@ -3215,6 +3376,7 @@
  "{\"q\":\"PASARAYA ECONSAVE MUAR, Muar, Johor\"}": [],
  "{\"q\":\"PASARAYA ECONSAVE SEGAMAT, Segamat, Johor\"}": [],
  "{\"q\":\"PASARAYA ECONSAVE, Bandar Tun Razak Jengka, Pahang\"}": [],
+ "{\"q\":\"PASARAYA HYPERMARKET AEON BIG, Batu Pahat, Johor\"}": [],
  "{\"q\":\"PASARAYA MINI ECONSAVE, Hulu Langat, Selangor\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART (KUALA LIPIS), Lipis, Pahang\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART BENTONG 2, Bentong, Pahang\"}": [],
@@ -3223,6 +3385,8 @@
  "{\"q\":\"PASARAYA TF VALUE MART MUAR, Muar, Johor\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART SDN BHD (BERA), Bera, Pahang\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART SDN BHD, Tangkak, Johor\"}": [],
+ "{\"q\":\"PASARAYA THE STORE (CAWANGAN JALAN RUGAYAH, Batu Pahat, Johor\"}": [],
+ "{\"q\":\"PASARAYA THE STORE (MALAYSIA), Kangar, Perlis\"}": [],
  "{\"q\":\"Pasir Mas, Kelantan, Malaysia\"}": [
   {
    "lat": 6.0080942,
@@ -3968,6 +4132,15 @@
  ],
  "{\"q\":\"TF VALUE MART U-MALL PULAI UTAMA, Johor Bahru, Johor\"}": [],
  "{\"q\":\"TF VALUE MART, Kota Bharu, Kelantan\"}": [],
+ "{\"q\":\"TF VALUE-MART BATU CAVES, Batu Caves, Selangor\"}": [
+  {
+   "lat": 3.2348489,
+   "lng": 101.6941016,
+   "state": "Selangor",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"TF VALUE-MART BATU CAVES, Gombak, Selangor\"}": [
   {
    "lat": 3.2348489,
@@ -4024,6 +4197,7 @@
    "kind": "shop/supermarket"
   }
  ],
+ "{\"q\":\"TF Value-Mart Kota Bharu, Kelantan\"}": [],
  "{\"q\":\"TF Value-Mart Kuala Kangsar, Perak\"}": [
   {
    "lat": 4.764321,
@@ -4071,6 +4245,15 @@
  "{\"q\":\"TF Value-Mart Sri Manjung, Perak\"}": [],
  "{\"q\":\"TF Value-Mart Taman Connought, Kuala Lumpur\"}": [],
  "{\"q\":\"TF Value-Mart Taman Melor, Perak\"}": [],
+ "{\"q\":\"TF Value-Mart Tangkak, Johor\"}": [
+  {
+   "lat": 2.2736636,
+   "lng": 102.5432443,
+   "state": "Johor",
+   "name": "TF Value-Mart",
+   "kind": "shop/supermarket"
+  }
+ ],
  "{\"q\":\"TF Value-Mart U-Mall Pulai Utama, Johor\"}": [],
  "{\"q\":\"TF Value-Mart Vl Mart, Selangor\"}": [],
  "{\"q\":\"TF VALUEMART KUALA KANGSAR, Kuala Kangsar, Perak\"}": [],
@@ -4101,11 +4284,29 @@
    "kind": "shop/supermarket"
   }
  ],
+ "{\"q\":\"The Store Jalan Rugayah, Johor\"}": [
+  {
+   "lat": 1.8540077,
+   "lng": 102.926487,
+   "state": "Johor",
+   "name": "SWC - Batu Pahat",
+   "kind": "shop/convenience"
+  }
+ ],
  "{\"q\":\"THE STORE KAMUNTING, Kamunting, Perak\"}": [
   {
    "lat": 4.8770391,
    "lng": 100.7278456,
    "state": "Perak",
+   "name": "The Store",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"The Store Kangar, Perlis\"}": [
+  {
+   "lat": 6.4394371,
+   "lng": 100.1949213,
+   "state": "Perlis",
    "name": "The Store",
    "kind": "shop/supermarket"
   }

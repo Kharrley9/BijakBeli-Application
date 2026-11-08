@@ -238,8 +238,18 @@ async function download(name, { maxAgeH = 12, optional = false } = {}) {
 }
 
 // ── Premises ───────────────────────────────────────────────────────────────
+/**
+ * Store-type words some premises put before the chain name, e.g.
+ * "PASARAYA HYPERMARKET AEON BIG" or "HYPERMARKET LOTUS SDN BHD". Removed before
+ * matching so those branches aren't missed. Food courts inside a store
+ * ("FOOD COURT TESCO ...") keep their prefix and so are still not matched.
+ */
+const STORE_TYPE_PREFIX = /^((PASARAYA|PASAR\s+RAYA|HYPERMARKET|SUPERMARKET)\s+)+/i;
+const withoutTypePrefix = (name) => name.replace(STORE_TYPE_PREFIX, '');
+
 function chainOf(premiseName) {
-  return CHAINS.find((c) => c.match.test(premiseName)) || null;
+  const name = withoutTypePrefix(premiseName);
+  return CHAINS.find((c) => c.match.test(name)) || null;
 }
 
 const STATE_WORDS = new RegExp(
@@ -252,7 +262,8 @@ const STATE_WORDS = new RegExp(
     .join('|')})\\b`,
   'gi'
 );
-const STREET_START = /^(JALAN|JLN|LORONG|LRG|LOT|NO|TAMAN|TMN|PERSIARAN|LEBUH|BATU|KM)\b/i;
+// "BATU 5" / "KM 12" are road mileposts, but "Batu Pahat" / "Batu Caves" are towns
+const STREET_START = /^(JALAN|JLN|LORONG|LRG|LOT|NO|TAMAN|TMN|PERSIARAN|LEBUH)\b|^(BATU|KM)\s*\d/i;
 
 /** The postcode in an address that is valid for the premise's state, or null. */
 function postcodeFrom(address, state) {
@@ -276,11 +287,11 @@ function townFrom(address, state) {
 }
 
 function branchFrom(premiseName, chain, town) {
-  let b = premiseName
+  let b = withoutTypePrefix(premiseName)
     .replace(/`/g, "'")
     .replace(chain.strip, '')
     .replace(/\(\s*[A-Z]{1,3}\s*\)/g, ' ') // company codes like (M), (BH), (S)
-    .replace(/\b(SDN\.?\s*BHD|S\/B|PASARAYA|SUPERMARKET|HYPERMARKET|DEPARTMENTAL\s+STORE)\b\.?/gi, ' ')
+    .replace(/\b(SDN\.?\s*BHD|S\/B|PASARAYA|SUPERMARKET|HYPERMARKET|DEPARTMENTAL\s+STORE|CAWANGAN|MALAYSIA)\b\.?/gi, ' ')
     .replace(/[()]/g, ' ')
     .replace(/\s+\.(\s|$)/g, ' ')
     .replace(/^[\s,.\-–:]+|[\s,.\-–:]+$/g, '')
@@ -304,7 +315,7 @@ function loadPremises(file) {
       code: pc,
       rawName: name,
       chain,
-      branch: branchFrom(name, chain, town),
+      branch: branchFrom(name, chain, town || (district ? titleCase(district) : '')),
       address: (address || '').replace(/\s*,\s*/g, ', ').replace(/,\s*$/, ''),
       type: /hyper/i.test(type || '') ? 'hypermarket' : 'supermarket',
       state: state || '',
