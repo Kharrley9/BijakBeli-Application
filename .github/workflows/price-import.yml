@@ -1,0 +1,54 @@
+# Daily KPDN PriceCatcher refresh, independent of any PC or server being on.
+# Writes straight to MongoDB Atlas. Needs the repo secret MONGO_URI
+# (Settings → Secrets and variables → Actions), and Atlas Network Access must
+# allow 0.0.0.0/0 because GitHub's runner addresses change.
+name: Daily price import
+
+on:
+  schedule:
+    # 13:30 UTC = 21:30 Malaysia time; KPDN updates the data.gov.my files ~20:00 MYT.
+    # GitHub may start scheduled runs a little late at busy times.
+    - cron: '30 13 * * *'
+  workflow_dispatch: {} # "Run workflow" button for a manual refresh
+
+concurrency:
+  group: price-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - run: npm ci --omit=dev
+
+      - name: Import PriceCatcher prices
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: node scripts/importPriceCatcher.js --auto
+
+      - name: Photos for any new store
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: node scripts/fetchStorePhotos.js
+
+      # The import backs up stores/prices first; keep that copy for a week.
+      - name: Keep the pre-import backup
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-${{ github.run_id }}
+          path: server/backups/
+          retention-days: 7
+          if-no-files-found: ignore

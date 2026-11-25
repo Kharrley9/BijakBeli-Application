@@ -10,12 +10,20 @@ import { Platform } from 'react-native';
 // ======================================================
 const LOCAL_IP = '192.168.0.54';
 
+// The API hosted on Render (render.yaml). If Render gave the service another name,
+// set EXPO_PUBLIC_API_URL in mobile/.env instead of editing this.
+const CLOUD_API_URL = 'https://bijakbeli-api.onrender.com/api';
+
 const getApiUrl = () => {
+  // mobile/.env: EXPO_PUBLIC_API_URL=https://…/api — wins in dev and release builds
+  // (Expo bakes EXPO_PUBLIC_* values in when the bundle is built).
+  const fromEnv = process.env.EXPO_PUBLIC_API_URL;
+  if (fromEnv) return fromEnv.replace(/\/+$/, '');
   if (__DEV__) {
     if (Platform.OS === 'android') return `http://${LOCAL_IP}:5000/api`;
     return `http://localhost:5000/api`;
   }
-  return 'https://api.bijakbeli.com/api';
+  return CLOUD_API_URL;
 };
 
 export const API_URL = getApiUrl();

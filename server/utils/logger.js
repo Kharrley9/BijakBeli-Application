@@ -20,15 +20,15 @@ const logger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple()
-      ),
-    })
-  );
-}
+// Console too in production: hosts like Render show stdout as the service log
+// (their disk is wiped on restart, so the log files above don't last there).
+logger.add(
+  new winston.transports.Console({
+    format:
+      process.env.NODE_ENV === 'production'
+        ? winston.format.simple()
+        : winston.format.combine(winston.format.colorize(), winston.format.simple()),
+  })
+);
 
 module.exports = logger;

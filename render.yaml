@@ -1,0 +1,33 @@
+# Render Blueprint: the BijakBeli API as one free web service.
+# Render → New → Blueprint → pick this repo. Secrets marked `sync: false` are asked
+# for when the Blueprint is created (they are never stored in the repo).
+#
+# Free plan notes (https://render.com/docs/free):
+#  - it sleeps after 15 min without requests; an outside pinger (cron-job.org /
+#    UptimeRobot) calling /api/health every 10 min keeps it awake. Use only one free
+#    service in the workspace: 24/7 is at most 744 of the 750 free hours a month.
+#  - the disk is wiped on every restart (photo cache, logs), and RAM is 512 MB, so the
+#    daily price import runs on GitHub Actions instead (.github/workflows/price-import.yml).
+services:
+  - type: web
+    name: bijakbeli-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    buildCommand: npm ci --omit=dev
+    startCommand: node app.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      # The import runs on GitHub Actions; a second copy here would only use RAM.
+      - key: PRICE_IMPORT_ENABLED
+        value: "false"
