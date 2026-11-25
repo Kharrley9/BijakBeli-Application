@@ -15,3 +15,6 @@ server/backups/
 
 # Claude Code local settings
 .claude/
+
+# Store photos cached by /api/photos
+server/cache/

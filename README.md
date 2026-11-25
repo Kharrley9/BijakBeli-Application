@@ -49,6 +49,9 @@ npm run import:prices:dry   # preview
 npm run import:prices
 ```
 
+Store photos come from Wikimedia Commons (free licences, credited in the app).
+After an import adds stores, run `npm run photos:stores` to give them photos.
+
 On an empty database, build the catalogue first:
 `node scripts/seedPriceCatcher.js`, then `node scripts/migrateFreshOnly.js`,
 then `npm run import:prices`.
@@ -74,6 +77,7 @@ bijakbeli/
 
 Prices: PriceCatcher, KPDN, published on data.gov.my under CC BY 4.0.
 Map data © OpenStreetMap contributors.
+Store photos: Wikimedia Commons contributors (author and licence shown per store).
 
 ## License
 
