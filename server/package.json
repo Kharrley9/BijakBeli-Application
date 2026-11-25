@@ -7,9 +7,12 @@
     "dev": "nodemon app.js",
     "start": "node app.js",
     "import:prices": "node scripts/importPriceCatcher.js",
-    "import:prices:dry": "node scripts/importPriceCatcher.js --dry-run"
+    "import:prices:dry": "node scripts/importPriceCatcher.js --dry-run",
+    "photos:stores": "node scripts/fetchStorePhotos.js",
+    "photos:stores:dry": "node scripts/fetchStorePhotos.js --dry-run"
   },
   "dependencies": {
+    "@google/genai": "^3.5.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -19,6 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.0",
     "morgan": "^1.10.0",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5",
     "winston": "^3.13.0"
   },
   "devDependencies": {

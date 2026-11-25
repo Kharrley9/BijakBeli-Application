@@ -66,7 +66,7 @@ class StoreService {
       .populate({
         path: 'productId',
         select: 'productName image unit categoryId status',
-        populate: { path: 'categoryId', select: 'categoryName' },
+        populate: { path: 'categoryId', select: 'categoryName nameEn order' },
       })
       .lean();
 
@@ -78,11 +78,14 @@ class StoreService {
         image: r.productId.image,
         unit: r.productId.unit,
         category: r.productId.categoryId?.categoryName,
+        categoryEn: r.productId.categoryId?.nameEn,
+        categoryOrder: r.productId.categoryId?.order ?? 999,
         price: r.price,
         previousPrice: r.previousPrice,
         inStock: r.inStock !== false,
       }))
-      .sort((a, b) => a.productName.localeCompare(b.productName));
+      // grouped by category (app order), then A-Z within each
+      .sort((a, b) => a.categoryOrder - b.categoryOrder || a.productName.localeCompare(b.productName));
     obj.productCount = obj.products.length;
 
     return obj;

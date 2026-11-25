@@ -78,6 +78,16 @@ const storeSchema = new mongoose.Schema(
       enum: ['premise', 'postcode', 'district', null],
       default: null,
     },
+    // Credit for bannerImage when it is a Wikimedia Commons photo (set by
+    // scripts/fetchStorePhotos.js). The licences require showing author + licence.
+    // scope 'branch': a photo of this store; 'chain': another store of the same
+    // chain, shown as a stand-in and labelled as such in the app.
+    photoCredit: {
+      author: String,
+      license: String,
+      sourceUrl: String,
+      scope: { type: String, enum: ['branch', 'chain'] },
+    },
   },
   {
     timestamps: true,

@@ -37,6 +37,19 @@ const protect = async (req, res, next) => {
   }
 };
 
+// Like protect, but anonymous requests (or bad tokens) go through without req.user
+const optionalAuth = async (req, res, next) => {
+  const header = req.headers.authorization || '';
+  if (!header.startsWith('Bearer ')) return next();
+  try {
+    const decoded = jwt.verify(header.split(' ')[1], config.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select('-password');
+  } catch {
+    // ignore: treat as anonymous
+  }
+  next();
+};
+
 // Role-based authorization
 const authorize = (...roles) => {
   return (req, res, next) => {
@@ -50,4 +63,4 @@ const authorize = (...roles) => {
   };
 };
 
-module.exports = { protect, authorize };
+module.exports = { protect, optionalAuth, authorize };

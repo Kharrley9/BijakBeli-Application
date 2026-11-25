@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const config = require('./config/env');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
+const priceImportScheduler = require('./services/priceImportScheduler');
 
 // Route imports
 const authRoutes = require('./routes/authRoutes');
@@ -15,6 +16,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const priceRoutes = require('./routes/priceRoutes');
 const promotionRoutes = require('./routes/promotionRoutes');
 const placesRoutes = require('./routes/placesRoutes');
+const photoRoutes = require('./routes/photoRoutes');
 
 // Connect to database
 connectDB();
@@ -49,6 +51,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/prices', priceRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/places', placesRoutes);
+app.use('/api/photos', photoRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -57,6 +60,7 @@ app.get('/api/health', (req, res) => {
     message: 'BijakBeli API is running',
     environment: config.NODE_ENV,
     timestamp: new Date().toISOString(),
+    priceImport: priceImportScheduler.getStatus(),
   });
 });
 
@@ -67,6 +71,8 @@ app.use(errorHandler);
 const PORT = config.PORT;
 app.listen(PORT, () => {
   logger.info(`BijakBeli Server running in ${config.NODE_ENV} mode on port ${PORT}`);
+  // Daily KPDN PriceCatcher refresh (not when this file is only required, e.g. by tests)
+  if (require.main === module) priceImportScheduler.start();
 });
 
 module.exports = app;

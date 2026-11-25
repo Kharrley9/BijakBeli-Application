@@ -61,6 +61,13 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // Credit for `image` when it is a Wikimedia Commons photo (set by
+    // scripts/setProductImages.js); the licences require author + licence.
+    imageCredit: {
+      author: String,
+      license: String,
+      sourceUrl: String,
+    },
     unit: {
       type: String,
       required: [true, 'Please add a unit'],

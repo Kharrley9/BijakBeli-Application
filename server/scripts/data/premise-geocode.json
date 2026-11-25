@@ -850,6 +850,15 @@
    "kind": "place/postcode"
   }
  ],
+ "{\"postalcode\":\"86200\",\"country\":\"Malaysia\"}": [
+  {
+   "lat": 1.8203497,
+   "lng": 103.3161487,
+   "state": "Johor",
+   "name": "86200",
+   "kind": "place/postcode"
+  }
+ ],
  "{\"postalcode\":\"88200\",\"country\":\"Malaysia\"}": [
   {
    "lat": 5.9397893,
@@ -3378,6 +3387,7 @@
  "{\"q\":\"PASARAYA ECONSAVE, Bandar Tun Razak Jengka, Pahang\"}": [],
  "{\"q\":\"PASARAYA HYPERMARKET AEON BIG, Batu Pahat, Johor\"}": [],
  "{\"q\":\"PASARAYA MINI ECONSAVE, Hulu Langat, Selangor\"}": [],
+ "{\"q\":\"PASARAYA TARGET BUKIT BAKRI MUAR, Muar, Johor\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART (KUALA LIPIS), Lipis, Pahang\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART BENTONG 2, Bentong, Pahang\"}": [],
  "{\"q\":\"PASARAYA TF VALUE MART JERANTUT, Jerantut, Pahang\"}": [],
@@ -3865,6 +3875,63 @@
    "state": "Johor",
    "name": "Tangkak",
    "kind": "landuse/residential"
+  }
+ ],
+ "{\"q\":\"TARGET CASH & CARRY, Simpang Renggam, Johor\"}": [
+  {
+   "lat": 1.8292464,
+   "lng": 103.3078644,
+   "state": "Johor",
+   "name": "Target Cash & Carry",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"TARGET GRAND SUPERMARKET (PERDANA) KLUANG PARKLAND, Kluang, Johor\"}": [],
+ "{\"q\":\"TARGET SUPERMARKET (BATU PAHAT) SDN BHD, Batu Pahat, Johor\"}": [],
+ "{\"q\":\"TARGET SUPERMARKET (PONTIAN) SDN. BHD., Pontian, Johor\"}": [],
+ "{\"q\":\"Target Supermarket Batu Pahat, Johor\"}": [
+  {
+   "lat": 2.0061169,
+   "lng": 103.0477914,
+   "state": "Johor",
+   "name": "Target Supermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 1.862589,
+   "lng": 103.105235,
+   "state": "Johor",
+   "name": "Target Supermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 1.9163669,
+   "lng": 103.184233,
+   "state": "Johor",
+   "name": "Target Supermarket",
+   "kind": "shop/supermarket"
+  },
+  {
+   "lat": 1.8574453,
+   "lng": 102.9344261,
+   "state": "Johor",
+   "name": "Target Supermarket",
+   "kind": "shop/supermarket"
+  }
+ ],
+ "{\"q\":\"Target Supermarket Bukit Bakri Muar, Johor\"}": [],
+ "{\"q\":\"TARGET SUPERMARKET IOI MALL, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"Target Supermarket Ioi Mall, Johor\"}": [],
+ "{\"q\":\"TARGET SUPERMARKET MASAI, Johor Bahru, Johor\"}": [],
+ "{\"q\":\"Target Supermarket Masai, Johor\"}": [],
+ "{\"q\":\"Target Supermarket Perdana Kluang Parkland, Johor\"}": [],
+ "{\"q\":\"Target Supermarket Pontian, Johor\"}": [
+  {
+   "lat": 1.6490538,
+   "lng": 103.259383,
+   "state": "Johor",
+   "name": "Target Supermarket",
+   "kind": "shop/supermarket"
   }
  ],
  "{\"q\":\"Tawau, Sabah, Malaysia\"}": [

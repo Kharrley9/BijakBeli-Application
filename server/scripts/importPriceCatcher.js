@@ -8,7 +8,7 @@
  *   Licence: CC BY 4.0. The app must credit "PriceCatcher, KPDN (data.gov.my)".
  *
  *  1. Downloads lookup_premise.csv and the last --months monthly price files.
- *  2. Keeps premises belonging to the app's 10 supermarket chains (CHAINS).
+ *  2. Keeps premises belonging to the app's supermarket chains (CHAINS).
  *  3. Finds each premise's coordinates with OpenStreetMap Nominatim (the store
  *     itself, else its postcode, else its district). Results are cached in
  *     scripts/data/premise-geocode.json so each address is looked up once.
@@ -28,6 +28,10 @@
  *   node server/scripts/importPriceCatcher.js --dry-run     report only, no DB writes
  *   node server/scripts/importPriceCatcher.js               backup + apply
  *   options: --months=2  how many monthly files to read (default 2)
+ *            --auto      run by the server's daily scheduler (backup named "auto-")
+ *
+ * The server runs this itself once a day (services/priceImportScheduler.js,
+ * PRICE_IMPORT_* in .env), so prices follow KPDN without anyone running it.
  *
  * Re-run it any time to refresh prices; geocoding is cached so later runs are fast.
  */
@@ -52,6 +56,8 @@ const PriceDaily = require('../models/PriceDaily');
 
 // ── CLI ──────────────────────────────────────────────────────────────────
 const DRY_RUN = process.argv.includes('--dry-run');
+// Started by the server's daily scheduler (services/priceImportScheduler.js)
+const AUTO = process.argv.includes('--auto');
 const MONTHS = Math.max(
   1,
   parseInt((process.argv.find((a) => a.startsWith('--months=')) || '').split('=')[1], 10) || 2
@@ -120,6 +126,13 @@ const CHAINS = [
     strip: /^.*?\bBILLION\b(\s+(SHOPPING\s+CENT(RE|ER)|SUPERMARKET|HYPERMARKET|SUPERSTORE))*/i,
   },
   { name: 'The Store', match: /^THE\s+STORE\b/i, strip: /^THE\s+STORE\b(\s+SUPERMARKET)*/i },
+  // Johor-only chain (大吉超市). Its Parit Raja branch ("TPR") is not a PriceCatcher
+  // premise, so only the branches KPDN collects prices at are imported.
+  {
+    name: 'Target Supermarket',
+    match: /^TARGET\b/i,
+    strip: /^TARGET(\s+(GRAND|SUPERMARKET|CASH\s*(&|AND)?\s*CARRY))*/i,
+  },
 ];
 
 const STATES = [
@@ -395,8 +408,26 @@ async function nominatim(params) {
   return [];
 }
 
+/**
+ * Hand-checked coordinates (OpenStreetMap, looked up from the premise address) for
+ * premises the name search places wrongly: "Target Supermarket Batu Pahat" also
+ * matches Target's Yong Peng and Parit Raja stores, "... Pontian" its Benut store.
+ */
+const PREMISE_COORDS = {
+  18492: { lat: 1.8574057, lng: 102.9344211, precision: 'premise' }, // Target, The Summit Batu Pahat
+  20768: { lat: 1.478679, lng: 103.3999433, precision: 'premise' }, // Target, Pusat Perniagaan Kota Emas, Pontian
+  20792: { lat: 2.0402812, lng: 102.6605194, precision: 'premise' }, // Target, Taman Bakri Indah, Bukit Bakri
+  20882: { lat: 1.998398, lng: 103.2989765, precision: 'postcode' }, // Target, Taman Kluang Perdana (area)
+  20912: { lat: 1.4860867, lng: 103.8895163, precision: 'premise', city: 'Masai' }, // Target, U Sentral Masai
+  21862: { lat: 1.6485286, lng: 103.6268593, precision: 'premise', city: 'Kulai', branch: 'IOI Mall Kulai' }, // Target, IOI Mall Kulai
+};
+
 /** Coordinates for a premise: { lat, lng, precision } or null. */
 async function geocodePremise(p) {
+  if (PREMISE_COORDS[p.code]) {
+    const { lat, lng, precision } = PREMISE_COORDS[p.code];
+    return { lat, lng, precision };
+  }
   const state = stateForQuery(p.state);
 
   // Anchor: the postcode area, else the district. Used to sanity-check name hits.
@@ -572,7 +603,8 @@ function dailySummaries(obs, premises) {
 // ── DB ───────────────────────────────────────────────────────────────────
 async function backup() {
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const dir = path.join(__dirname, '..', 'backups', `before-pricecatcher-${stamp}`);
+  // Scheduled runs (--auto) are named apart so the scheduler can prune only its own backups
+  const dir = path.join(__dirname, '..', 'backups', `before-pricecatcher-${AUTO ? 'auto-' : ''}${stamp}`);
   fs.mkdirSync(dir, { recursive: true });
   for (const [name, Model] of Object.entries({ stores: Store, prices: Price, promotions: Promotion, products: Product })) {
     const docs = await Model.find().lean();
@@ -694,17 +726,20 @@ async function main() {
   // Stores
   const storeOps = finalPremises.map((p) => {
     const c = coords.get(p.code);
+    // A hand-checked town/branch wins over the one guessed from the address.
+    const fix = PREMISE_COORDS[p.code] || {};
+    const branch = fix.branch || p.branch || p.town || titleCase(p.district);
     return {
       updateOne: {
         filter: { premiseCode: p.code },
         update: {
           $set: {
             storeName: p.chain.name,
-            branch: p.branch || p.town || titleCase(p.district),
-            mallName: `${p.chain.name} ${p.branch || p.town || titleCase(p.district)}`.trim(),
+            branch,
+            mallName: `${p.chain.name} ${branch}`.trim(),
             type: p.type,
             state: p.state,
-            city: p.town || titleCase(p.district) || p.state,
+            city: fix.city || p.town || titleCase(p.district) || p.state,
             address: p.address || `${p.district}, ${p.state}`,
             location: { type: 'Point', coordinates: [c.lng, c.lat] },
             geoPrecision: c.precision,
