@@ -16,5 +16,5 @@ export default function CategoryBrowseScreen({ route }: any) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.white },
+  safe: { flex: 1, backgroundColor: colors.background },
 });

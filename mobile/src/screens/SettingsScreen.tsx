@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { colors, fontSize, radius, spacing } from '../theme/theme';
+import { colors, fontSize, radius, shadow, spacing } from '../theme/theme';
 import AppHeader from '../components/AppHeader';
 import { ChipSelect } from '../components/FormField';
 import { useAuth } from '../context/AuthContext';
@@ -36,7 +36,7 @@ export default function SettingsScreen() {
     <View style={styles.safe}>
       <AppHeader title="Settings" />
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.groupTitle}>Distance</Text>
+        <GroupTitle icon="navigate" text="Distance" />
         <View style={styles.card}>
           <ChipSelect
             label="Show distances in"
@@ -54,7 +54,7 @@ export default function SettingsScreen() {
           </Text>
         </View>
 
-        <Text style={styles.groupTitle}>Travel cost</Text>
+        <GroupTitle icon="car-sport" text="Travel cost" />
         <View style={styles.card}>
           <ChipSelect
             label="I usually travel by"
@@ -71,7 +71,7 @@ export default function SettingsScreen() {
           </Text>
         </View>
 
-        <Text style={styles.groupTitle}>Language</Text>
+        <GroupTitle icon="language" text="Language" />
         <View style={styles.card}>
           <ChipSelect
             label="Category names"
@@ -95,32 +95,49 @@ export default function SettingsScreen() {
   );
 }
 
+function GroupTitle({ icon, text }: { icon: any; text: string }) {
+  return (
+    <View style={styles.groupRow}>
+      <View style={styles.groupIcon}>
+        <Ionicons name={icon} size={13} color={colors.primary} />
+      </View>
+      <Text style={styles.groupTitle}>{text}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.surface },
+  safe: { flex: 1, backgroundColor: colors.background },
   scroll: { padding: spacing.lg, paddingBottom: spacing.xxl },
-  groupTitle: { fontSize: fontSize.xs, fontWeight: '800', color: colors.textMuted, marginBottom: spacing.sm, marginTop: spacing.md, textTransform: 'uppercase' },
+  groupRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginTop: spacing.lg, marginBottom: spacing.sm },
+  groupIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: radius.full,
+    backgroundColor: colors.primaryLight,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  groupTitle: { fontSize: fontSize.sm, fontWeight: "800", color: colors.text },
   card: {
     backgroundColor: colors.white,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    paddingBottom: spacing.md,
+    ...shadow.sm,
   },
-  note: { fontSize: fontSize.sm, color: colors.textSecondary, lineHeight: 20 },
-  fieldLabel: { fontSize: fontSize.sm, fontWeight: '700', color: colors.text, marginTop: spacing.md, marginBottom: spacing.sm },
+  note: { fontSize: fontSize.xs + 1, color: colors.textSecondary, lineHeight: 19 },
+  fieldLabel: { fontSize: fontSize.sm, fontWeight: "700", color: colors.text, marginTop: spacing.xs, marginBottom: spacing.sm },
   logout: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: spacing.sm,
-    backgroundColor: colors.white,
+    backgroundColor: colors.dangerLight,
     borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    minHeight: 48,
-    marginTop: spacing.lg,
+    minHeight: 50,
+    marginTop: spacing.xl,
   },
-  logoutText: { color: colors.discount, fontWeight: '700', fontSize: fontSize.md },
-  version: { textAlign: 'center', color: colors.textMuted, fontSize: fontSize.xs, marginTop: spacing.lg },
+  logoutText: { color: colors.discount, fontWeight: "800", fontSize: fontSize.md },
+  version: { textAlign: "center", color: colors.textMuted, fontSize: fontSize.xs, marginTop: spacing.lg },
 });

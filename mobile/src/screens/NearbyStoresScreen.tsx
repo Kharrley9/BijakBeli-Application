@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import OsmMap, { MapMarker } from '../components/OsmMap';
-import { colors, commonStyles, fontSize, radius, spacing } from '../theme/theme';
+import { colors, commonStyles, fontSize, radius, shadow, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
 import { storeService, placeService } from '../services/dataService';
 import { openInGoogleMaps } from '../services/locationService';
@@ -83,7 +83,7 @@ export default function NearbyStoresScreen({ navigation }: any) {
           lng: s.location!.coordinates[0],
           color: colors.primary,
         })),
-      ...malls.map((m) => ({ id: `m:${m.placeId}`, lat: m.lat, lng: m.lng, color: '#1976D2' })),
+      ...malls.map((m) => ({ id: `m:${m.placeId}`, lat: m.lat, lng: m.lng, color: colors.info })),
     ],
     [stores, malls]
   );
@@ -118,7 +118,12 @@ export default function NearbyStoresScreen({ navigation }: any) {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.header}>
-        <Text style={styles.title}>Stores Near You</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.title} numberOfLines={1}>Stores Near You</Text>
+          <Text style={styles.subtitle}>
+            {origin ? (originMode === 'gps' ? 'From your current location' : 'From your saved location') : 'Location is off'}
+          </Text>
+        </View>
         <TouchableOpacity style={styles.relocateBtn} onPress={relocate} disabled={gpsLoading}>
           {gpsLoading ? (
             <ActivityIndicator size="small" color={colors.primary} />
@@ -132,17 +137,23 @@ export default function NearbyStoresScreen({ navigation }: any) {
               key={v}
               style={[styles.toggleBtn, view === v && styles.toggleActive]}
               onPress={() => setView(v)}
+              accessibilityLabel={v === 'list' ? 'List view' : 'Map view'}
             >
               <Ionicons
                 name={v === 'list' ? 'list' : 'map'}
-                size={16}
-                color={view === v ? colors.white : colors.textSecondary}
+                size={15}
+                color={view === v ? colors.primary : colors.textSecondary}
               />
+              <Text style={[styles.toggleText, view === v && styles.toggleTextOn]}>
+                {v === 'list' ? 'List' : 'Map'}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
-      <RadiusChips style={styles.radius} />
+      <View style={styles.radius}>
+        <RadiusChips />
+      </View>
 
       {!origin ? (
         <EmptyState icon="location-outline" title="Location off" body="Enable location to see stores near you.">
@@ -229,56 +240,67 @@ export default function NearbyStoresScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.white },
+  safe: { flex: 1, backgroundColor: colors.background },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: spacing.sm,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    backgroundColor: colors.white,
   },
-  title: { flex: 1, fontSize: fontSize.xl, fontWeight: '800', color: colors.text },
+  title: { fontSize: fontSize.lg + 2, fontWeight: '900', color: colors.text },
+  subtitle: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 1 },
   relocateBtn: {
-    width: 34,
-    height: 34,
+    width: 40,
+    height: 40,
     borderRadius: radius.full,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: spacing.sm,
   },
-  toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.sm, padding: 3, gap: 3 },
-  toggleBtn: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.sm },
-  toggleActive: { backgroundColor: colors.primary },
+  toggle: { flexDirection: 'row', backgroundColor: colors.surface, borderRadius: radius.full, padding: 3, gap: 2 },
+  toggleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 7,
+    borderRadius: radius.full,
+  },
+  toggleActive: { backgroundColor: colors.white, ...shadow.sm },
+  toggleText: { fontSize: fontSize.xs, fontWeight: '800', color: colors.textSecondary },
+  toggleTextOn: { color: colors.primary },
   radius: {
     paddingLeft: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+    backgroundColor: colors.white,
+    borderBottomLeftRadius: radius.lg,
+    borderBottomRightRadius: radius.lg,
+    ...shadow.sm,
+    zIndex: 1,
   },
-  count: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: spacing.sm },
+  count: { fontSize: fontSize.xs, fontWeight: '700', color: colors.textSecondary, marginTop: spacing.md, marginBottom: spacing.sm },
   list: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
   sheet: {
     position: 'absolute', left: spacing.lg, right: spacing.lg, bottom: spacing.lg,
     flexDirection: 'row', alignItems: 'center', gap: spacing.sm,
     backgroundColor: colors.white, borderRadius: radius.lg, padding: spacing.md,
-    shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 10, elevation: 6,
+    ...shadow.md,
   },
   sheetTitle: { fontSize: fontSize.md, fontWeight: '800', color: colors.text },
   sheetSub: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 2 },
   sheetBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     backgroundColor: colors.primary, borderRadius: radius.full,
-    paddingHorizontal: spacing.md, paddingVertical: 8,
+    paddingHorizontal: spacing.md, paddingVertical: 9,
   },
-  sheetBtnText: { color: colors.white, fontSize: fontSize.xs, fontWeight: '700' },
+  sheetBtnText: { color: colors.white, fontSize: fontSize.xs, fontWeight: '800' },
   sheetBtnGhost: {
-    borderRadius: radius.full, borderWidth: 1, borderColor: colors.primary,
-    paddingHorizontal: spacing.md, paddingVertical: 7,
+    borderRadius: radius.full, backgroundColor: colors.primaryLight,
+    paddingHorizontal: spacing.md, paddingVertical: 9,
   },
-  sheetBtnGhostText: { color: colors.primary, fontSize: fontSize.xs, fontWeight: '700' },
+  sheetBtnGhostText: { color: colors.primary, fontSize: fontSize.xs, fontWeight: '800' },
 });

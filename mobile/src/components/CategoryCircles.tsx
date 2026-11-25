@@ -8,15 +8,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Image, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { colors, fontSize, spacing } from '../theme/theme';
+import { colors, fontSize, shadow, spacing } from '../theme/theme';
 import { categoryService } from '../services/dataService';
 import { Category } from '../types';
 import { useLanguage, categoryLabel } from '../context/LanguageContext';
+import { imageSource } from '../utils/imageSource';
 
-const SIZE = 64;
+const SIZE = 66;
 
-// Pastel ring colours, cycled per category.
-const PASTELS = ['#FAD4DC', '#D4EDD5', '#E3C7EE', '#CDE4F7', '#FFF3C4', '#C9ECE8', '#FFE0C2', '#E0E0F8', '#F3E5D0'];
+// Soft fill behind a photo while it loads (or the icon when there is none), per category.
+const PASTELS = ['#FCE4E8', '#E3F4E6', '#EFE3F6', '#E1EEFA', '#FFF4D1', '#DDF3F0', '#FFE9D6', '#E8E8FA', '#F5ECDD'];
 
 export default function CategoryCircles({
   onPick,
@@ -59,7 +60,7 @@ export default function CategoryCircles({
               >
                 <View style={[styles.ring, { backgroundColor: PASTELS[i % PASTELS.length] }]}>
                   {image ? (
-                    <Image source={{ uri: image }} style={styles.photo} resizeMode="cover" />
+                    <Image source={imageSource(image)} style={styles.photo} resizeMode="cover" />
                   ) : (
                     <Ionicons name={((c as any).icon || 'pricetag-outline') as any} size={26} color={colors.primary} />
                   )}
@@ -82,23 +83,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     marginBottom: spacing.md,
   },
-  row: { paddingHorizontal: spacing.lg, gap: spacing.md },
-  item: { width: SIZE + 12, alignItems: 'center' },
+  row: { paddingHorizontal: spacing.lg, gap: spacing.sm + 2, paddingBottom: 4 },
+  item: { width: SIZE + 14, alignItems: 'center' },
   ring: {
     width: SIZE,
     height: SIZE,
     borderRadius: SIZE / 2,
-    padding: 3,
+    borderWidth: 3,
+    borderColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+    ...shadow.sm,
   },
   photo: { width: '100%', height: '100%', borderRadius: SIZE / 2 },
   label: {
-    marginTop: spacing.xs + 2,
+    marginTop: spacing.xs + 3,
     fontSize: fontSize.xs,
-    fontWeight: '600',
+    fontWeight: '700',
     lineHeight: 14,
-    color: colors.textSecondary,
+    color: colors.text,
     textAlign: 'center',
   },
 });

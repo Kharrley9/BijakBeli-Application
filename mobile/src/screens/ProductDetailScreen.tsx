@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  Alert,
+  Linking,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
-import { colors, fontSize, radius, spacing } from '../theme/theme';
+import { colors, fontSize, radius, shadow, spacing } from '../theme/theme';
 import { useLocation } from '../context/LocationContext';
 import { productService, priceService } from '../services/dataService';
 import { ProductDetail } from '../types';
@@ -19,7 +19,10 @@ import AppHeader from '../components/AppHeader';
 import DistanceBadge from '../components/DistanceBadge';
 import OriginToggle from '../components/OriginToggle';
 import BrandAvatar from '../components/BrandAvatar';
+import EmptyState from '../components/EmptyState';
 import { OutsideRadiusNotice, useRadiusKm } from '../components/RadiusChips';
+import { imageSource } from '../utils/imageSource';
+import { prettyName, storeCountLabel } from '../utils/format';
 
 export default function ProductDetailScreen({ route, navigation }: any) {
   const { id } = route.params || {};
@@ -76,7 +79,7 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   if (loading) {
     return (
       <View style={styles.safe}>
-        <AppHeader title="Product" />
+        <AppHeader title="Product Details" />
         <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: spacing.xxl }} />
       </View>
     );
@@ -84,8 +87,8 @@ export default function ProductDetailScreen({ route, navigation }: any) {
   if (!data) {
     return (
       <View style={styles.safe}>
-        <AppHeader title="Product" />
-        <Text style={styles.empty}>Product not found.</Text>
+        <AppHeader title="Product Details" />
+        <EmptyState icon="leaf-outline" title="Product not found" body="It may no longer have price data." />
       </View>
     );
   }
@@ -100,101 +103,115 @@ export default function ProductDetailScreen({ route, navigation }: any) {
 
   return (
     <View style={styles.safe}>
-      <AppHeader title={product.productName} />
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <AppHeader title="Product Details" />
+      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+        {/* ── Photo ── */}
         <View style={styles.hero}>
           {product.image ? (
-            <Image source={{ uri: product.image }} style={styles.heroImg} />
+            <Image source={imageSource(product.image)} style={styles.heroImg} />
           ) : (
-            <Ionicons name="cube-outline" size={48} color={colors.textMuted} />
+            <Ionicons name="leaf-outline" size={52} color={colors.primary} />
           )}
         </View>
-        <Text style={styles.name}>{product.productName}</Text>
-        <View style={styles.subRow}>
-          {brand && <BrandAvatar brandName={brand} size={20} style={{ marginRight: spacing.xs }} />}
-          <Text style={styles.sub}>{[brand, product.unit].filter(Boolean).join(' · ')}</Text>
-        </View>
-
-        <View style={styles.priceBox}>
-          <View>
-            <Text style={styles.priceLabel}>
-              {nearby ? `Lowest within ${data.nearbyRadiusKm} km` : 'Lowest price'}
-            </Text>
-            <Text style={styles.priceBig}>
-              RM{data.lowestPrice != null ? data.lowestPrice.toFixed(2) : '—'}
-            </Text>
-          </View>
-          <View style={{ alignItems: 'flex-end' }}>
-            <Text style={styles.priceLabel}>Sold at</Text>
-            <Text style={styles.priceStores}>
-              {nearby ? `${data.nearbyStoreCount} stores nearby` : `${data.storeCount} stores`}
-            </Text>
-          </View>
-        </View>
-
-        {/* ── Price Catcher: Lowest in Malaysia badge ── */}
-        {lowestNational && (
-          <View style={styles.nationalBadge}>
-            <Ionicons name="trophy-outline" size={14} color="#FFA000" />
-            <Text style={styles.nationalText}>
-              Lowest in Malaysia: <Text style={styles.nationalPrice}>RM{lowestNational.price?.toFixed(2)}</Text>
-              {lowestNational.store?.storeName ? ` at ${lowestNational.store.storeName}` : ''}
-              {lowestNational.store?.state ? `, ${lowestNational.store.state}` : ''}
-            </Text>
-          </View>
+        {!!product.image && !!product.imageCredit && (
+          <Text
+            style={styles.photoCredit}
+            numberOfLines={1}
+            onPress={() => product.imageCredit?.sourceUrl && Linking.openURL(product.imageCredit.sourceUrl)}
+          >
+            Photo: {product.imageCredit.author || 'Wikimedia Commons'}
+            {product.imageCredit.license ? `, ${product.imageCredit.license}` : ''} · Wikimedia Commons
+          </Text>
         )}
 
-        <OriginToggle />
-
-        <Text style={styles.section}>
-          {located ? `Prices within ${data.nearbyRadiusKm ?? radiusKm} km` : 'Prices at Stores'}
-        </Text>
-        {located && rows.length === 0 ? (
-          <OutsideRadiusNotice radiusKm={data.nearbyRadiusKm ?? radiusKm} nearestBeyond={data.nearestBeyond} />
-        ) : (
-        <View style={styles.table}>
-          <View style={[styles.tr, styles.trHead]}>
-            <Text style={[styles.th, { flex: 2 }]}>Store</Text>
-            <Text style={[styles.th, styles.cellRight]}>Price</Text>
-            <Text style={[styles.th, styles.cellRight]}>Distance</Text>
+        {/* ── Name + lowest price ── */}
+        <View style={styles.card}>
+          <Text style={styles.name}>{prettyName(product.productName)}</Text>
+          <View style={styles.subRow}>
+            {brand && <BrandAvatar brandName={brand} size={20} style={{ marginRight: spacing.xs }} />}
+            <Text style={styles.sub}>{[brand, product.unit && `per ${product.unit}`].filter(Boolean).join(' · ')}</Text>
           </View>
-          {rows.map((r) => (
-            <TouchableOpacity
-              key={r.store._id}
-              style={[styles.tr, r.isLowestPrice && styles.trBest]}
-              onPress={() => navigation.navigate('StoreProfile', { id: r.store._id })}
-            >
-              <View style={{ flex: 2 }}>
-                <View style={styles.storeNameRow}>
+
+          <View style={styles.priceBox}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.priceLabel}>
+                {nearby ? `Lowest within ${data.nearbyRadiusKm} km` : 'Lowest price'}
+              </Text>
+              <Text style={styles.priceBig}>
+                RM{data.lowestPrice != null ? data.lowestPrice.toFixed(2) : '—'}
+              </Text>
+            </View>
+            <View style={styles.storesPill}>
+              <Ionicons name="storefront" size={14} color={colors.primary} />
+              <Text style={styles.storesPillText}>
+                {storeCountLabel({ storeCount: data.storeCount, nearbyStoreCount: data.nearbyStoreCount, priceScope: nearby ? 'nearby' : 'all' })}
+              </Text>
+            </View>
+          </View>
+
+          {/* ── Price Catcher: Lowest in Malaysia ── */}
+          {lowestNational && (
+            <View style={styles.nationalBadge}>
+              <View style={styles.trophy}>
+                <Ionicons name="trophy" size={14} color={colors.accentDark} />
+              </View>
+              <Text style={styles.nationalText}>
+                Lowest in Malaysia: <Text style={styles.nationalPrice}>RM{lowestNational.price?.toFixed(2)}</Text>
+                {lowestNational.store?.storeName ? ` at ${lowestNational.store.storeName}` : ''}
+                {lowestNational.store?.state ? `, ${lowestNational.store.state}` : ''}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.card}>
+          <OriginToggle />
+          <View style={styles.sectionRow}>
+            <Text style={styles.section}>
+              {located ? `Prices within ${data.nearbyRadiusKm ?? radiusKm} km` : 'Prices at Stores'}
+            </Text>
+            {rows.length > 0 && <Text style={styles.sectionHint}>Nearest first</Text>}
+          </View>
+          {located && rows.length === 0 ? (
+            <OutsideRadiusNotice radiusKm={data.nearbyRadiusKm ?? radiusKm} nearestBeyond={data.nearestBeyond} />
+          ) : (
+            rows.map((r, i) => (
+              <TouchableOpacity
+                key={r.store._id}
+                style={[styles.storeRow, i === rows.length - 1 && { borderBottomWidth: 0 }, r.isLowestPrice && styles.storeRowBest]}
+                onPress={() => navigation.navigate('StoreProfile', { id: r.store._id })}
+                activeOpacity={0.7}
+              >
+                <View style={{ flex: 1 }}>
                   <Text style={styles.storeName} numberOfLines={1}>{r.store.storeName}</Text>
-                  {r.isLowestPrice && <Badge text="BEST" />}
-                  {r.isNearest && <Badge text="NEAR" color={colors.accent} />}
-                  {r.isBestValue && <Badge text="VALUE" color={colors.primaryDark} />}
+                  {!!branchOf(r.store) && (
+                    <Text style={styles.branch} numberOfLines={1}>{branchOf(r.store)}</Text>
+                  )}
+                  <View style={styles.badgeRow}>
+                    {r.store.distanceKm != null && (
+                      <DistanceBadge distanceKm={r.store.distanceKm} durationMin={r.store.durationMin} compact />
+                    )}
+                    {r.isLowestPrice && <Badge text="Cheapest" icon="pricetag" />}
+                    {r.isNearest && <Badge text="Nearest" icon="navigate" color={colors.info} bg={colors.infoLight} />}
+                    {r.isBestValue && <Badge text="Best value" icon="star" color={colors.accentDark} bg={colors.accentLight} />}
+                  </View>
                 </View>
-                {!!branchOf(r.store) && (
-                  <Text style={styles.branch} numberOfLines={1}>{branchOf(r.store)}</Text>
-                )}
-              </View>
-              <View style={styles.cellRight}>
-                {r.hasPromotion && (
-                  <Text style={styles.was}>RM{r.price.toFixed(2)}</Text>
-                )}
-                <Text style={styles.price}>RM{r.effectivePrice.toFixed(2)}</Text>
-                {r.travelCost != null && (
-                  <Text style={styles.fuel}>+RM{r.travelCost.toFixed(2)} petrol</Text>
-                )}
-              </View>
-              <View style={styles.cellRight}>
-                {r.store.distanceKm != null ? (
-                  <DistanceBadge distanceKm={r.store.distanceKm} durationMin={r.store.durationMin} compact />
-                ) : (
-                  <Text style={styles.dash}>—</Text>
-                )}
-              </View>
-            </TouchableOpacity>
-          ))}
+                <View style={styles.priceCol}>
+                  {r.hasPromotion && (
+                    <Text style={styles.was}>RM{r.price.toFixed(2)}</Text>
+                  )}
+                  <Text style={[styles.price, r.isLowestPrice && { color: colors.primary }]}>
+                    RM{r.effectivePrice.toFixed(2)}
+                  </Text>
+                  {r.travelCost != null && (
+                    <Text style={styles.fuel}>+RM{r.travelCost.toFixed(2)} petrol</Text>
+                  )}
+                </View>
+                <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
+              </TouchableOpacity>
+            ))
+          )}
         </View>
-        )}
 
         <BestValueCard data={data} />
 
@@ -218,13 +235,6 @@ export default function ProductDetailScreen({ route, navigation }: any) {
 
       <View style={styles.actions}>
         <TouchableOpacity
-          style={styles.compareBtn}
-          onPress={() => navigation.navigate('PriceComparison', { productId: id })}
-        >
-          <Ionicons name="swap-vertical-outline" size={18} color={colors.white} />
-          <Text style={styles.compareText}>Compare Prices</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={styles.reportBtn}
           onPress={() => navigation.navigate('ReportPrice', {
             productId: id,
@@ -233,6 +243,13 @@ export default function ProductDetailScreen({ route, navigation }: any) {
         >
           <Ionicons name="megaphone-outline" size={18} color={colors.primary} />
           <Text style={styles.reportText}>JOM Kongsi</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.compareBtn}
+          onPress={() => navigation.navigate('PriceComparison', { productId: id })}
+        >
+          <Ionicons name="swap-horizontal" size={18} color={colors.white} />
+          <Text style={styles.compareText}>Compare Prices</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -270,12 +287,17 @@ function BestValueCard({ data }: { data: ProductDetail }) {
   return (
     <View style={styles.valueCard}>
       <View style={styles.valueHead}>
-        <Ionicons name="car-outline" size={16} color={colors.primaryDark} />
-        <Text style={styles.valueTitle}>Best value incl. petrol</Text>
+        <View style={styles.valueIcon}>
+          <Ionicons name="car-sport" size={16} color={colors.white} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.valueTitle}>Best value incl. petrol</Text>
+          <Text style={styles.valueStore} numberOfLines={1}>
+            {best.store.mallName || best.store.storeName}
+          </Text>
+        </View>
+        <Text style={styles.valueTotal}>RM{best.totalCost.toFixed(2)}</Text>
       </View>
-      <Text style={styles.valueStore}>
-        {best.store.mallName || best.store.storeName} · RM{best.totalCost.toFixed(2)}
-      </Text>
       <Text style={styles.valueLine}>
         Item RM{best.effectivePrice.toFixed(2)} + petrol RM{best.travelCost.toFixed(2)}
       </Text>
@@ -296,10 +318,21 @@ function BestValueCard({ data }: { data: ProductDetail }) {
   );
 }
 
-function Badge({ text, color = colors.primary }: { text: string; color?: string }) {
+function Badge({
+  text,
+  icon,
+  color = colors.primary,
+  bg = colors.primaryLight,
+}: {
+  text: string;
+  icon?: any;
+  color?: string;
+  bg?: string;
+}) {
   return (
-    <View style={[styles.badge, { backgroundColor: color }]}>
-      <Text style={styles.badgeText}>{text}</Text>
+    <View style={[styles.badge, { backgroundColor: bg }]}>
+      {!!icon && <Ionicons name={icon} size={9} color={color} />}
+      <Text style={[styles.badgeText, { color }]}>{text}</Text>
     </View>
   );
 }
@@ -331,21 +364,23 @@ function PriceTrendSection({ points, region }: { points: TrendPoint[]; region: s
   const changePct = first ? ((last - first) / first) * 100 : 0;
   const steady = Math.abs(changePct) < 0.5;
   const up = changePct > 0;
+  const tone = steady ? colors.textSecondary : up ? colors.discount : colors.primary;
+  const toneBg = steady ? colors.surface : up ? colors.dangerLight : colors.primaryLight;
 
   return (
-    <View style={{ marginTop: spacing.lg }}>
-      <Text style={styles.section}>Price Trend · {region}</Text>
+    <View style={styles.card}>
+      <View style={styles.sectionRow}>
+        <Text style={styles.section}>Price Trend</Text>
+        <Text style={styles.sectionHint}>{region} · 30 days</Text>
+      </View>
       <View style={styles.trendSummary}>
         <Text style={styles.trendNow}>RM{last.toFixed(2)}</Text>
-        <Text
-          style={[
-            styles.trendChange,
-            { color: steady ? colors.textSecondary : up ? colors.discount : colors.primary },
-          ]}
-        >
-          {steady ? 'Steady' : `${up ? '▲' : '▼'} ${Math.abs(changePct).toFixed(1)}%`} since{' '}
-          {shortDate(points[0].date)}
-        </Text>
+        <View style={[styles.trendPill, { backgroundColor: toneBg }]}>
+          <Text style={[styles.trendChange, { color: tone }]}>
+            {steady ? 'Steady' : `${up ? '▲' : '▼'} ${Math.abs(changePct).toFixed(1)}%`}
+          </Text>
+        </View>
+        <Text style={styles.trendSince}>since {shortDate(points[0].date)}</Text>
       </View>
       <View style={styles.trendChart}>
         {points.map((p) => (
@@ -380,119 +415,209 @@ function CommunityReportsSection({
   loading: boolean;
   onAdd: () => void;
 }) {
-    return (
-      <View style={{ marginTop: spacing.lg }}>
-        <View style={styles.sectionRow}>
-          <Text style={styles.section}>Community Reports</Text>
-          <TouchableOpacity onPress={onAdd}>
-            <Text style={styles.sectionAction}>+ Add Report</Text>
-          </TouchableOpacity>
-        </View>
-        {loading ? (
-          <ActivityIndicator size="small" color={colors.primary} />
-        ) : reports.length === 0 ? (
-          <Text style={styles.noReports}>No verified reports yet. Be the first to share a price!</Text>
-        ) : (
-          reports.map((r: any) => (
-            <View key={r._id} style={styles.reportRow}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.reportStore}>{r.storeId?.storeName || 'Unknown store'}</Text>
-                <Text style={styles.reportMeta}>
-                  {r.storeId?.city} · {new Date(r.createdAt).toLocaleDateString()}
-                  {r.isPromo ? ' · 🏷️ Promo' : ''}
-                </Text>
-                {r.promoDescription ? <Text style={styles.reportPromo}>{r.promoDescription}</Text> : null}
-              </View>
-              <Text style={styles.reportPrice}>RM{r.price?.toFixed(2)}</Text>
-              <View style={styles.reportActions}>
-                <TouchableOpacity onPress={() => priceService.confirmReport(r._id).catch(() => {})}>
-                  <Ionicons name="thumbs-up-outline" size={16} color={colors.primary} />
-                  <Text style={styles.voteCount}>{r.confirmations || 0}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => priceService.disputeReport(r._id).catch(() => {})} style={{ marginLeft: 8 }}>
-                  <Ionicons name="thumbs-down-outline" size={16} color={colors.textMuted} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))
-        )}
+  return (
+    <View style={styles.card}>
+      <View style={styles.sectionRow}>
+        <Text style={styles.section}>Community Reports</Text>
+        <TouchableOpacity onPress={onAdd} style={styles.addBtn}>
+          <Ionicons name="add" size={14} color={colors.primary} />
+          <Text style={styles.addBtnText}>Add Report</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+      {loading ? (
+        <ActivityIndicator size="small" color={colors.primary} />
+      ) : reports.length === 0 ? (
+        <View style={styles.noReports}>
+          <Ionicons name="chatbubbles-outline" size={22} color={colors.textMuted} />
+          <Text style={styles.noReportsText}>No verified reports yet. Be the first to share a price!</Text>
+        </View>
+      ) : (
+        reports.map((r: any) => (
+          <View key={r._id} style={styles.reportRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.reportStore}>{r.storeId?.storeName || 'Unknown store'}</Text>
+              <Text style={styles.reportMeta}>
+                {r.storeId?.city} · {new Date(r.createdAt).toLocaleDateString()}
+                {r.isPromo ? ' · 🏷️ Promo' : ''}
+              </Text>
+              {r.promoDescription ? <Text style={styles.reportPromo}>{r.promoDescription}</Text> : null}
+            </View>
+            <Text style={styles.reportPrice}>RM{r.price?.toFixed(2)}</Text>
+            <View style={styles.reportActions}>
+              <TouchableOpacity onPress={() => priceService.confirmReport(r._id).catch(() => {})}>
+                <Ionicons name="thumbs-up-outline" size={16} color={colors.primary} />
+                <Text style={styles.voteCount}>{r.confirmations || 0}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => priceService.disputeReport(r._id).catch(() => {})} style={{ marginLeft: 8 }}>
+                <Ionicons name="thumbs-down-outline" size={16} color={colors.textMuted} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))
+      )}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.white },
+  safe: { flex: 1, backgroundColor: colors.background },
   scroll: { padding: spacing.lg, paddingBottom: spacing.xxl * 2 },
-  empty: { textAlign: 'center', color: colors.textMuted, marginTop: spacing.xxl },
   hero: {
     width: '100%',
-    height: 150,
-    borderRadius: radius.md,
-    backgroundColor: colors.surface,
+    height: 200,
+    borderRadius: radius.lg,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    marginBottom: spacing.md,
+    ...shadow.sm,
   },
   heroImg: { width: '100%', height: '100%' },
-  name: { fontSize: fontSize.lg, fontWeight: '800', color: colors.text },
-  subRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 2,
-    marginBottom: spacing.md,
+  photoCredit: { fontSize: 10, color: colors.textMuted, marginTop: 6, paddingHorizontal: 2 },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    marginTop: spacing.md,
+    ...shadow.sm,
   },
+  name: { fontSize: fontSize.xl - 1, fontWeight: '800', color: colors.text, lineHeight: 27 },
+  subRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
   sub: { fontSize: fontSize.sm, color: colors.textSecondary },
   priceBox: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: colors.primaryLight,
+    alignItems: 'center',
+    backgroundColor: colors.primarySoft,
     borderRadius: radius.md,
     padding: spacing.md,
-    marginBottom: spacing.md,
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.primaryLight,
   },
-  priceLabel:  { fontSize: fontSize.xs, color: colors.textSecondary },
-  priceBig:    { fontSize: fontSize.xl, fontWeight: '800', color: colors.primary },
-  priceStores: { fontSize: fontSize.md, fontWeight: '700', color: colors.text },
+  priceLabel: { fontSize: fontSize.xs, fontWeight: '700', color: colors.textSecondary },
+  priceBig: { fontSize: fontSize.xxl, fontWeight: '900', color: colors.primary, marginTop: 2 },
+  storesPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: colors.white,
+    borderRadius: radius.full,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+  },
+  storesPillText: { fontSize: fontSize.xs, fontWeight: '800', color: colors.primary },
 
   // Price Catcher additions
   nationalBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
-    backgroundColor: '#FFF8E1',
+    gap: spacing.sm,
+    backgroundColor: colors.accentLight,
     borderRadius: radius.md,
-    padding: spacing.sm,
-    marginBottom: spacing.md,
-    borderWidth: 1,
-    borderColor: '#FFE082',
+    padding: spacing.sm + 2,
+    marginTop: spacing.sm,
   },
-  nationalText:  { flex: 1, fontSize: fontSize.xs, color: '#795548' },
-  nationalPrice: { fontWeight: '800', color: '#E65100' },
+  trophy: {
+    width: 26,
+    height: 26,
+    borderRadius: radius.full,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nationalText:  { flex: 1, fontSize: fontSize.xs, color: colors.accentDark, lineHeight: 17 },
+  nationalPrice: { fontWeight: '900', color: colors.accentDark },
 
-  trendSummary: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm, marginBottom: spacing.xs },
-  trendNow:     { fontSize: fontSize.lg, fontWeight: '800', color: colors.text },
-  trendChange:  { fontSize: fontSize.xs, fontWeight: '700' },
-  trendChart:   { flexDirection: 'row', alignItems: 'flex-end', gap: 2, backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.sm, height: 76 },
+  sectionRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+  section:     { fontSize: fontSize.md + 1, fontWeight: '800', color: colors.text },
+  sectionHint: { fontSize: fontSize.xs, color: colors.textMuted, fontWeight: '600' },
+
+  storeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
+  },
+  storeRowBest: {
+    backgroundColor: colors.primarySoft,
+    marginHorizontal: -spacing.sm,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.md,
+    borderBottomColor: 'transparent',
+  },
+  storeName: { fontSize: fontSize.sm + 1, fontWeight: '800', color: colors.text },
+  branch:    { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 1 },
+  badgeRow:  { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 4, marginTop: 5 },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    borderRadius: radius.full,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+  },
+  badgeText: { fontSize: 10, fontWeight: '800' },
+  priceCol:  { alignItems: 'flex-end', minWidth: 78 },
+  was:       { fontSize: fontSize.xs, color: colors.textMuted, textDecorationLine: 'line-through' },
+  price:     { fontSize: fontSize.md + 1, fontWeight: '900', color: colors.text },
+  fuel:      { fontSize: 10, color: colors.textSecondary, marginTop: 1 },
+
+  valueCard: {
+    marginTop: spacing.md,
+    padding: spacing.lg,
+    borderRadius: radius.lg,
+    backgroundColor: colors.accentLight,
+    borderWidth: 1,
+    borderColor: '#FDE3A7',
+  },
+  valueHead:  { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
+  valueIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: radius.full,
+    backgroundColor: colors.accent,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  valueTitle: { fontSize: 10, fontWeight: '900', color: colors.accentDark, textTransform: 'uppercase', letterSpacing: 0.4 },
+  valueStore: { fontSize: fontSize.md, fontWeight: '800', color: colors.text },
+  valueTotal: { fontSize: fontSize.lg, fontWeight: '900', color: colors.text },
+  valueLine:  { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2, lineHeight: 19 },
+  valueNote:  { fontSize: fontSize.xs, color: colors.textMuted, marginTop: spacing.sm },
+
+  trendSummary: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
+  trendNow:     { fontSize: fontSize.xl, fontWeight: '900', color: colors.text },
+  trendPill:    { borderRadius: radius.full, paddingHorizontal: spacing.sm, paddingVertical: 2 },
+  trendChange:  { fontSize: fontSize.xs, fontWeight: '800' },
+  trendSince:   { fontSize: fontSize.xs, color: colors.textMuted },
+  trendChart:   { flexDirection: 'row', alignItems: 'flex-end', gap: 2, backgroundColor: colors.primarySoft, borderRadius: radius.md, padding: spacing.sm, height: 80 },
   trendBarWrap: { alignItems: 'center', justifyContent: 'flex-end', flex: 1, height: '100%' },
-  trendBar:     { width: '80%', backgroundColor: colors.primaryLight, borderRadius: 2, borderWidth: 1, borderColor: colors.primary },
+  trendBar:     { width: '78%', backgroundColor: '#BFE3CB', borderRadius: 3 },
   trendBarLast: { backgroundColor: colors.primary },
-  trendAxis:    { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 },
+  trendAxis:    { flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 },
   trendAxisText:{ fontSize: 10, color: colors.textMuted },
 
-  sectionRow:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.md, marginBottom: spacing.sm },
-  sectionAction: { fontSize: fontSize.sm, color: colors.primary, fontWeight: '600' },
-  noReports:     { fontSize: fontSize.sm, color: colors.textMuted, textAlign: 'center', paddingVertical: spacing.md },
+  addBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: colors.primaryLight,
+    borderRadius: radius.full,
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: 4,
+  },
+  addBtnText:    { fontSize: fontSize.xs, color: colors.primary, fontWeight: '800' },
+  noReports:     { alignItems: 'center', gap: 6, paddingVertical: spacing.md },
+  noReportsText: { fontSize: fontSize.sm, color: colors.textMuted, textAlign: 'center' },
 
   reportRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    marginBottom: spacing.xs,
-    backgroundColor: colors.white,
+    paddingVertical: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.divider,
   },
   reportStore:   { fontSize: fontSize.sm, fontWeight: '700', color: colors.text },
   reportMeta:    { fontSize: fontSize.xs, color: colors.textSecondary },
@@ -501,50 +626,17 @@ const styles = StyleSheet.create({
   reportActions: { flexDirection: 'row', alignItems: 'center' },
   voteCount:     { fontSize: 9, color: colors.primary, textAlign: 'center' },
 
-  section: { fontSize: fontSize.md, fontWeight: '700', color: colors.text, marginBottom: spacing.xs },
-  table:   { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, overflow: 'hidden' },
-  tr: {
-    flexDirection: 'row',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    alignItems: 'center',
-  },
-  trHead:  { backgroundColor: colors.surface },
-  trBest:  { backgroundColor: colors.primaryLight },
-  th:      { fontSize: fontSize.xs, fontWeight: '700', color: colors.textSecondary },
-  cellRight:    { flex: 1, alignItems: 'flex-end' },
-  storeNameRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  storeName:    { fontSize: fontSize.sm, fontWeight: '700', color: colors.text, flexShrink: 1 },
-  was:          { fontSize: fontSize.xs, color: colors.textMuted, textDecorationLine: 'line-through' },
-  price:        { fontSize: fontSize.md, fontWeight: '800', color: colors.text },
-  dash:         { fontSize: fontSize.sm, color: colors.textMuted },
-  fuel:         { fontSize: 10, color: colors.textSecondary, marginTop: 1 },
-  branch:       { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 1 },
-  source:       { fontSize: 10, color: colors.textMuted, marginTop: spacing.md, textAlign: 'center' },
-  valueCard: {
-    marginTop: spacing.md,
-    padding: spacing.md,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.primary,
-    backgroundColor: colors.primaryLight,
-  },
-  valueHead:  { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginBottom: 2 },
-  valueTitle: { fontSize: fontSize.xs, fontWeight: '800', color: colors.primaryDark, textTransform: 'uppercase' },
-  valueStore: { fontSize: fontSize.md, fontWeight: '800', color: colors.text },
-  valueLine:  { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2 },
-  valueNote:  { fontSize: fontSize.xs, color: colors.textMuted, marginTop: spacing.xs },
-  badge:        { borderRadius: radius.sm, paddingHorizontal: 5, paddingVertical: 1 },
-  badgeText:    { fontSize: 8, fontWeight: '800', color: colors.white },
+  source: { fontSize: 10, color: colors.textMuted, marginTop: spacing.lg, textAlign: 'center', lineHeight: 15 },
   actions: {
     flexDirection: 'row',
-    padding: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md + 4,
     gap: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
     backgroundColor: colors.white,
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+    ...shadow.md,
   },
   compareBtn: {
     flex: 1,
@@ -552,22 +644,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.sm,
-    minHeight: 46,
+    minHeight: 50,
     borderRadius: radius.md,
     backgroundColor: colors.primary,
   },
-  compareText: { color: colors.white, fontWeight: '700', fontSize: fontSize.md },
+  compareText: { color: colors.white, fontWeight: '800', fontSize: fontSize.md },
   reportBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    minHeight: 46,
+    minHeight: 50,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.md,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-    backgroundColor: colors.white,
+    backgroundColor: colors.primaryLight,
   },
-  reportText: { color: colors.primary, fontWeight: '700', fontSize: fontSize.sm },
+  reportText: { color: colors.primary, fontWeight: '800', fontSize: fontSize.sm },
 });

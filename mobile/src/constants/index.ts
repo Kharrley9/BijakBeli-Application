@@ -27,13 +27,13 @@ export const SORT_OPTIONS = [
 ] as const;
 
 export const POPULAR_SEARCHES = [
-  'Beras', 'Minyak Masak', 'Gula', 'Biskut', 'Mi Segera', 'Coklat',
+  'Ayam', 'Telur', 'Udang', 'Kembung', 'Cili', 'Sawi', 'Pisang', 'Tomato',
 ];
 
 export const ONBOARDING_SLIDES = [
   {
     title: 'Compare Prices',
-    body: 'See the price of any grocery item across major supermarkets in one place.',
+    body: 'See the price of fresh food — chicken, fish, vegetables, fruit — across major supermarkets in one place.',
     icon: 'pricetags-outline',
   },
   {

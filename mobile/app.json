@@ -37,7 +37,15 @@
           "locationWhenInUsePermission": "BijakBeli uses your location to show how far each store is and find the nearest one."
         }
       ],
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "BijakBeli uses the camera to scan QR labels on fresh items and show which store sells them cheapest.",
+          "recordAudioAndroid": false,
+          "barcodeScannerEnabled": true
+        }
+      ]
     ]
   }
 }

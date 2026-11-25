@@ -35,6 +35,11 @@ export interface Store {
   description?: string;
   logo?: string;
   bannerImage?: string;
+  /**
+   * Credit for bannerImage (Wikimedia Commons). scope 'chain' means the photo is
+   * of another store of the same chain, standing in for this branch.
+   */
+  photoCredit?: { author?: string; license?: string; sourceUrl?: string; scope?: 'branch' | 'chain' };
   operating_hours?: string;
   location?: { type: string; coordinates: number[] };
   // attached when the request includes an origin
@@ -50,7 +55,11 @@ export interface StoreProductListing {
   productName: string;
   image?: string;
   unit?: string;
+  /** Malay category name. */
   category?: string;
+  categoryEn?: string;
+  /** Category position in the app's category list (listings come sorted by it). */
+  categoryOrder?: number;
   price: number;
   previousPrice?: number | null;
   inStock?: boolean;
@@ -72,11 +81,16 @@ export interface CatalogProduct {
   productName: string;
   description?: string;
   image?: string;
+  /** Credit for `image` when it is a Wikimedia Commons photo. */
+  imageCredit?: { author?: string; license?: string; sourceUrl?: string };
   unit: string;
   categoryId?: { _id: string; categoryName: string } | string;
   brandId?: { _id: string; brandName: string } | string | null;
   lowestPrice: number | null;
   storeCount: number;
+  /** With a buyer location: stores within their radius that sell it. */
+  nearbyStoreCount?: number;
+  priceScope?: 'nearby' | 'all';
   cheapestStore: StoreSummary | null;
   nearestStore: StoreSummary | null;
 }

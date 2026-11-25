@@ -23,6 +23,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fontSize, radius, spacing, commonStyles } from '../theme/theme';
 import { priceService, storeService } from '../services/dataService';
 import AppHeader from '../components/AppHeader';
+import { prettyName } from '../utils/format';
 
 interface Store { _id: string; storeName: string; city: string; state: string; }
 
@@ -94,7 +95,7 @@ export default function ReportPriceScreen({ route, navigation }: any) {
           <Ionicons name="pricetag-outline" size={20} color={colors.primary} />
           <View style={{ flex: 1, marginLeft: spacing.sm }}>
             <Text style={styles.productLabel}>Product</Text>
-            <Text style={styles.productName} numberOfLines={2}>{productName}</Text>
+            <Text style={styles.productName} numberOfLines={2}>{prettyName(productName)}</Text>
           </View>
         </View>
 

@@ -80,7 +80,7 @@ export default function CatalogList({
     (filters.inStockOnly ? 1 : 0);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.chipsWrap}>
         <SortChips
           value={sort}
@@ -98,6 +98,14 @@ export default function CatalogList({
           data={filtered}
           keyExtractor={(p) => p._id}
           contentContainerStyle={styles.list}
+          ListHeaderComponent={
+            filtered.length ? (
+              <Text style={styles.count}>
+                {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
+                {origin ? ` within ${radiusKm} km` : ''}
+              </Text>
+            ) : null
+          }
           renderItem={({ item }) => (
             <ProductRow
               product={item}
@@ -178,14 +186,20 @@ export default function CatalogList({
 }
 
 const styles = StyleSheet.create({
-  chipsWrap: { paddingLeft: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.border },
-  list: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
-  sheetOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+  chipsWrap: {
+    paddingLeft: spacing.lg,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
+  },
+  list: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xxl },
+  count: { fontSize: fontSize.xs, fontWeight: '700', color: colors.textSecondary, marginVertical: spacing.sm },
+  sheetOverlay: { flex: 1, backgroundColor: 'rgba(10,30,20,0.45)', justifyContent: 'flex-end' },
   sheet: {
     backgroundColor: colors.white,
-    borderTopLeftRadius: radius.lg,
-    borderTopRightRadius: radius.lg,
-    padding: spacing.lg,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
+    padding: spacing.xl,
     gap: spacing.sm,
   },
   sheetHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
@@ -199,9 +213,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
   },
-  optActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  optText: { fontSize: fontSize.sm, color: colors.textSecondary, fontWeight: '600' },
-  optTextActive: { color: colors.white },
+  optActive: { backgroundColor: colors.primaryLight, borderColor: colors.primary },
+  optText: { fontSize: fontSize.sm, color: colors.textSecondary, fontWeight: '700' },
+  optTextActive: { color: colors.primary },
   toggleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: spacing.md },
   sheetActions: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.xl },
   reset: {

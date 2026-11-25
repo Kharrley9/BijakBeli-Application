@@ -41,6 +41,28 @@ export const productService = {
     api.get('/products/search', { params: withOrigin({ q, ...params }, origin) }),
 
   getById: (id: string) => api.get(`/products/${id}`),
+
+  /**
+   * What a scanned code points to: a BijakBeli QR label (BIJAKBELI:ITEM:<itemCode>) or
+   * a store barcode buyers have linked. An unlinked barcode returns data=null plus
+   * `unknownBarcode`, so the app can ask which item it is.
+   */
+  lookupByScan: (code: string, type?: string) =>
+    api.get('/products/scan', { params: { code, type } }),
+
+  /**
+   * Photo scan: Gemini picks up to 3 catalogue items in the photo (base64 JPEG).
+   * Longer timeout than the default: the AI call can take several seconds.
+   */
+  recognizePhoto: (imageBase64: string) =>
+    api.post('/products/recognize', { image: imageBase64 }, { timeout: 45000 }),
+
+  /** Free photo scans left today (Gemini free-tier limits). */
+  photoScanQuota: () => api.get('/products/recognize/quota'),
+
+  /** "This barcode is that item" — the buyer's link, used for everyone's later scans. */
+  linkBarcode: (code: string, productId: string) =>
+    api.post('/products/scan/link', { code, productId }),
 };
 
 export const storeService = {

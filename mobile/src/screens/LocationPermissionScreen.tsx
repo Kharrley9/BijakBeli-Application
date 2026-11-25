@@ -24,8 +24,10 @@ export default function LocationPermissionScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.body}>
-        <View style={styles.iconCircle}>
-          <Ionicons name="location-outline" size={64} color={colors.primary} />
+        <View style={styles.iconRing}>
+          <View style={styles.iconCircle}>
+            <Ionicons name="location" size={60} color={colors.white} />
+          </View>
         </View>
         <Text style={styles.title}>Use your location?</Text>
         <Text style={styles.text}>
@@ -56,14 +58,22 @@ export default function LocationPermissionScreen() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.white },
   body: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: spacing.xl },
-  iconCircle: {
-    width: 150,
-    height: 150,
+  iconRing: {
+    width: 190,
+    height: 190,
     borderRadius: 999,
     backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.xxl,
+  },
+  iconCircle: {
+    width: 130,
+    height: 130,
+    borderRadius: 999,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: { fontSize: fontSize.xl, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
   text: { fontSize: fontSize.md, color: colors.textSecondary, textAlign: 'center', lineHeight: 24 },

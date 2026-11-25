@@ -18,6 +18,8 @@ const { width } = Dimensions.get('window');
 export default function OnboardingScreen() {
   const { completeOnboarding } = useUiFlags();
   const [index, setIndex] = useState(0);
+  // Slides take the list height so their content can be centred vertically
+  const [listH, setListH] = useState(0);
   const listRef = useRef<FlatList>(null);
   const last = index === ONBOARDING_SLIDES.length - 1;
 
@@ -42,6 +44,8 @@ export default function OnboardingScreen() {
 
       <FlatList
         ref={listRef}
+        style={{ flex: 1 }}
+        onLayout={(e) => setListH(e.nativeEvent.layout.height)}
         data={ONBOARDING_SLIDES}
         keyExtractor={(s) => s.title}
         horizontal
@@ -51,9 +55,11 @@ export default function OnboardingScreen() {
           setIndex(Math.round(e.nativeEvent.contentOffset.x / width))
         }
         renderItem={({ item }) => (
-          <View style={[styles.slide, { width }]}>
-            <View style={styles.iconCircle}>
-              <Ionicons name={item.icon as any} size={64} color={colors.primary} />
+          <View style={[styles.slide, { width }, listH ? { height: listH } : null]}>
+            <View style={styles.iconRing}>
+              <View style={styles.iconCircle}>
+                <Ionicons name={item.icon as any} size={60} color={colors.white} />
+              </View>
             </View>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.body}>{item.body}</Text>
@@ -72,6 +78,7 @@ export default function OnboardingScreen() {
           <Text style={commonStyles.primaryButtonText}>
             {last ? 'Get Started' : 'Next'}
           </Text>
+          <Ionicons name="arrow-forward" size={18} color={colors.white} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -91,16 +98,24 @@ const styles = StyleSheet.create({
   skip: { padding: spacing.sm },
   skipText: { color: colors.textSecondary, fontWeight: '600' },
   slide: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: spacing.xl },
-  iconCircle: {
-    width: 160,
-    height: 160,
+  iconRing: {
+    width: 200,
+    height: 200,
     borderRadius: 999,
     backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.xxl,
   },
-  title: { fontSize: fontSize.xxl, fontWeight: '800', color: colors.text, marginBottom: spacing.md },
+  iconCircle: {
+    width: 140,
+    height: 140,
+    borderRadius: 999,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: { fontSize: fontSize.xxl, fontWeight: '900', color: colors.text, marginBottom: spacing.md, textAlign: 'center' },
   body: {
     fontSize: fontSize.md,
     color: colors.textSecondary,

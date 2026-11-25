@@ -16,26 +16,28 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StatusBar } from 'expo-status-bar';
 import { useAuth } from '../context/AuthContext';
+import { colors, shadow } from '../theme/theme';
 
 const { width, height } = Dimensions.get('window');
 
-// ── Dark theme tokens ──────────────────────────────────────────────────────
+// ── Theme tokens: green page, white card (same palette as the rest of the app) ──
 const C = {
-  bg: '#0D0D0D',
-  surface: '#1A1A1A',
-  surfaceHigh: '#242424',
-  border: '#2E2E2E',
-  borderFocus: '#4CAF50',
-  primary: '#4CAF50',
-  primaryDark: '#388E3C',
-  text: '#F5F5F5',
-  textSub: '#9E9E9E',
-  textMuted: '#5A5A5A',
+  bg: colors.primary,
+  surface: colors.white,
+  surfaceHigh: colors.background,
+  border: colors.border,
+  borderFocus: colors.primary,
+  primary: colors.primary,
+  primaryDark: colors.primaryDark,
+  text: colors.text,
+  textSub: colors.textSecondary,
+  textMuted: colors.textMuted,
   white: '#FFFFFF',
-  blob1: '#2E7D32',
-  blob2: '#1B5E20',
-  blob3: '#388E3C',
+  blob1: '#2FAE5F',
+  blob2: colors.primaryDark,
+  blob3: '#4ADE80',
 };
 
 // ── Animated blob component ───────────────────────────────────────────────
@@ -280,6 +282,7 @@ export default function AuthScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
+      <StatusBar style="light" />
       <BlobBackground />
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
@@ -299,7 +302,9 @@ export default function AuthScreen() {
             ]}
           >
             <View style={styles.logoRow}>
-              <Ionicons name="pricetags" size={26} color={C.primary} />
+              <View style={styles.logoBadge}>
+                <Ionicons name="pricetags" size={24} color={C.primary} />
+              </View>
               <Text style={styles.appName}>BijakBeli</Text>
             </View>
             <Text style={styles.tagline}>Compare prices. Shop smart. Save more.</Text>
@@ -457,15 +462,15 @@ const styles = StyleSheet.create({
 
   headerWrap:  { alignItems: 'center', marginBottom: 36 },
   logoRow:     { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
-  appName:     { fontSize: 32, fontWeight: '800', color: C.text, letterSpacing: 1 },
-  tagline:     { fontSize: 13, color: C.textSub, textAlign: 'center' },
+  logoBadge:   { width: 44, height: 44, borderRadius: 14, backgroundColor: C.white, alignItems: 'center', justifyContent: 'center' },
+  appName:     { fontSize: 32, fontWeight: '900', color: C.white, letterSpacing: 0.5 },
+  tagline:     { fontSize: 14, color: 'rgba(255,255,255,0.88)', textAlign: 'center' },
 
   card: {
     backgroundColor: C.surface,
     borderRadius: 24,
     padding: 24,
-    borderWidth: 1,
-    borderColor: C.border,
+    ...shadow.md,
   },
 
   tabs:           { flexDirection: 'row', backgroundColor: C.surfaceHigh, borderRadius: 12, padding: 4, marginBottom: 20 },
@@ -474,7 +479,7 @@ const styles = StyleSheet.create({
   tabText:        { fontWeight: '600', color: C.textSub, fontSize: 14 },
   tabTextActive:  { color: C.white },
 
-  formTitle:   { fontSize: 20, fontWeight: '700', color: C.text, marginBottom: 4 },
+  formTitle:   { fontSize: 21, fontWeight: '800', color: C.text, marginBottom: 4 },
   formSub:     { fontSize: 13, color: C.textSub, marginBottom: 20 },
 
   field: {
@@ -489,7 +494,7 @@ const styles = StyleSheet.create({
   },
   input: { flex: 1, fontSize: 15, color: C.text },
 
-  forgot: { fontSize: 12, color: C.primary, marginBottom: 16 },
+  forgot: { fontSize: 12, fontWeight: '700', color: C.primary, marginBottom: 16 },
 
   btn: {
     backgroundColor: C.primary,
@@ -503,7 +508,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
   },
-  btnText: { color: C.white, fontSize: 16, fontWeight: '700' },
+  btnText: { color: C.white, fontSize: 16, fontWeight: '800' },
 
   dividerRow:   { flexDirection: 'row', alignItems: 'center', marginVertical: 20, gap: 10 },
   dividerLine:  { flex: 1, height: 1, backgroundColor: C.border },
@@ -520,9 +525,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: C.border,
-    backgroundColor: C.surfaceHigh,
+    backgroundColor: C.white,
   },
-  socialLabel: { color: C.text, fontSize: 14, fontWeight: '500' },
+  socialLabel: { color: C.text, fontSize: 14, fontWeight: '600' },
 
-  demo: { textAlign: 'center', color: C.textMuted, fontSize: 11, marginTop: 24 },
+  demo: { textAlign: 'center', color: 'rgba(255,255,255,0.75)', fontSize: 11, marginTop: 24 },
 });

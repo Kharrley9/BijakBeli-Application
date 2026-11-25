@@ -57,7 +57,7 @@ export default function OriginToggle() {
             <Ionicons
               name="navigate"
               size={14}
-              color={originMode === 'gps' ? colors.white : colors.textSecondary}
+              color={originMode === 'gps' ? colors.primary : colors.textSecondary}
             />
           )}
           <Text
@@ -75,7 +75,7 @@ export default function OriginToggle() {
           <Ionicons
             name="home"
             size={14}
-            color={originMode === 'business' ? colors.white : colors.textSecondary}
+            color={originMode === 'business' ? colors.primary : colors.textSecondary}
           />
           <Text
             style={[
@@ -100,17 +100,16 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: fontSize.xs,
-    color: colors.textMuted,
-    marginBottom: spacing.xs,
+    fontWeight: '700',
+    color: colors.textSecondary,
+    marginBottom: 6,
   },
   segment: {
     flexDirection: 'row',
     backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: 3,
-    gap: 3,
+    borderRadius: radius.full,
+    padding: 4,
+    gap: 4,
   },
   option: {
     flex: 1,
@@ -119,19 +118,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.xs,
     paddingVertical: spacing.sm,
-    borderRadius: radius.sm,
+    borderRadius: radius.full,
     minHeight: 38,
   },
   optionActive: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+    shadowColor: '#0B3D1C',
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
   },
   optionText: {
     fontSize: fontSize.sm,
     color: colors.textSecondary,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   optionTextActive: {
-    color: colors.white,
+    color: colors.primary,
   },
   hint: {
     fontSize: fontSize.xs,

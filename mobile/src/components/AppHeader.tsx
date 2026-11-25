@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { colors, fontSize, spacing } from '../theme/theme';
+import { colors, fontSize, radius, spacing } from '../theme/theme';
 
 export default function AppHeader({
   title,
@@ -23,8 +23,14 @@ export default function AppHeader({
     <SafeAreaView edges={['top']} style={styles.safe}>
       <View style={styles.row}>
         {back ? (
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.side} hitSlop={10}>
-            <Ionicons name="chevron-back" size={24} color={colors.text} />
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.iconBtn}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+          >
+            <Ionicons name="chevron-back" size={22} color={colors.text} />
           </TouchableOpacity>
         ) : (
           <View style={styles.side} />
@@ -35,8 +41,8 @@ export default function AppHeader({
         {right ? (
           <View style={styles.side}>{right}</View>
         ) : rightIcon ? (
-          <TouchableOpacity onPress={onRightPress} style={styles.side} hitSlop={10}>
-            <Ionicons name={rightIcon} size={22} color={colors.text} />
+          <TouchableOpacity onPress={onRightPress} style={styles.iconBtn} hitSlop={8}>
+            <Ionicons name={rightIcon} size={20} color={colors.text} />
           </TouchableOpacity>
         ) : (
           <View style={styles.side} />
@@ -47,22 +53,34 @@ export default function AppHeader({
 }
 
 const styles = StyleSheet.create({
-  safe: { backgroundColor: colors.white },
+  safe: {
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    minHeight: 56,
   },
-  side: { minWidth: 40, alignItems: 'center' },
+  side: { width: 40, alignItems: 'center' },
+  iconBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: radius.full,
+    backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
     flex: 1,
     textAlign: 'center',
-    fontSize: fontSize.lg,
-    fontWeight: '700',
+    fontSize: fontSize.md + 1,
+    fontWeight: '800',
     color: colors.text,
   },
 });

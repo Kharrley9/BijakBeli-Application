@@ -37,7 +37,7 @@ export function OutsideRadiusNotice({
   const where = nearestBeyond ? [nearestBeyond.mallName, nearestBeyond.city].filter(Boolean).join(', ') : '';
   return (
     <View style={styles.notice}>
-      <Ionicons name="information-circle-outline" size={18} color={colors.textSecondary} />
+      <Ionicons name="information-circle" size={20} color={colors.info} />
       <View style={{ flex: 1 }}>
         <Text style={styles.noticeTitle}>No store within {radiusKm} km sells this</Text>
         {nearestBeyond && nearestBeyond.distanceKm != null && (
@@ -61,7 +61,7 @@ export default function RadiusChips({ style }: { style?: any }) {
   const km = useRadiusKm();
   return (
     <View style={[styles.wrap, style]}>
-      <Ionicons name="radio-outline" size={15} color={colors.textSecondary} />
+      <Ionicons name="navigate-circle-outline" size={17} color={colors.primary} />
       <Text style={styles.label}>Within</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
         {RADIUS_OPTIONS.map((r) => {
@@ -95,17 +95,15 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.white,
   },
-  chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  chipText: { fontSize: fontSize.sm, fontWeight: '700', color: colors.text },
-  chipTextActive: { color: colors.white },
+  chipActive: { backgroundColor: colors.primaryLight, borderColor: colors.primary },
+  chipText: { fontSize: fontSize.sm, fontWeight: '700', color: colors.textSecondary },
+  chipTextActive: { color: colors.primary },
   notice: {
     flexDirection: 'row',
     gap: spacing.sm,
     padding: spacing.md,
     borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: colors.infoLight,
   },
   noticeTitle: { fontSize: fontSize.sm, fontWeight: '800', color: colors.text },
   noticeBody: { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2, lineHeight: 19 },

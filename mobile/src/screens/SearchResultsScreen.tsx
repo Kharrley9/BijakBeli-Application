@@ -14,4 +14,4 @@ export default function SearchResultsScreen({ route }: any) {
   );
 }
 
-const styles = StyleSheet.create({ safe: { flex: 1, backgroundColor: colors.white } });
+const styles = StyleSheet.create({ safe: { flex: 1, backgroundColor: colors.background } });

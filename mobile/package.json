@@ -12,6 +12,7 @@
     "axios": "^1.17.0",
     "babel-preset-expo": "^56.0.15",
     "expo": "~56.0.11",
+    "expo-camera": "~56.0.8",
     "expo-dev-client": "~56.0.26",
     "expo-location": "~56.0.25",
     "expo-modules-autolinking": "^56.0.11",

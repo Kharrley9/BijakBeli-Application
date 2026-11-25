@@ -26,7 +26,7 @@ export default function SearchBar({
 }) {
   const inner = (
     <View style={[styles.bar, style]}>
-      <Ionicons name="search" size={18} color={colors.textMuted} />
+      <Ionicons name="search" size={18} color={colors.primary} />
       <TextInput
         style={styles.input}
         value={value}
@@ -40,13 +40,23 @@ export default function SearchBar({
         pointerEvents={editable ? 'auto' : 'none'}
       />
       {!!value && editable && (
-        <TouchableOpacity onPress={() => onChangeText?.('')} hitSlop={10}>
+        <TouchableOpacity onPress={() => onChangeText?.('')} hitSlop={10} accessibilityLabel="Clear search">
           <Ionicons name="close-circle" size={18} color={colors.textMuted} />
         </TouchableOpacity>
       )}
-      <TouchableOpacity onPress={onRightPress} style={styles.filterBtn} hitSlop={8}>
-        <Ionicons name="options-outline" size={18} color={colors.white} />
-      </TouchableOpacity>
+      {/* Search button, only where there is something to submit */}
+      {(onRightPress || onSubmit) ? (
+        <TouchableOpacity
+          onPress={onRightPress || onSubmit}
+          style={styles.goBtn}
+          hitSlop={8}
+          accessibilityLabel="Search"
+        >
+          <Ionicons name="arrow-forward" size={18} color={colors.white} />
+        </TouchableOpacity>
+      ) : (
+        <View style={{ width: spacing.sm }} />
+      )}
     </View>
   );
 
@@ -65,18 +75,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
+    backgroundColor: colors.background,
+    borderRadius: radius.full,
     borderWidth: 1,
     borderColor: colors.border,
-    paddingHorizontal: spacing.md,
-    minHeight: 46,
+    paddingLeft: spacing.md + 2,
+    paddingRight: 5,
+    minHeight: 48,
   },
   input: { flex: 1, fontSize: fontSize.md, color: colors.text, paddingVertical: 0 },
-  filterBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: radius.sm,
+  goBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: radius.full,
     backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
